@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QGridLayout, QLabel, QVBoxLayout, QPushButton, QLineEdit
+from PyQt5.QtWidgets import QLabel, QVBoxLayout, QPushButton, QLineEdit
 
 from common.tab_layout import TabLayout
 
