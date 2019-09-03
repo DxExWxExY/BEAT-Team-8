@@ -1,9 +1,11 @@
 import sys
+
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication
 from views.main_window import MainWindow
 
 if __name__ == "__main__":
-    #Add your classes executions here
-    app = QApplication([])
+    app = QApplication(sys.argv)
+    app.setAttribute(Qt.AA_EnableHighDpiScaling, True)
     mainWindow = MainWindow()
     sys.exit(app.exec_())

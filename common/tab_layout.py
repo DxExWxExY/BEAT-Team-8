@@ -4,36 +4,45 @@ from PyQt5.QtWidgets import QWidget, QGridLayout, QFrame, QLabel, QVBoxLayout
 from common import constants
 
 class TabLayout(QWidget):
-    def __init__(self):
+    def __init__(self, leftPanelLabel, rightPanelLabel):
         super().__init__()
-        __mainGrid = QGridLayout()
+        self.__mainGrid = QGridLayout()
         leftFrame = QFrame()
         rightFrame = QFrame()
-        self.leftPanelLayout = QVBoxLayout()
-        self.rightPanelLayout = QVBoxLayout()
+        self._leftPanelLayout = QVBoxLayout()
+        self._rightPanelLayout = QVBoxLayout()
 
-        leftFrame.setLayout(self.leftPanelLayout)
-        rightFrame.setLayout(self.rightPanelLayout)
+        leftFrame.setLayout(self._leftPanelLayout)
+        rightFrame.setLayout(self._rightPanelLayout)
 
-        self.leftPanelLabel = QLabel()
-        self.rightPanelLabel = QLabel()
+        self.__leftPanelLabel = QLabel()
+        self.__rightPanelLabel = QLabel()
 
-        self.leftPanelLabel.setStyleSheet(constants.PANEL_TITLE_STYLE)
-        self.rightPanelLabel.setStyleSheet(constants.PANEL_TITLE_STYLE)
+        self.__leftPanelLabel.setStyleSheet(constants.PANEL_TITLE_STYLE)
+        self.__rightPanelLabel.setStyleSheet(constants.PANEL_TITLE_STYLE)
 
-        self.leftPanelLabel.setText("LEFT")
-        self.rightPanelLabel.setText("RIGHT")
+        self.__leftPanelLabel.setText(leftPanelLabel)
+        self.__rightPanelLabel.setText(rightPanelLabel)
 
-        self.leftPanelLabel.setAlignment(Qt.AlignCenter)
-        self.rightPanelLabel.setAlignment(Qt.AlignCenter)
+        self.__leftPanelLabel.setAlignment(Qt.AlignCenter)
+        self.__rightPanelLabel.setAlignment(Qt.AlignCenter)
 
-        self.leftPanelLayout.addWidget(self.leftPanelLabel)
-        self.rightPanelLayout.addWidget(self.rightPanelLabel)
+        self._leftPanelLayout.addWidget(self.__leftPanelLabel)
+        self._rightPanelLayout.addWidget(self.__rightPanelLabel)
 
-        self.leftPanelLayout.setAlignment(self.leftPanelLabel, Qt.AlignTop)
-        self.rightPanelLayout.setAlignment(self.rightPanelLabel, Qt.AlignTop)
+        self._leftPanelLayout.setAlignment(self.__leftPanelLabel, Qt.AlignTop)
+        self._rightPanelLayout.setAlignment(self.__rightPanelLabel, Qt.AlignTop)
 
-        __mainGrid.addWidget(leftFrame, 0, 0, 1, 2)
-        __mainGrid.addWidget(rightFrame, 0, 4, 1, 7)
+        self.__mainGrid.addWidget(leftFrame, 0, 0, 1, 2)
+        self.__mainGrid.addWidget(rightFrame, 0, 4, 1, 7)
 
-        self.setLayout(__mainGrid)
+    def addContetentToLeftPanel(self, layout):
+        self._leftPanelLayout.addLayout(layout)
+        self._leftPanelLayout.setAlignment(layout, Qt.AlignTop)
+
+    def addContetentToRightPanel(self, layout):
+        self._rightPanelLayout.addLayout(layout)
+        self._rightPanelLayout.setAlignment(layout, Qt.AlignTop)
+
+    def build(self):
+        self.setLayout(self.__mainGrid)
