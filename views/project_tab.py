@@ -5,13 +5,15 @@ from common.tab_layout import TabLayout
 
 class ProjectTab(TabLayout):
     def __init__(self):
+        # your constructor must make the following calls
         super().__init__("Project View", "Detailed Project View")
         super().addContetentToLeftPanel(self.leftPanelBuilder())
         super().addContetentToRightPanel(self.rightPanelBuilder())
         super().build()
 
     def leftPanelBuilder(self):
-        # Build layout
+        # Build layout for the left panel, and add widgets to it.
+        # the class will add it to the parent layout for displaying
         layout = QVBoxLayout()
 
         search = QLineEdit()
