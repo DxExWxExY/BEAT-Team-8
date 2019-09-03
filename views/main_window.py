@@ -12,6 +12,7 @@ class MainWindow(QMainWindow):
         self.buildWindow()
 
     def tabBuilder(self):
+        # TODO: Add tab implementations
         self.tabs = QTabWidget()
         self.tabs.addTab(ProjectTab(), "Project")
         self.tabs.addTab(QWidget(), "Analysis")
