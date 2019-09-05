@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QLabel, QVBoxLayout, QPushButton, QLineEdit
+from PyQt5.QtWidgets import QLabel, QVBoxLayout, QPushButton, QLineEdit, QListView, QListWidget, QGridLayout
 
 from common.tab_layout import TabLayout
 
@@ -16,14 +16,17 @@ class ProjectTab(TabLayout):
         # the class will add it to the parent layout for displaying
         layout = QVBoxLayout()
 
-        search = QLineEdit()
-        search.setPlaceholderText("Search Projects")
-        search.returnPressed.connect(lambda: print("Enter Detected"))
 
-        layout.addWidget(search)
-        layout.addWidget(QPushButton('a'))
-        layout.addWidget(QPushButton('a'))
-        layout.addWidget(QPushButton('a'))
+
+        projectList = QListWidget()
+        projectList.addItem("Project 1")
+        projectList.addItem("Project 2")
+        projectList.addItem("Project 3")
+        projectList.addItem("Project 4")
+
+        layout.addLayout(self.searchBuilder())
+        layout.addWidget(projectList)
+
         return layout
 
     def rightPanelBuilder(self):
@@ -33,4 +36,18 @@ class ProjectTab(TabLayout):
         layout.addWidget(QPushButton('a'))
         layout.addWidget(QPushButton('a'))
         layout.addWidget(QPushButton('a'))
+        return layout
+
+    def searchBuilder(self):
+        layout = QGridLayout()
+
+        searchBox = QLineEdit()
+        searchBox.setPlaceholderText("Search Projects")
+        searchBox.returnPressed.connect(lambda: print("Enter Detected"))
+
+        searchButton = QPushButton('Search')
+
+        layout.addWidget(searchBox, 0, 0, 1, 4)
+        layout.addWidget(searchButton, 0, 4, 1, 2)
+
         return layout
