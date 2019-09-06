@@ -48,6 +48,6 @@ class ProjectTab(TabLayout):
         searchButton = QPushButton('Search')
 
         layout.addWidget(searchBox, 0, 0, 1, 4)
-        layout.addWidget(searchButton, 0, 4, 1, 2)
+        layout.addWidget(searchButton, 0, 4 , 1, 2)
 
         return layout
