@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QLabel, QVBoxLayout, QPushButton, QLineEdit, QListView, QListWidget, QGridLayout
+from PyQt5.QtCore import Qt, QMargins
+from PyQt5.QtWidgets import QLabel, QVBoxLayout, QPushButton, QLineEdit, QListView, QListWidget, QGridLayout, QTextEdit
 
 from common.tab_layout import TabLayout
 
@@ -12,13 +13,10 @@ class ProjectTab(TabLayout):
         super().build()
 
     def leftPanelBuilder(self):
-        # Build layout for the left panel, and add widgets to it.
-        # the class will add it to the parent layout for displaying
         layout = QVBoxLayout()
-
-
-
         projectList = QListWidget()
+        addProjectButton = QPushButton('New Project')
+
         projectList.addItem("Project 1")
         projectList.addItem("Project 2")
         projectList.addItem("Project 3")
@@ -26,6 +24,7 @@ class ProjectTab(TabLayout):
 
         layout.addLayout(self.searchBuilder())
         layout.addWidget(projectList)
+        layout.addWidget(addProjectButton)
 
         return layout
 
@@ -33,23 +32,25 @@ class ProjectTab(TabLayout):
         layout = QGridLayout()
 
         projctName = QLineEdit()
-        projctDescription = QLineEdit()
+        projctDescription = QTextEdit()
         binPath = QLineEdit()
-        binProperties = QLineEdit()
+        binProperties = QTextEdit()
 
         browsePath = QPushButton('Browse')
 
-        layout.addWidget(QLabel("Project Name"), 0, 0, 1, 1)
-        layout.addWidget(QLabel('Project Description'), 1, 0, 1, 1)
-        layout.addWidget(QLabel('Binary File Path'), 2, 0, 1, 1)
-        layout.addWidget(QLabel('Binary File Properties'), 3, 0, 1, 1)
+        layout.addWidget(QLabel("Project Name"), 0, 0)
+        layout.addWidget(QLabel('Project Description'), 1, 0)
+        layout.addWidget(QLabel('Binary File Path'), 3, 0)
+        layout.addWidget(QLabel('Binary File Properties'), 4, 0)
 
         layout.addWidget(projctName, 0, 1)
-        layout.addWidget(projctDescription, 1, 1, 1)
-        layout.addWidget(binPath, 5, 1, 1, 2)
-        layout.addWidget(binProperties, 3, 1)
+        layout.addWidget(projctDescription, 1, 1, 2, 1)
+        layout.addWidget(binPath, 3, 1)
+        layout.addWidget(binProperties, 4, 1, 2, 1)
 
-        layout.addWidget(browsePath, 6, 3, 1, 2)
+        layout.addWidget(browsePath, 3, 2)
+
+        layout.setContentsMargins(100, 0, 100, 0)
 
         return layout
 
