@@ -30,12 +30,27 @@ class ProjectTab(TabLayout):
         return layout
 
     def rightPanelBuilder(self):
-        # Build layout
-        layout = QVBoxLayout()
-        layout.addWidget(QLabel('My Other Label'))
-        layout.addWidget(QPushButton('a'))
-        layout.addWidget(QPushButton('a'))
-        layout.addWidget(QPushButton('a'))
+        layout = QGridLayout()
+
+        projctName = QLineEdit()
+        projctDescription = QLineEdit()
+        binPath = QLineEdit()
+        binProperties = QLineEdit()
+
+        browsePath = QPushButton('Browse')
+
+        layout.addWidget(QLabel("Project Name"), 0, 0, 1, 1)
+        layout.addWidget(QLabel('Project Description'), 1, 0, 1, 1)
+        layout.addWidget(QLabel('Binary File Path'), 2, 0, 1, 1)
+        layout.addWidget(QLabel('Binary File Properties'), 3, 0, 1, 1)
+
+        layout.addWidget(projctName, 0, 1)
+        layout.addWidget(projctDescription, 1, 1, 1)
+        layout.addWidget(binPath, 5, 1, 1, 2)
+        layout.addWidget(binProperties, 3, 1)
+
+        layout.addWidget(browsePath, 6, 3, 1, 2)
+
         return layout
 
     def searchBuilder(self):
