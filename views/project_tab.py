@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt, QMargins
-from PyQt5.QtWidgets import QLabel, QVBoxLayout, QPushButton, QLineEdit, QListView, QListWidget, QGridLayout, QTextEdit
+from PyQt5.QtWidgets import *
 
 from common.tab_layout import TabLayout
 
@@ -35,8 +35,8 @@ class ProjectTab(TabLayout):
         projctDescription = QTextEdit()
         binPath = QLineEdit()
         binProperties = QTextEdit()
-
         browsePath = QPushButton('Browse')
+        spacer = QSpacerItem(100, 100, )
 
         layout.addWidget(QLabel("Project Name"), 0, 0)
         layout.addWidget(QLabel('Project Description'), 1, 0)
@@ -49,6 +49,7 @@ class ProjectTab(TabLayout):
         layout.addWidget(binProperties, 4, 1, 2, 1)
 
         layout.addWidget(browsePath, 3, 2)
+        layout.addWidget(spacer)
 
         layout.setContentsMargins(100, 0, 100, 0)
 
