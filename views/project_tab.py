@@ -36,7 +36,7 @@ class ProjectTab(TabLayout):
         binPath = QLineEdit()
         binProperties = QTextEdit()
         browsePath = QPushButton('Browse')
-        spacer = QSpacerItem(100, 100, )
+        # spacer = QSpacerItem(100, 100, )
 
         layout.addWidget(QLabel("Project Name"), 0, 0)
         layout.addWidget(QLabel('Project Description'), 1, 0)
@@ -49,7 +49,7 @@ class ProjectTab(TabLayout):
         layout.addWidget(binProperties, 4, 1, 2, 1)
 
         layout.addWidget(browsePath, 3, 2)
-        layout.addWidget(spacer)
+        # layout.addWidget(spacer)
 
         layout.setContentsMargins(100, 0, 100, 0)
 
