@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QFrame, QComboBox
+from PyQt5.QtWidgets import QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QFrame, QComboBox, QListWidget
 from common.tab_layout import TabLayout
 
 class PluginManagementTab(TabLayout):
@@ -17,10 +17,13 @@ class PluginManagementTab(TabLayout):
 
     def leftPanelBuilder(self):
         layout = QVBoxLayout()
-
+        pluginList = QListWidget()
         search = QLineEdit()
+        new_plugin = QPushButton("New")
+
         search.setPlaceholderText("Search Plugin...")
         layout.addWidget(search)
+        # TODO: Refactor to events
         if search.returnPressed:
             if search.text == '':
                 print("Please enter text")
@@ -28,12 +31,13 @@ class PluginManagementTab(TabLayout):
                 print(search.text)
                 #self.__searchPlugin(search.text)
 
-        for plugin in self.list:
-            enable = QPushButton(plugin)
-            layout.addWidget(enable)
-        enable.clicked.connect(self.__findPlugin)
+        pluginList.addItem("Plugin 1")
+        pluginList.addItem("Plugin 2")
+        pluginList.addItem("Plugin 3")
+        pluginList.addItem("Plugin 4")
 
-        new_plugin = QPushButton("New")
+
+        layout.addWidget(pluginList)
         layout.addWidget(new_plugin)
 
         return layout
@@ -45,9 +49,7 @@ class PluginManagementTab(TabLayout):
         structure = QHBoxLayout()
         ps_title = QLabel("Plugin Structure")
         ps_title.setAlignment(Qt.AlignCenter)
-        ps_path = QLabel("./FilePath")
-        ps_path.setFrameShape(QFrame.Panel)
-        ps_path.setAlignment(Qt.AlignCenter)
+        ps_path = QLineEdit()
         ps_edit = QPushButton("Browse")
         structure.addWidget(ps_title)
         structure.addWidget(ps_path)
@@ -79,14 +81,14 @@ class PluginManagementTab(TabLayout):
         layout.addLayout(name)
 
         # Plugin Description
-        descrip = QHBoxLayout()
+        description = QHBoxLayout()
         d_title = QLabel("Plugin Description")
         d_title.setAlignment(Qt.AlignCenter)
         d_name = QLabel("Current Plugin's description")
         d_name.setAlignment(Qt.AlignCenter)
-        descrip.addWidget(d_title)
-        descrip.addWidget(d_name)
-        layout.addLayout(descrip)
+        description.addWidget(d_title)
+        description.addWidget(d_name)
+        layout.addLayout(description)
 
         # Output Field
         output = QHBoxLayout()
@@ -125,7 +127,7 @@ class PluginManagementTab(TabLayout):
         return layout
 
     def __searchPlugin(self, str):
-        print("At least you entered something \(''/)/")
+        print("At least you entered something \\(\'\'/)/")
         return str
 
     def __editName(self):
@@ -136,5 +138,3 @@ class PluginManagementTab(TabLayout):
             if item == str:
                 self.current = item
                 print(self.current)
-
-
