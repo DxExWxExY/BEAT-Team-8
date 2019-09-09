@@ -1,7 +1,6 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import *
 
-from common import constants
 from common.tab_layout import TabLayout
 
 
@@ -49,6 +48,7 @@ class AnalysisTab(TabLayout):
         AnalysisResultbtn.setText("A")
         OutPutFieldViewbtn = QPushButton()
         OutPutFieldViewbtn.setText("O")
+        # OutPutFieldViewbtn.clicked.connect()
 
         CommentVertLayout.addWidget(CommentBtn)
         CommentVertLayout.addItem(btnSpacer)
@@ -71,7 +71,7 @@ class AnalysisTab(TabLayout):
         topLayout = QtWidgets.QHBoxLayout()
         spacer = QtWidgets.QSpacerItem(40, 20)
         topLayout.addLayout(self.StaticLayout())
-        topLayout.addItem(spacer)
+        # topLayout.addItem(spacer)
         topLayout.addLayout(self.DynamicLayout())
 
         return topLayout
@@ -164,6 +164,8 @@ class AnalysisTab(TabLayout):
         layout.addItem(spacerItem)
 
         return layout
+
+
 
 
 
