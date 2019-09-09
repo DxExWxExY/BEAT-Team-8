@@ -1,6 +1,4 @@
-from PyQt5.QtCore import Qt, QMargins
 from PyQt5.QtWidgets import *
-
 from common.tab_layout import TabLayout
 
 
