@@ -44,9 +44,9 @@ class TabLayout(QWidget):
         self._rightPanelLayout.setAlignment(self.__rightPanelLabel, Qt.AlignTop)
         self._TopPanelLayout.setAlignment(self.__TopPanelLabel, Qt.AlignTop)
 
-        self.__mainGrid.addWidget(leftFrame, 5, 0, 1, 2)
-        self.__mainGrid.addWidget(rightFrame, 5, 4, 1, 7)
-        self.__mainGrid.addWidget(TopFrame, 0, 0, 1, 1)
+        self.__mainGrid.addWidget(leftFrame, 1, 0, 1, 3)
+        self.__mainGrid.addWidget(rightFrame, 1, 3, 1, 7)
+        self.__mainGrid.addWidget(TopFrame, 0, 0, 1, 10)
 
     def addContetentToLeftPanel(self, layout):
         self._leftPanelLayout.addLayout(layout)
