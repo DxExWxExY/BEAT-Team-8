@@ -2,7 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QFrame, QComboBox
 from common.tab_layout import TabLayout
 
-class PluginMGMTTab(TabLayout):
+class PluginManagementTab(TabLayout):
 
     list = {"plugin1", "plugin2", "plugin3", "plugin4", "plugin5"}  # something of function to find list of plugin
     pois = {"a", "b", "c"}
