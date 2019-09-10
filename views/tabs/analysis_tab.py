@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import *
 from common.tab_layout import TabLayout
-from views.dialogs.output_field_dialog import OutputFieldDialog
+from views.dialogs.output_field_dialog import OutputField
 from views.dialogs.analysis_result_dialog import AnalysisResultDialog
 from views.dialogs.comment_dialog import CommentDialog
 
@@ -166,7 +166,7 @@ class AnalysisTab(TabLayout):
         self.commentView.show()
 
     def outputfieldWindow(self):
-        self.outputfieldWindow = OutputFieldDialog()
+        self.outputfieldWindow = OutputField()
         self.outputfieldWindow.show()
 
     def analysisResultWindow(self):
