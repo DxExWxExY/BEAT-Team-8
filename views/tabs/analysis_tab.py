@@ -22,12 +22,13 @@ class AnalysisTab(TabLayout):
         layout = QVBoxLayout()
         projectList = QListWidget()
         layout.addLayout(self.searchBuilder())
+        projectList.setSelectionMode(QAbstractItemView.MultiSelection)
 
-        projectList.addItem("POI 1")
-        projectList.addItem("POI 2")
-        projectList.addItem("POI 3")
-        projectList.addItem("POI 4")
-        projectList.itemClicked.connect(lambda : self.printItemText(projectList))
+        for i in range(4):
+            item = QtWidgets.QListWidgetItem("Item %i" % i)
+            projectList.addItem(item)
+
+        projectList.itemClicked.connect(lambda : self.displayPOI(projectList))
         layout.addWidget(projectList)
 
         return layout
@@ -43,15 +44,15 @@ class AnalysisTab(TabLayout):
         TerminalContent = QPlainTextEdit()
 
         CommentBtn = QPushButton()
-        CommentBtn.setText("C")
-        CommentBtn.clicked.connect(self.commentWindow)
-
         AnalysisResultbtn = QPushButton()
-        AnalysisResultbtn.setText("A")
-        AnalysisResultbtn.clicked.connect(self.analysisResultWindow)
-
         OutPutFieldViewbtn = QPushButton()
+
+        CommentBtn.setText("C")
+        AnalysisResultbtn.setText("A")
         OutPutFieldViewbtn.setText("O")
+
+        CommentBtn.clicked.connect(self.commentWindow)
+        AnalysisResultbtn.clicked.connect(self.analysisResultWindow)
         OutPutFieldViewbtn.clicked.connect(self.outputfieldWindow)
 
         CommentVertLayout.addWidget(CommentBtn)
@@ -176,7 +177,7 @@ class AnalysisTab(TabLayout):
         self.analysisResultWindow = AnalysisResultDialog()
         self.analysisResultWindow.show()
 
-    def printItemText(self, projectList):
+    def displayPOI(self, projectList):
         items = projectList.selectedItems()
         x = []
         for i in range(len(items)):
@@ -185,6 +186,7 @@ class AnalysisTab(TabLayout):
         self.updatePOI(x)
 
     def updatePOI(self,x):
-
+        y=""
         for i in range(len(x)):
-            self.POIcontentArea.setPlainText(x[i])
+            y += x[i]+"\n"
+        self.POIcontentArea.setPlainText(y)
