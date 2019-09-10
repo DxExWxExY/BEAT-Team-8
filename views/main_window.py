@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QDesktopWidget, QTabWidget, QMainWindow
 
 from common import constants
+from views.tabs.documentation_tab import DocumentationTab
 from views.tabs.plugin_management_tab import PluginManagementTab
 from views.tabs.points_of_intersets_tab import PointsOfInterestTab
 from views.tabs.project_tab import ProjectTab
@@ -20,7 +21,7 @@ class MainWindow(QMainWindow):
         self.tabs.addTab(AnalysisTab(), "Analysis")
         self.tabs.addTab(PluginManagementTab(), "Plugin Management")
         self.tabs.addTab(PointsOfInterestTab(), "Points of Interest")
-        self.tabs.addTab(QWidget(), "Documentation")
+        self.tabs.addTab(DocumentationTab(), "Documentation")
 
     def buildWindow(self):
         # Tabs
