@@ -28,7 +28,7 @@ class DocumentationTab(TabLayout):
     def rightPanelBuilder(self):
         layout = QGridLayout()
 
-        content = QLabel("Documentation")
+        content = QLabel("# BEAT\n## To clone \n * TODO: determine IDE & Language")
 
         content.setFrameShape(QFrame.Panel)
         content.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)

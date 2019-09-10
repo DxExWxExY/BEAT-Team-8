@@ -35,8 +35,8 @@ class PointsOfInterestTab(TabLayout):
         typeDropdown = QComboBox()
         content = QTextEdit()
 
-        existingPluginsDropdown.addItems(["Plugin 1", "Plugin 2", "Plugin 3"])
-        typeDropdown.addItems(["Type 1", "Type 2", "Type 3"])
+        existingPluginsDropdown.addItems(["Network Plugin"])
+        typeDropdown.addItems(["Variable", "String", "DLL", "Function", "Packet Protocol", "Struct"])
 
         layout.addWidget(QLabel("Plugin"), 0, 0, Qt.AlignRight)
         layout.addWidget(QLabel("Point of Interest Type"), 1, 0, Qt.AlignRight)
