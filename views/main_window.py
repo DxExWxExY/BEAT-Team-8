@@ -1,10 +1,12 @@
-from PyQt5.QtWidgets import QWidget, QDesktopWidget, QTabWidget, QMainWindow
+from PyQt5.QtWidgets import QDesktopWidget, QTabWidget, QMainWindow
 
 from common import constants
+from views.tabs.analysis_tab import AnalysisTab
+from views.tabs.documentation_tab import DocumentationTab
 from views.tabs.plugin_management_tab import PluginManagementTab
+from views.tabs.points_of_intersets_tab import PointsOfInterestTab
 from views.tabs.project_tab import ProjectTab
 
-from views.tabs.analysis_tab import AnalysisTab
 
 class MainWindow(QMainWindow):
 
@@ -19,8 +21,8 @@ class MainWindow(QMainWindow):
         self.tabs.addTab(ProjectTab(), "Project")
         self.tabs.addTab(AnalysisTab(), "Analysis")
         self.tabs.addTab(PluginManagementTab(), "Plugin Management")
-        self.tabs.addTab(QWidget(), "Points of Interest")
-        self.tabs.addTab(QWidget(), "Documentation")
+        self.tabs.addTab(PointsOfInterestTab(), "Points of Interest")
+        self.tabs.addTab(DocumentationTab(), "Documentation")
 
     def buildWindow(self):
         # Tabs

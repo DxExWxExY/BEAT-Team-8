@@ -1,12 +1,7 @@
 import sys
 
-from PyQt5 import QtGui
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLineEdit, QMainWindow
-
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtGui import *
-
-
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLineEdit
 
 
 class CommentDialog(QWidget):
@@ -29,7 +24,7 @@ class CommentDialog(QWidget):
 
         self.save.move(330, 200)
         self.clear_b.move(400, 200)
-            # self.save.clicked.connect
+        # self.save.clicked.connect
         # self.clear_b.clicked.connect()
 
         self.textbox.move(20, 20)
@@ -42,6 +37,7 @@ class CommentDialog(QWidget):
         print('button click')
         self.clear_b.clicked.connect(self.textbox.clear)
         self.save.clicked.connect(self.textbox.clear)
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

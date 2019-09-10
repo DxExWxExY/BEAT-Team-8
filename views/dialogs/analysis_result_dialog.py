@@ -1,5 +1,7 @@
 import sys
+
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QTextEdit, QPushButton, QGridLayout
+
 
 class AnalysisResultDialog(QWidget):
 
@@ -44,6 +46,7 @@ class AnalysisResultDialog(QWidget):
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.setLayout(grid)
         self.show()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

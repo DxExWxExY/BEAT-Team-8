@@ -9,7 +9,6 @@ from views.dialogs.comment_dialog import CommentDialog
 class AnalysisTab(TabLayout):
 
     def __init__(self):
-
         # your constructor must make the following calls
         super().__init__("Point of Interest View", "Detailed Point of Interest View")
         super().addContetentToTopPanel(self.TopPanelBuilder())
@@ -18,7 +17,6 @@ class AnalysisTab(TabLayout):
         super().build()
 
     def leftPanelBuilder(self):
-
         layout = QVBoxLayout()
         projectList = QListWidget()
         layout.addLayout(self.searchBuilder())
@@ -31,16 +29,13 @@ class AnalysisTab(TabLayout):
 
         return layout
 
-
     def rightPanelBuilder(self):
-
         rightLayout = QtWidgets.QHBoxLayout()
         gridLayout = QtWidgets.QGridLayout()
         gridLayout.setObjectName("gridLayout")
         btnGrid = QtWidgets.QVBoxLayout()
         CommentVertLayout = QtWidgets.QVBoxLayout()
         btnSpacer = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-
 
         POIcontentArea = QPlainTextEdit()
         TerminalContent = QPlainTextEdit()
@@ -52,7 +47,6 @@ class AnalysisTab(TabLayout):
         AnalysisResultbtn = QPushButton()
         AnalysisResultbtn.setText("A")
         AnalysisResultbtn.clicked.connect(self.analysisResultWindow)
-
 
         OutPutFieldViewbtn = QPushButton()
         OutPutFieldViewbtn.setText("O")
@@ -73,9 +67,7 @@ class AnalysisTab(TabLayout):
         rightLayout.addLayout(gridLayout)
         return rightLayout
 
-
     def TopPanelBuilder(self):
-
         topLayout = QtWidgets.QHBoxLayout()
         spacer = QtWidgets.QSpacerItem(40, 20)
         topLayout.addLayout(self.StaticLayout())
@@ -83,7 +75,6 @@ class AnalysisTab(TabLayout):
         topLayout.addLayout(self.DynamicLayout())
 
         return topLayout
-
 
     def searchBuilder(self):
         layout = QtWidgets.QGridLayout()
@@ -98,7 +89,6 @@ class AnalysisTab(TabLayout):
         layout.addWidget(searchButton, 0, 2, 1, 2)
 
         return layout
-
 
     def StaticLayout(self):
         _translate = QtCore.QCoreApplication.translate
@@ -143,7 +133,6 @@ class AnalysisTab(TabLayout):
 
         return layout
 
-
     def DynamicLayout(self):
         _translate = QtCore.QCoreApplication.translate
 
@@ -154,7 +143,6 @@ class AnalysisTab(TabLayout):
         DynamicAn = QtWidgets.QLabel()
         DynamicAn.setObjectName("DynamicAn")
         DynamicAn.setText(_translate("Dialog", "Dynamic analysis"))
-
 
         dynamicRunbtn = QtWidgets.QPushButton()
         dynamicRunbtn.setObjectName("dynamicRunbtn")
@@ -173,7 +161,6 @@ class AnalysisTab(TabLayout):
 
         return layout
 
-
     def commentWindow(self):
         self.commentView = CommentDialog()
         self.commentView.show()
@@ -185,19 +172,3 @@ class AnalysisTab(TabLayout):
     def analysisResultWindow(self):
         self.analysisResultWindow = AnalysisResultDialog()
         self.analysisResultWindow.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

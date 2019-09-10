@@ -1,15 +1,16 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QFrame, QComboBox, QListWidget
+from PyQt5.QtWidgets import QLabel, QVBoxLayout, QPushButton, QLineEdit, QComboBox, QListWidget, \
+    QTextEdit, QGridLayout
+
 from common.tab_layout import TabLayout
 
-class PluginManagementTab(TabLayout):
 
-    list = {"plugin1", "plugin2", "plugin3", "plugin4", "plugin5"}  # something of function to find list of plugin
-    pois = {"a", "b", "c"}
+class PluginManagementTab(TabLayout):
+    list = ["plugin1", "plugin2", "plugin3", "plugin4", "plugin5"]  # something of function to find list of plugin
+    pois = ["PoI a", "PoI b", "PoI c"]
     current = None
 
     def __init__(self):
-        # your constructor must make the following calls
         super().__init__("Plugin View", "Detailed Plugin View")
         super().addContetentToLeftPanel(self.leftPanelBuilder())
         super().addContetentToRightPanel(self.rightPanelBuilder())
@@ -29,13 +30,12 @@ class PluginManagementTab(TabLayout):
                 print("Please enter text")
             else:
                 print(search.text)
-                #self.__searchPlugin(search.text)
+                # self.__searchPlugin(search.text)
 
         pluginList.addItem("Plugin 1")
         pluginList.addItem("Plugin 2")
         pluginList.addItem("Plugin 3")
         pluginList.addItem("Plugin 4")
-
 
         layout.addWidget(pluginList)
         layout.addWidget(new_plugin)
@@ -43,86 +43,64 @@ class PluginManagementTab(TabLayout):
         return layout
 
     def rightPanelBuilder(self):
-        layout = QVBoxLayout()
+        layout = QGridLayout()
 
         # Plugin Structure
-        structure = QHBoxLayout()
         ps_title = QLabel("Plugin Structure")
-        ps_title.setAlignment(Qt.AlignCenter)
+        ps_title.setAlignment(Qt.AlignRight)
         ps_path = QLineEdit()
         ps_edit = QPushButton("Browse")
-        structure.addWidget(ps_title)
-        structure.addWidget(ps_path)
-        structure.addWidget(ps_edit)
         ps_edit.clicked.connect(self.__editName)
-        layout.addLayout(structure)
+        layout.addWidget(ps_title, 0, 0)
+        layout.addWidget(ps_path, 0, 1)
+        layout.addWidget(ps_edit, 0, 2)
 
         # Predefined Data Set
-        data_set = QHBoxLayout()
         ds_title = QLabel("Predefined Data Set")
-        ds_title.setAlignment(Qt.AlignCenter)
-        ds_path = QLabel("./FilePath")
-        ds_path.setFrameShape(QFrame.Panel)
-        ds_path.setAlignment(Qt.AlignCenter)
+        ds_title.setAlignment(Qt.AlignRight)
+        ds_path = QLineEdit()
         ds_edit = QPushButton("Browse")
-        data_set.addWidget(ds_title)
-        data_set.addWidget(ds_path)
-        data_set.addWidget(ds_edit)
-        layout.addLayout(data_set)
+        layout.addWidget(ds_title, 1, 0)
+        layout.addWidget(ds_path, 1, 1)
+        layout.addWidget(ds_edit, 1, 2)
 
         # Plugin Name
-        name = QHBoxLayout()
         n_title = QLabel("Plugin Name")
-        n_title.setAlignment(Qt.AlignCenter)
-        n_name = QLabel(self.current) # add functionality later
-        n_name.setAlignment(Qt.AlignCenter)
-        name.addWidget(n_title)
-        name.addWidget(n_name)
-        layout.addLayout(name)
+        n_title.setAlignment(Qt.AlignRight)
+        n_name = QLineEdit(self.current)  # add functionality later
+        layout.addWidget(n_title, 2, 0)
+        layout.addWidget(n_name, 2, 1)
 
         # Plugin Description
-        description = QHBoxLayout()
         d_title = QLabel("Plugin Description")
-        d_title.setAlignment(Qt.AlignCenter)
-        d_name = QLabel("Current Plugin's description")
-        d_name.setAlignment(Qt.AlignCenter)
-        description.addWidget(d_title)
-        description.addWidget(d_name)
-        layout.addLayout(description)
+        d_title.setAlignment(Qt.AlignRight)
+        d_name = QTextEdit("Current Plugin's description")
+        layout.addWidget(d_title, 3, 0)
+        layout.addWidget(d_name, 3, 1)
 
         # Output Field
-        output = QHBoxLayout()
         o_title = QLabel("Output Field")
-        o_title.setAlignment(Qt.AlignCenter)
+        o_title.setAlignment(Qt.AlignRight)
         o_menu = QComboBox()
-        o_menu.addItem("Python File") # add from some kind of list
-        o_menu.addItem("Other")
-        output.addWidget(o_title)
-        output.addWidget(o_menu)
-        layout.addLayout(output)
+        o_menu.addItems(["Python File", "Other"])  # add from some kind of list
+        layout.addWidget(o_title, 4, 0)
+        layout.addWidget(o_menu, 4, 1)
 
         # POI's
-        poi = QHBoxLayout()
         p_title = QLabel("Points of Interest")
-        p_title.setAlignment(Qt.AlignHCenter)
-        p_list = QVBoxLayout()
-        p_list.setAlignment(Qt.AlignTop)
+        p_list = QListWidget()
         for item in self.pois:
-            p_item = QLabel(item)
-            p_item.setAlignment(Qt.AlignCenter)
-            p_list.addWidget(p_item)
-
-        poi.addWidget(p_title)
-        poi.addLayout(p_list)
-        layout.addLayout(poi)
+            p_list.addItem(str(item))
+        layout.addWidget(p_title, 5, 0)
+        layout.addWidget(p_list, 5, 1)
 
         # Bottom buttons : delete and save
-        bot_but = QHBoxLayout()
         b_delete = QPushButton("Delete")
         b_save = QPushButton("Save")
-        bot_but.addWidget(b_delete)
-        bot_but.addWidget(b_save)
-        layout.addLayout(bot_but)
+        layout.addWidget(b_delete, 6, 0)
+        layout.addWidget(b_save, 6, 2)
+
+        layout.setContentsMargins(100, 0, 100, 0)
 
         return layout
 

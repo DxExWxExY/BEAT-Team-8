@@ -1,7 +1,6 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QLineEdit, QTextEdit,
-                             QPushButton, QGridLayout, QSplitter)
-from PyQt5.QtCore import Qt
+                             QPushButton, QGridLayout)
 
 class OutputField(QWidget):
 
