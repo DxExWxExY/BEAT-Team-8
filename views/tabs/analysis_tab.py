@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import *
-
 from common.tab_layout import TabLayout
+from views.dialogs.comment_dialog import CommentDialog
 
 
 class AnalysisTab(TabLayout):
@@ -39,16 +39,18 @@ class AnalysisTab(TabLayout):
         CommentVertLayout = QtWidgets.QVBoxLayout()
         btnSpacer = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
 
+
         POIcontentArea = QPlainTextEdit()
         TerminalContent = QPlainTextEdit()
 
         CommentBtn = QPushButton()
         CommentBtn.setText("C")
+        CommentBtn.clicked.connect(self.callWindow)
+
         AnalysisResultbtn = QPushButton()
         AnalysisResultbtn.setText("A")
         OutPutFieldViewbtn = QPushButton()
         OutPutFieldViewbtn.setText("O")
-        # OutPutFieldViewbtn.clicked.connect()
 
         CommentVertLayout.addWidget(CommentBtn)
         CommentVertLayout.addItem(btnSpacer)
@@ -164,6 +166,17 @@ class AnalysisTab(TabLayout):
         layout.addItem(spacerItem)
 
         return layout
+
+
+    def callWindow(self):
+        self.commentView = CommentDialog()
+        self.commentView.show()
+
+
+
+
+
+
 
 
 
