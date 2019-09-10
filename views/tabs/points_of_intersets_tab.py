@@ -1,6 +1,6 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QVBoxLayout, QListWidget, QPushButton, QGridLayout, QLabel, QComboBox, QLineEdit, \
-    QSpacerItem, QSizePolicy, QFrame, QTextEdit
+    QSpacerItem, QSizePolicy, QTextEdit
 
 from common.tab_layout import TabLayout
 
@@ -44,7 +44,6 @@ class PointsOfInterestTab(TabLayout):
         layout.addWidget(typeDropdown, 1, 1)
 
         spacer = QSpacerItem(1, 1, QSizePolicy.Expanding)
-
 
         layout.addWidget(content, 2, 0, 1, 6)
 

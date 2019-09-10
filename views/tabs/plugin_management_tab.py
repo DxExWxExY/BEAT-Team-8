@@ -68,7 +68,7 @@ class PluginManagementTab(TabLayout):
         n_title = QLabel("Plugin Name")
         n_title.setAlignment(Qt.AlignRight)
         n_name = QLineEdit(self.current)  # add functionality later
-        layout.addWidget(n_title, 2,0)
+        layout.addWidget(n_title, 2, 0)
         layout.addWidget(n_name, 2, 1)
 
         # Plugin Description

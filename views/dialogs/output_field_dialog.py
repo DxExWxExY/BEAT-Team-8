@@ -1,5 +1,6 @@
 from PyQt5 import QtCore, QtWidgets
 
+
 class OutputFieldDialog(object):
     def setupUi(self, OutputFieldView):
         OutputFieldView.setObjectName("OutputFieldView")
