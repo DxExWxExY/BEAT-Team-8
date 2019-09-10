@@ -65,7 +65,8 @@ class PluginManagementTab(TabLayout):
         # Plugin Name
         n_title = QLabel("Plugin Name")
         n_title.setAlignment(Qt.AlignRight)
-        n_name = QLineEdit("Network")  # add functionality later
+        # TODO: add functionality later
+        n_name = QLineEdit("Network")
         layout.addWidget(n_title, 2, 0)
         layout.addWidget(n_name, 2, 1)
 
@@ -80,7 +81,8 @@ class PluginManagementTab(TabLayout):
         o_title = QLabel("Output Field")
         o_title.setAlignment(Qt.AlignRight)
         o_menu = QComboBox()
-        o_menu.addItems(["Python File", "Other"])  # add from some kind of list
+        # TODO: add from some kind of list
+        o_menu.addItems(["Python File", "Other"])
         layout.addWidget(o_title, 4, 0)
         layout.addWidget(o_menu, 4, 1)
 

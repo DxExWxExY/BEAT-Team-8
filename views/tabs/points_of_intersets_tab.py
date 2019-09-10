@@ -14,16 +14,18 @@ class PointsOfInterestTab(TabLayout):
 
     def leftPanelBuilder(self):
         layout = QVBoxLayout()
-        poiList = QListWidget()
+        self.poiList = QListWidget()
         addPoiButton = QPushButton('New Point of Interest')
 
-        poiList.addItem("Point of Interest 1")
-        poiList.addItem("Point of Interest 2")
-        poiList.addItem("Point of Interest 3")
-        poiList.addItem("Point of Interest 4")
+        self.poiList.addItem("Point of Interest 1")
+        self.poiList.addItem("Point of Interest 2")
+        self.poiList.addItem("Point of Interest 3")
+        self.poiList.addItem("Point of Interest 4")
+
+        self.poiList.itemSelectionChanged.connect(self.useSelectedItem)
 
         layout.addLayout(self.searchBuilder())
-        layout.addWidget(poiList)
+        layout.addWidget(self.poiList)
         layout.addWidget(addPoiButton)
 
         return layout
@@ -32,20 +34,20 @@ class PointsOfInterestTab(TabLayout):
         layout = QGridLayout()
 
         existingPluginsDropdown = QComboBox()
-        typeDropdown = QComboBox()
-        content = QTextEdit()
+        self.typeDropdown = QComboBox()
+        self.content = QTextEdit()
 
         existingPluginsDropdown.addItems(["Network Plugin"])
-        typeDropdown.addItems(["Variable", "String", "DLL", "Function", "Packet Protocol", "Struct"])
+        self.typeDropdown.addItems(["Variable", "String", "DLL", "Function", "Packet Protocol", "Struct"])
 
         layout.addWidget(QLabel("Plugin"), 0, 0, Qt.AlignRight)
         layout.addWidget(QLabel("Point of Interest Type"), 1, 0, Qt.AlignRight)
         layout.addWidget(existingPluginsDropdown, 0, 1)
-        layout.addWidget(typeDropdown, 1, 1)
+        layout.addWidget(self.typeDropdown, 1, 1)
 
         spacer = QSpacerItem(1, 1, QSizePolicy.Expanding)
 
-        layout.addWidget(content, 2, 0, 1, 6)
+        layout.addWidget(self.content, 2, 0, 1, 6)
 
         layout.setContentsMargins(100, 0, 100, 0)
         layout.addItem(spacer, 0, 1, 1, 5)
@@ -66,3 +68,6 @@ class PointsOfInterestTab(TabLayout):
         layout.addWidget(searchButton, 0, 4, 1, 2)
 
         return layout
+
+    def useSelectedItem(self):
+        self.content.setText(f"{self.poiList.currentItem().text()} of type {self.typeDropdown.currentText()}")
