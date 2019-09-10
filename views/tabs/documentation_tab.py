@@ -7,8 +7,8 @@ from common.tab_layout import TabLayout
 class DocumentationTab(TabLayout):
     def __init__(self):
         super().__init__("Points of Interest View", "Detailed Points of Interest View")
-        super().addContetentToLeftPanel(self.leftPanelBuilder())
-        super().addContetentToRightPanel(self.rightPanelBuilder())
+        super().addContentToLeftPanel(self.leftPanelBuilder())
+        super().addContentToRightPanel(self.rightPanelBuilder())
         super().build()
 
     def leftPanelBuilder(self):
@@ -28,7 +28,7 @@ class DocumentationTab(TabLayout):
     def rightPanelBuilder(self):
         layout = QGridLayout()
 
-        content = QLabel("Documentation")
+        content = QLabel("# BEAT\n## To clone \n * TODO: determine IDE & Language")
 
         content.setFrameShape(QFrame.Panel)
         content.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)

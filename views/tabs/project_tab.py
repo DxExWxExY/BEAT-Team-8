@@ -1,13 +1,13 @@
-from PyQt5.QtWidgets import QVBoxLayout, QListWidget, QPushButton, QGridLayout, QLineEdit, QTextEdit, QLabel, \
-    QTableWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QVBoxLayout, QListWidget, QPushButton, QGridLayout, QLineEdit, QTextEdit, QLabel, QTableWidget, QTableWidgetItem
+
 from common.tab_layout import TabLayout
 
 
 class ProjectTab(TabLayout):
     def __init__(self):
         super().__init__("Project View", "Detailed Project View")
-        super().addContetentToLeftPanel(self.leftPanelBuilder())
-        super().addContetentToRightPanel(self.rightPanelBuilder())
+        super().addContentToLeftPanel(self.leftPanelBuilder())
+        super().addContentToRightPanel(self.rightPanelBuilder())
         super().build()
 
     def leftPanelBuilder(self):
@@ -16,9 +16,6 @@ class ProjectTab(TabLayout):
         addProjectButton = QPushButton('New Project')
 
         projectList.addItem("Project 1")
-        projectList.addItem("Project 2")
-        projectList.addItem("Project 3")
-        projectList.addItem("Project 4")
 
         layout.addLayout(self.searchBuilder())
         layout.addWidget(projectList)
@@ -29,9 +26,9 @@ class ProjectTab(TabLayout):
     def rightPanelBuilder(self):
         layout = QGridLayout()
 
-        projctName = QLineEdit()
-        projctDescription = QTextEdit()
-        binPath = QLineEdit()
+        projctName = QLineEdit("Project 1")
+        projctDescription = QTextEdit("This is a project to detect points of interest in the ping binary")
+        self.binPath = QLineEdit("C:/Windows/system32/PING.EXE")
         browsePath = QPushButton('Browse')
         deleteButton = QPushButton('Delete')
         saveButton = QPushButton('Save')
@@ -43,7 +40,7 @@ class ProjectTab(TabLayout):
 
         layout.addWidget(projctName, 0, 1)
         layout.addWidget(projctDescription, 1, 1, 2, 1)
-        layout.addWidget(binPath, 3, 1)
+        layout.addWidget(self.binPath, 3, 1)
         layout.addWidget(self.tableBuilder(), 4, 1)
 
         layout.addWidget(deleteButton, 5, 0)
@@ -51,6 +48,8 @@ class ProjectTab(TabLayout):
         layout.addWidget(browsePath, 3, 2)
 
         layout.setContentsMargins(100, 0, 100, 0)
+
+        browsePath.clicked.connect(lambda: self.fileBrowser(self.binPath))
 
         return layout
 
@@ -86,6 +85,20 @@ class ProjectTab(TabLayout):
         table.setItem(10, 0, QTableWidgetItem('Relocs'))
         table.setItem(11, 0, QTableWidgetItem('Relro'))
         table.setItem(12, 0, QTableWidgetItem('Stripped'))
+
+        table.setItem(0, 1, QTableWidgetItem("Windows"))
+        table.setItem(1, 1, QTableWidgetItem("x86"))
+        table.setItem(2, 1, QTableWidgetItem("N/A"))
+        table.setItem(3, 1, QTableWidgetItem("Win PE"))
+        table.setItem(4, 1, QTableWidgetItem("64 Kb"))
+        table.setItem(5, 1, QTableWidgetItem("C++"))
+        table.setItem(6, 1, QTableWidgetItem("None"))
+        table.setItem(7, 1, QTableWidgetItem("None"))
+        table.setItem(8, 1, QTableWidgetItem("None"))
+        table.setItem(9, 1, QTableWidgetItem("None"))
+        table.setItem(10, 1, QTableWidgetItem("None"))
+        table.setItem(11, 1, QTableWidgetItem("None"))
+        table.setItem(12, 1, QTableWidgetItem("None"))
 
         table.setHorizontalHeaderLabels(['Name', 'Value'])
         table.verticalHeader().setVisible(False)

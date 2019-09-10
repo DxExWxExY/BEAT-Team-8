@@ -6,14 +6,14 @@ from common.tab_layout import TabLayout
 
 
 class PluginManagementTab(TabLayout):
-    list = ["plugin1", "plugin2", "plugin3", "plugin4", "plugin5"]  # something of function to find list of plugin
+    list = ["plugin1"]  # something of function to find list of plugin
     pois = ["PoI a", "PoI b", "PoI c"]
     current = None
 
     def __init__(self):
         super().__init__("Plugin View", "Detailed Plugin View")
-        super().addContetentToLeftPanel(self.leftPanelBuilder())
-        super().addContetentToRightPanel(self.rightPanelBuilder())
+        super().addContentToLeftPanel(self.leftPanelBuilder())
+        super().addContentToRightPanel(self.rightPanelBuilder())
         super().build()
 
     def leftPanelBuilder(self):
@@ -33,9 +33,6 @@ class PluginManagementTab(TabLayout):
                 # self.__searchPlugin(search.text)
 
         pluginList.addItem("Plugin 1")
-        pluginList.addItem("Plugin 2")
-        pluginList.addItem("Plugin 3")
-        pluginList.addItem("Plugin 4")
 
         layout.addWidget(pluginList)
         layout.addWidget(new_plugin)
@@ -48,33 +45,34 @@ class PluginManagementTab(TabLayout):
         # Plugin Structure
         ps_title = QLabel("Plugin Structure")
         ps_title.setAlignment(Qt.AlignRight)
-        ps_path = QLineEdit()
+        self.ps_path = QLineEdit("C:/plugin_structure.xml")
         ps_edit = QPushButton("Browse")
-        ps_edit.clicked.connect(self.__editName)
+        ps_edit.clicked.connect(lambda: self.fileBrowser(self.ps_path))
         layout.addWidget(ps_title, 0, 0)
-        layout.addWidget(ps_path, 0, 1)
+        layout.addWidget(self.ps_path, 0, 1)
         layout.addWidget(ps_edit, 0, 2)
 
         # Predefined Data Set
         ds_title = QLabel("Predefined Data Set")
         ds_title.setAlignment(Qt.AlignRight)
-        ds_path = QLineEdit()
+        self.ds_path = QLineEdit("C:/plugin_data_set.xml")
         ds_edit = QPushButton("Browse")
+        ds_edit.clicked.connect(lambda: self.fileBrowser(self.ds_path))
         layout.addWidget(ds_title, 1, 0)
-        layout.addWidget(ds_path, 1, 1)
+        layout.addWidget(self.ds_path, 1, 1)
         layout.addWidget(ds_edit, 1, 2)
 
         # Plugin Name
         n_title = QLabel("Plugin Name")
         n_title.setAlignment(Qt.AlignRight)
-        n_name = QLineEdit(self.current)  # add functionality later
+        n_name = QLineEdit("Network")  # add functionality later
         layout.addWidget(n_title, 2, 0)
         layout.addWidget(n_name, 2, 1)
 
         # Plugin Description
         d_title = QLabel("Plugin Description")
         d_title.setAlignment(Qt.AlignRight)
-        d_name = QTextEdit("Current Plugin's description")
+        d_name = QTextEdit("Plugin used to detect network behaviors in binaries")
         layout.addWidget(d_title, 3, 0)
         layout.addWidget(d_name, 3, 1)
 
