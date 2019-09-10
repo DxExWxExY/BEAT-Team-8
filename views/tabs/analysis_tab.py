@@ -10,9 +10,9 @@ class AnalysisTab(TabLayout):
 
     def __init__(self):
         self.list = []
-        self.POIcontentArea = QPlainTextEdit()
+        self.POIContentArea = QPlainTextEdit()
         # your constructor must make the following calls
-        super().__init__("Point of Interest View", "Detailed Point of Interest View")
+        super().__init__("Point of Interest View", "Detailed Point of Interest View", True)
         super().addContentToTopPanel(self.TopPanelBuilder())
         super().addContentToRightPanel(self.rightPanelBuilder())
         super().addContentToLeftPanel(self.leftPanelBuilder())
@@ -28,7 +28,7 @@ class AnalysisTab(TabLayout):
             item = QtWidgets.QListWidgetItem("Item %i" % i)
             projectList.addItem(item)
 
-        projectList.itemClicked.connect(lambda : self.displayPOI(projectList))
+        projectList.itemClicked.connect(lambda: self.displayPOI(projectList))
         layout.addWidget(projectList)
 
         return layout
@@ -36,7 +36,6 @@ class AnalysisTab(TabLayout):
     def rightPanelBuilder(self):
         rightLayout = QtWidgets.QHBoxLayout()
         gridLayout = QtWidgets.QGridLayout()
-        gridLayout.setObjectName("gridLayout")
         btnGrid = QtWidgets.QVBoxLayout()
         CommentVertLayout = QtWidgets.QVBoxLayout()
         btnSpacer = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -62,12 +61,14 @@ class AnalysisTab(TabLayout):
         btnGrid.addWidget(OutPutFieldViewbtn)
         btnGrid.addItem(btnSpacer)
 
-        gridLayout.addWidget(self.POIcontentArea, 0, 0, 1, 1)
+        gridLayout.addWidget(self.POIContentArea, 0, 0, 1, 1)
         gridLayout.addWidget(TerminalContent, 1, 0, 1, 1)
         gridLayout.addItem(CommentVertLayout, 0, 1, 1, 1)
         gridLayout.addItem(btnGrid, 0, 2, 1, 1)
 
         rightLayout.addLayout(gridLayout)
+        rightLayout.setContentsMargins(100, 0, 100, 0)
+
         return rightLayout
 
     def TopPanelBuilder(self):
@@ -87,7 +88,7 @@ class AnalysisTab(TabLayout):
         searchButton = QPushButton('Search')
 
         layout.addWidget(searchBox, 0, 0, 1, 4)
-        layout.addWidget(searchButton, 0, 2, 1, 2)
+        layout.addWidget(searchButton, 0, 4, 1, 2)
 
         return layout
 
@@ -95,41 +96,33 @@ class AnalysisTab(TabLayout):
         _translate = QtCore.QCoreApplication.translate
 
         layout = QtWidgets.QHBoxLayout()
-        layout.setObjectName("horizontalLayout")
 
         gridLayout = QtWidgets.QGridLayout()
-        gridLayout.setObjectName("gridLayout")
 
         dropDownMenuPlugin = QtWidgets.QComboBox()
-        dropDownMenuPlugin.setObjectName("comboBox")
         dropDownMenuPlugin.addItem("Network Plugin")
         dropDownMenuPlugin.addItem("cryptography Plugin")
         gridLayout.addWidget(dropDownMenuPlugin, 0, 1, 1, 3)
 
         dropDownMenuPoi = QtWidgets.QComboBox()
-        dropDownMenuPoi.setObjectName("dropDownMenuPoi")
         dropDownMenuPoi.addItem("Functions")
         dropDownMenuPoi.addItem("Variables")
         dropDownMenuPoi.addItem("Strings")
         gridLayout.addWidget(dropDownMenuPoi, 2, 1, 1, 1)
 
         pluginlabel = QtWidgets.QLabel()
-        pluginlabel.setObjectName("pluginlabel")
         pluginlabel.setText(_translate("Dialog", "Plugin"))
         gridLayout.addWidget(pluginlabel, 0, 0, 1, 1)
 
         StaticAn = QtWidgets.QLabel()
-        StaticAn.setObjectName("StaticAn")
         StaticAn.setText(_translate("Dialog", "Static analysis"))
         gridLayout.addWidget(StaticAn, 1, 0, 1, 1)
 
         label_3 = QtWidgets.QLabel()
-        label_3.setObjectName("label_3")
         label_3.setText(_translate("Dialog", "point of interest type"))
         gridLayout.addWidget(label_3, 2, 0, 1, 1)
 
         staticRunbtn = QtWidgets.QPushButton()
-        staticRunbtn.setObjectName("staticRunbtn")
         staticRunbtn.setText(_translate("Dialog", "Run"))
         gridLayout.addWidget(staticRunbtn, 1, 1, 1, 1)
 
@@ -142,18 +135,14 @@ class AnalysisTab(TabLayout):
 
         layout = QtWidgets.QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.setObjectName("horizontalLayout")
 
         DynamicAn = QtWidgets.QLabel()
-        DynamicAn.setObjectName("DynamicAn")
         DynamicAn.setText(_translate("Dialog", "Dynamic analysis"))
 
         dynamicRunbtn = QtWidgets.QPushButton()
-        dynamicRunbtn.setObjectName("dynamicRunbtn")
         dynamicRunbtn.setText(_translate("Dialog", "Run"))
 
         dynamicStopbtn = QtWidgets.QPushButton()
-        dynamicStopbtn.setObjectName("dynamicStopbtn")
         dynamicStopbtn.setText(_translate("Dialog", "Stop"))
 
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -189,4 +178,4 @@ class AnalysisTab(TabLayout):
         y=""
         for i in range(len(x)):
             y += x[i]+"\n"
-        self.POIcontentArea.setPlainText(y)
+        self.POIContentArea.setPlainText(y)

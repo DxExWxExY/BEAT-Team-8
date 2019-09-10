@@ -1,12 +1,11 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QGridLayout, QFrame, QLabel, QVBoxLayout, QFileDialog
-from PyQt5.uic.properties import QtGui
 
 from common import constants
 
 
 class TabLayout(QWidget):
-    def __init__(self, leftPanelLabel, rightPanelLabel):
+    def __init__(self, leftPanelLabel, rightPanelLabel, hasTopPanel=False):
         super().__init__()
         self.__mainGrid = QGridLayout()
         leftFrame = QFrame()
@@ -27,11 +26,9 @@ class TabLayout(QWidget):
 
         self.__leftPanelLabel.setStyleSheet(constants.PANEL_TITLE_STYLE)
         self.__rightPanelLabel.setStyleSheet(constants.PANEL_TITLE_STYLE)
-        # self.__centralPanelLabel.setStyleSheet(constants.PANEL_TITLE_STYLE)
 
         self.__leftPanelLabel.setText(leftPanelLabel)
         self.__rightPanelLabel.setText(rightPanelLabel)
-        # self.__centralPanelLabel.setText("top")
 
         self.__leftPanelLabel.setAlignment(Qt.AlignCenter)
         self.__rightPanelLabel.setAlignment(Qt.AlignCenter)
@@ -45,9 +42,13 @@ class TabLayout(QWidget):
         self._rightPanelLayout.setAlignment(self.__rightPanelLabel, Qt.AlignTop)
         self._TopPanelLayout.setAlignment(self.__TopPanelLabel, Qt.AlignTop)
 
-        self.__mainGrid.addWidget(leftFrame, 1, 0, 1, 3)
-        self.__mainGrid.addWidget(rightFrame, 1, 3, 1, 7)
-        self.__mainGrid.addWidget(TopFrame, 0, 0, 1, 10)
+        if hasTopPanel:
+            self.__mainGrid.addWidget(TopFrame, 0, 0, 1, 9)
+            self.__mainGrid.addWidget(leftFrame, 1, 0, 1, 2)
+            self.__mainGrid.addWidget(rightFrame, 1, 2, 1, 7)
+        else:
+            self.__mainGrid.addWidget(leftFrame, 0, 0, 1, 2)
+            self.__mainGrid.addWidget(rightFrame, 0, 3, 1, 7)
 
     def addContentToLeftPanel(self, layout):
         self._leftPanelLayout.addLayout(layout)

@@ -35,13 +35,15 @@ class DocumentationTab(TabLayout):
 
         layout.addWidget(content, 0, 0)
 
+        layout.setContentsMargins(100, 0, 100, 0)
+
         return layout
 
     def searchBuilder(self):
         layout = QGridLayout()
 
         searchBox = QLineEdit()
-        searchBox.setPlaceholderText("Search Projects")
+        searchBox.setPlaceholderText("Search Documentation")
         searchBox.returnPressed.connect(lambda: print("Enter Detected"))
 
         searchButton = QPushButton('Search')

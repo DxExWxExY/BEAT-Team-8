@@ -22,8 +22,7 @@ class PluginManagementTab(TabLayout):
         search = QLineEdit()
         new_plugin = QPushButton("New")
 
-        search.setPlaceholderText("Search Plugin...")
-        layout.addWidget(search)
+        layout.addLayout(self.searchBuilder())
         # TODO: Refactor to events
         if search.returnPressed:
             if search.text == '':
@@ -101,6 +100,20 @@ class PluginManagementTab(TabLayout):
         layout.addWidget(b_save, 6, 2)
 
         layout.setContentsMargins(100, 0, 100, 0)
+
+        return layout
+
+    def searchBuilder(self):
+        layout = QGridLayout()
+
+        searchBox = QLineEdit()
+        searchBox.setPlaceholderText("Search Plugins")
+        searchBox.returnPressed.connect(lambda: print("Enter Detected"))
+
+        searchButton = QPushButton('Search')
+
+        layout.addWidget(searchBox, 0, 0, 1, 4)
+        layout.addWidget(searchButton, 0, 4, 1, 2)
 
         return layout
 
