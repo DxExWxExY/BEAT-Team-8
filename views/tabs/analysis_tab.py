@@ -174,8 +174,8 @@ class AnalysisTab(TabLayout):
         print(x)
         self.updatePOI(x)
 
-    def updatePOI(self,x):
-        y=""
+    def updatePOI(self, x):
+        y = ""
         for i in range(len(x)):
-            y += x[i]+"\n"
+            y += x[i] + "\n"
         self.POIContentArea.setPlainText(y)
