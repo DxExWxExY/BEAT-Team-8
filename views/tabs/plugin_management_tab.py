@@ -48,20 +48,21 @@ class PluginManagementTab(TabLayout):
         # Plugin Structure
         ps_title = QLabel("Plugin Structure")
         ps_title.setAlignment(Qt.AlignRight)
-        ps_path = QLineEdit()
+        self.ps_path = QLineEdit()
         ps_edit = QPushButton("Browse")
-        ps_edit.clicked.connect(self.__editName)
+        ps_edit.clicked.connect(lambda: self.fileBrowser(self.ps_path))
         layout.addWidget(ps_title, 0, 0)
-        layout.addWidget(ps_path, 0, 1)
+        layout.addWidget(self.ps_path, 0, 1)
         layout.addWidget(ps_edit, 0, 2)
 
         # Predefined Data Set
         ds_title = QLabel("Predefined Data Set")
         ds_title.setAlignment(Qt.AlignRight)
-        ds_path = QLineEdit()
+        self.ds_path = QLineEdit()
         ds_edit = QPushButton("Browse")
+        ds_edit.clicked.connect(lambda: self.fileBrowser(self.ds_path))
         layout.addWidget(ds_title, 1, 0)
-        layout.addWidget(ds_path, 1, 1)
+        layout.addWidget(self.ds_path, 1, 1)
         layout.addWidget(ds_edit, 1, 2)
 
         # Plugin Name

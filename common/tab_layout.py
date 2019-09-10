@@ -1,5 +1,6 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget, QGridLayout, QFrame, QLabel, QVBoxLayout
+from PyQt5.QtWidgets import QWidget, QGridLayout, QFrame, QLabel, QVBoxLayout, QFileDialog
+from PyQt5.uic.properties import QtGui
 
 from common import constants
 
@@ -62,3 +63,8 @@ class TabLayout(QWidget):
 
     def build(self):
         self.setLayout(self.__mainGrid)
+
+    def fileBrowser(self, textBox):
+        callback = QFileDialog.getOpenFileName()
+        if callback:
+            textBox.setText(str(callback[0]))
