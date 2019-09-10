@@ -11,9 +11,9 @@ class AnalysisTab(TabLayout):
     def __init__(self):
         # your constructor must make the following calls
         super().__init__("Point of Interest View", "Detailed Point of Interest View")
-        super().addContetentToTopPanel(self.TopPanelBuilder())
-        super().addContetentToRightPanel(self.rightPanelBuilder())
-        super().addContetentToLeftPanel(self.leftPanelBuilder())
+        super().addContentToTopPanel(self.TopPanelBuilder())
+        super().addContentToRightPanel(self.rightPanelBuilder())
+        super().addContentToLeftPanel(self.leftPanelBuilder())
         super().build()
 
     def leftPanelBuilder(self):

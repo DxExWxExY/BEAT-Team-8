@@ -8,8 +8,8 @@ from common.tab_layout import TabLayout
 class PointsOfInterestTab(TabLayout):
     def __init__(self):
         super().__init__("Points of Interest View", "Detailed Points of Interest View")
-        super().addContetentToLeftPanel(self.leftPanelBuilder())
-        super().addContetentToRightPanel(self.rightPanelBuilder())
+        super().addContentToLeftPanel(self.leftPanelBuilder())
+        super().addContentToRightPanel(self.rightPanelBuilder())
         super().build()
 
     def leftPanelBuilder(self):

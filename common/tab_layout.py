@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QWidget, QGridLayout, QFrame, QLabel, QVBoxLayout
 
 from common import constants
 
+
 class TabLayout(QWidget):
     def __init__(self, leftPanelLabel, rightPanelLabel):
         super().__init__()
@@ -31,7 +32,6 @@ class TabLayout(QWidget):
         self.__rightPanelLabel.setText(rightPanelLabel)
         # self.__centralPanelLabel.setText("top")
 
-
         self.__leftPanelLabel.setAlignment(Qt.AlignCenter)
         self.__rightPanelLabel.setAlignment(Qt.AlignCenter)
         self.__TopPanelLabel.setAlignment(Qt.AlignCenter)
@@ -48,15 +48,15 @@ class TabLayout(QWidget):
         self.__mainGrid.addWidget(rightFrame, 1, 3, 1, 7)
         self.__mainGrid.addWidget(TopFrame, 0, 0, 1, 10)
 
-    def addContetentToLeftPanel(self, layout):
+    def addContentToLeftPanel(self, layout):
         self._leftPanelLayout.addLayout(layout)
         self._leftPanelLayout.setAlignment(layout, Qt.AlignTop)
 
-    def addContetentToRightPanel(self, layout):
+    def addContentToRightPanel(self, layout):
         self._rightPanelLayout.addLayout(layout)
         self._rightPanelLayout.setAlignment(layout, Qt.AlignTop)
 
-    def addContetentToTopPanel(self, layout):
+    def addContentToTopPanel(self, layout):
         self._TopPanelLayout.addLayout(layout)
         self._TopPanelLayout.setAlignment(layout, Qt.AlignTop)
 

@@ -12,8 +12,8 @@ class PluginManagementTab(TabLayout):
 
     def __init__(self):
         super().__init__("Plugin View", "Detailed Plugin View")
-        super().addContetentToLeftPanel(self.leftPanelBuilder())
-        super().addContetentToRightPanel(self.rightPanelBuilder())
+        super().addContentToLeftPanel(self.leftPanelBuilder())
+        super().addContentToRightPanel(self.rightPanelBuilder())
         super().build()
 
     def leftPanelBuilder(self):
