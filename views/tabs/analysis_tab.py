@@ -1,6 +1,8 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import *
 from common.tab_layout import TabLayout
+from views.dialogs.output_field_dialog import OutputFieldDialog
+from views.dialogs.analysis_result_dialog import AnalysisResultDialog
 from views.dialogs.comment_dialog import CommentDialog
 
 
@@ -45,12 +47,16 @@ class AnalysisTab(TabLayout):
 
         CommentBtn = QPushButton()
         CommentBtn.setText("C")
-        CommentBtn.clicked.connect(self.callWindow)
+        CommentBtn.clicked.connect(self.commentWindow)
 
         AnalysisResultbtn = QPushButton()
         AnalysisResultbtn.setText("A")
+        AnalysisResultbtn.clicked.connect(self.analysisResultWindow)
+
+
         OutPutFieldViewbtn = QPushButton()
         OutPutFieldViewbtn.setText("O")
+        OutPutFieldViewbtn.clicked.connect(self.outputfieldWindow)
 
         CommentVertLayout.addWidget(CommentBtn)
         CommentVertLayout.addItem(btnSpacer)
@@ -168,9 +174,17 @@ class AnalysisTab(TabLayout):
         return layout
 
 
-    def callWindow(self):
+    def commentWindow(self):
         self.commentView = CommentDialog()
         self.commentView.show()
+
+    def outputfieldWindow(self):
+        self.outputfieldWindow = OutputFieldDialog()
+        self.outputfieldWindow.show()
+
+    def analysisResultWindow(self):
+        self.analysisResultWindow = AnalysisResultDialog()
+        self.analysisResultWindow.show()
 
 
 
