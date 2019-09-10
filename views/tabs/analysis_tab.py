@@ -9,6 +9,8 @@ from views.dialogs.comment_dialog import CommentDialog
 class AnalysisTab(TabLayout):
 
     def __init__(self):
+        self.list = []
+        self.POIcontentArea = QPlainTextEdit()
         # your constructor must make the following calls
         super().__init__("Point of Interest View", "Detailed Point of Interest View")
         super().addContetentToTopPanel(self.TopPanelBuilder())
@@ -25,6 +27,7 @@ class AnalysisTab(TabLayout):
         projectList.addItem("POI 2")
         projectList.addItem("POI 3")
         projectList.addItem("POI 4")
+        projectList.itemClicked.connect(lambda : self.printItemText(projectList))
         layout.addWidget(projectList)
 
         return layout
@@ -37,7 +40,6 @@ class AnalysisTab(TabLayout):
         CommentVertLayout = QtWidgets.QVBoxLayout()
         btnSpacer = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
 
-        POIcontentArea = QPlainTextEdit()
         TerminalContent = QPlainTextEdit()
 
         CommentBtn = QPushButton()
@@ -59,7 +61,7 @@ class AnalysisTab(TabLayout):
         btnGrid.addWidget(OutPutFieldViewbtn)
         btnGrid.addItem(btnSpacer)
 
-        gridLayout.addWidget(POIcontentArea, 0, 0, 1, 1)
+        gridLayout.addWidget(self.POIcontentArea, 0, 0, 1, 1)
         gridLayout.addWidget(TerminalContent, 1, 0, 1, 1)
         gridLayout.addItem(CommentVertLayout, 0, 1, 1, 1)
         gridLayout.addItem(btnGrid, 0, 2, 1, 1)
@@ -69,9 +71,7 @@ class AnalysisTab(TabLayout):
 
     def TopPanelBuilder(self):
         topLayout = QtWidgets.QHBoxLayout()
-        spacer = QtWidgets.QSpacerItem(40, 20)
         topLayout.addLayout(self.StaticLayout())
-        # topLayout.addItem(spacer)
         topLayout.addLayout(self.DynamicLayout())
 
         return topLayout
@@ -101,12 +101,15 @@ class AnalysisTab(TabLayout):
 
         dropDownMenuPlugin = QtWidgets.QComboBox()
         dropDownMenuPlugin.setObjectName("comboBox")
-        dropDownMenuPlugin.addItem("Existing Plugin")
+        dropDownMenuPlugin.addItem("Network Plugin")
+        dropDownMenuPlugin.addItem("cryptography Plugin")
         gridLayout.addWidget(dropDownMenuPlugin, 0, 1, 1, 3)
 
         dropDownMenuPoi = QtWidgets.QComboBox()
         dropDownMenuPoi.setObjectName("dropDownMenuPoi")
-        dropDownMenuPoi.addItem("Type")
+        dropDownMenuPoi.addItem("Functions")
+        dropDownMenuPoi.addItem("Variables")
+        dropDownMenuPoi.addItem("Strings")
         gridLayout.addWidget(dropDownMenuPoi, 2, 1, 1, 1)
 
         pluginlabel = QtWidgets.QLabel()
@@ -172,3 +175,16 @@ class AnalysisTab(TabLayout):
     def analysisResultWindow(self):
         self.analysisResultWindow = AnalysisResultDialog()
         self.analysisResultWindow.show()
+
+    def printItemText(self, projectList):
+        items = projectList.selectedItems()
+        x = []
+        for i in range(len(items)):
+            x.append(str(projectList.selectedItems()[i].text()))
+        print(x)
+        self.updatePOI(x)
+
+    def updatePOI(self,x):
+
+        for i in range(len(x)):
+            self.POIcontentArea.setPlainText(x[i])
