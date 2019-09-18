@@ -3,7 +3,7 @@
 ## To clone 
 * TODO: determine IDE & Language
 * I will need to add you as a collaborator to this repo
-* Clonnig url `https://github.com/DxExWxExY/BEAT.git` <em> We'll most likely use PyCharm & Python but its subject to change </em>
+* Cloning url `https://github.com/DxExWxExY/BEAT.git` <em> We'll most likely use PyCharm & Python but its subject to change </em>
 * <strong> WE WON'T USE CLI GIT </strong>
 
 ## Workflow
