@@ -26,8 +26,8 @@ class MainWindow(QMainWindow):
         self.tabs.addTab(PluginManagementTab(), "Plugin Management")
         self.tabs.addTab(PointsOfInterestTab(), "Points of Interest")
         self.tabs.addTab(DocumentationTab(), "Documentation")
-        self.tabs.setStyleSheet("QTabBar::tab { height: 50%; width: 150%; }")
-
+        self.tabs.setStyleSheet("QTabBar::tab { height: 50%; width: 200%; }")
+        self.tabs.setFont(QFont("", 12))
 
     def buildWindow(self):
         # Tabs
@@ -44,16 +44,17 @@ class MainWindow(QMainWindow):
         self.show()
 
     def wheelEvent(self, event: QWheelEvent):
-        # if event.modifiers() == Qt.ControlModifier:
-        #     # font = QFont()
-        #     if event.angleDelta() > 0:
-        #         # self.fontSize += 2
-        #         # font.setPointSize(self.fontSize)
-        #         # self.setFont(font)
-        #         pass
-        #     else:
-        #         # self.fontSize -= 2
-        #         # font.setPointSize(self.fontSize)
-        #         # self.setFont(font)
-        #         pass
-        pass
+        if event.modifiers() == Qt.ControlModifier:
+            font = QFont()
+            if event.angleDelta().y() > 0:
+                self.fontSize += 2
+                print(self.fontSize)
+                font.setPointSize(self.fontSize)
+                self.setFont(font)
+            else:
+                if self.fontSize > 2:
+                    self.fontSize -= 2
+                    print(self.fontSize)
+                    font.setPointSize(self.fontSize)
+                    self.setFont(font)
+            self.update()
