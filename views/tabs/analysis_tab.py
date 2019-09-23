@@ -50,6 +50,10 @@ class AnalysisTab(TabLayout):
         AnalysisResultbtn.setText("A")
         OutPutFieldViewbtn.setText("O")
 
+        CommentBtn.setToolTip("Comment")
+        AnalysisResultbtn.setToolTip("Analsys Results")
+        OutPutFieldViewbtn.setToolTip("Output Field View")
+
         CommentBtn.clicked.connect(self.commentWindow)
         AnalysisResultbtn.clicked.connect(self.analysisResultWindow)
         OutPutFieldViewbtn.clicked.connect(self.outputfieldWindow)
@@ -102,29 +106,31 @@ class AnalysisTab(TabLayout):
         dropDownMenuPlugin = QtWidgets.QComboBox()
         dropDownMenuPlugin.addItem("Network Plugin")
         dropDownMenuPlugin.addItem("cryptography Plugin")
-        gridLayout.addWidget(dropDownMenuPlugin, 0, 1, 1, 3)
+        gridLayout.addWidget(dropDownMenuPlugin, 0, 2, 2, 2)
 
         dropDownMenuPoi = QtWidgets.QComboBox()
         dropDownMenuPoi.addItem("Functions")
         dropDownMenuPoi.addItem("Variables")
         dropDownMenuPoi.addItem("Strings")
-        gridLayout.addWidget(dropDownMenuPoi, 2, 1, 1, 1)
+        gridLayout.addWidget(dropDownMenuPoi, 0, 6, 1, 2)
 
         pluginlabel = QtWidgets.QLabel()
         pluginlabel.setText(_translate("Dialog", "Plugin"))
-        gridLayout.addWidget(pluginlabel, 0, 0, 1, 1)
+        gridLayout.addWidget(pluginlabel, 0, 0, 2, 2)
 
         StaticAn = QtWidgets.QLabel()
         StaticAn.setText(_translate("Dialog", "Static analysis"))
-        gridLayout.addWidget(StaticAn, 1, 0, 1, 1)
+        gridLayout.addWidget(StaticAn, 0, 8, 2, 2)
 
         label_3 = QtWidgets.QLabel()
         label_3.setText(_translate("Dialog", "point of interest type"))
-        gridLayout.addWidget(label_3, 2, 0, 1, 1)
+        gridLayout.addWidget(label_3, 0, 4, 2, 2)
 
         staticRunbtn = QtWidgets.QPushButton()
         staticRunbtn.setText(_translate("Dialog", "Run"))
-        gridLayout.addWidget(staticRunbtn, 1, 1, 1, 1)
+        gridLayout.addWidget(staticRunbtn, 0, 10, 2, 2)
+
+
 
         layout.addLayout(gridLayout)
 
@@ -146,11 +152,13 @@ class AnalysisTab(TabLayout):
         dynamicStopbtn.setText(_translate("Dialog", "Stop"))
 
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        layout.addItem(spacerItem)
+        spacerItem2 = QtWidgets.QSpacerItem(1, 1, QSizePolicy.Expanding)
+        layout.addItem(spacerItem2)
         layout.addWidget(DynamicAn)
         layout.addWidget(dynamicRunbtn)
         layout.addWidget(dynamicStopbtn)
-        layout.addItem(spacerItem)
+        layout.addItem(spacerItem2)
+
 
         return layout
 
@@ -175,7 +183,7 @@ class AnalysisTab(TabLayout):
         self.updatePOI(x)
 
     def updatePOI(self, x):
-        y = ""
+        screen = ""
         for i in range(len(x)):
-            y += x[i] + "\n"
-        self.POIContentArea.setPlainText(y)
+            screen += x[i] + "\n"
+        self.POIContentArea.setPlainText(screen)
