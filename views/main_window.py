@@ -1,3 +1,5 @@
+from PyQt5 import QtGui
+from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QDesktopWidget, QTabWidget, QMainWindow
 
 from common import constants
@@ -18,6 +20,8 @@ class MainWindow(QMainWindow):
     def tabBuilder(self):
         # TODO: Add tab implementations
         self.tabs = QTabWidget()
+        # font = QFont("Helvetica", 17)
+        # self.tabs.setFont(font)
         self.tabs.addTab(ProjectTab(), "Project")
         self.tabs.addTab(AnalysisTab(), "Analysis")
         self.tabs.addTab(PluginManagementTab(), "Plugin Management")
