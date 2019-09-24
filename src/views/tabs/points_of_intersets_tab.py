@@ -2,7 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QVBoxLayout, QListWidget, QPushButton, QGridLayout, QLabel, QComboBox, QLineEdit, \
     QSpacerItem, QSizePolicy, QTextEdit
 
-from common.tab_layout import TabLayout
+from src.common.tab_layout import TabLayout
 
 
 class PointsOfInterestTab(TabLayout):

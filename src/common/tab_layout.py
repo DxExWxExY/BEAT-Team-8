@@ -2,7 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QWheelEvent
 from PyQt5.QtWidgets import QWidget, QGridLayout, QFrame, QLabel, QVBoxLayout, QFileDialog
 
-from common import constants
+from src.common import constants
 
 
 class TabLayout(QWidget):

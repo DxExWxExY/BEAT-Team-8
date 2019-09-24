@@ -1,7 +1,7 @@
-from PyQt5.QtWidgets import QGridLayout, QLineEdit, QPushButton, QVBoxLayout, QListWidget, QTextEdit, QLabel, QFrame, \
+from PyQt5.QtWidgets import QGridLayout, QLineEdit, QPushButton, QVBoxLayout, QListWidget, QLabel, QFrame, \
     QSizePolicy
 
-from common.tab_layout import TabLayout
+from src.common.tab_layout import TabLayout
 
 
 class DocumentationTab(TabLayout):

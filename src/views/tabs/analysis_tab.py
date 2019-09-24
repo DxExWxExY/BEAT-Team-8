@@ -1,9 +1,9 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import *
-from common.tab_layout import TabLayout
-from views.dialogs.output_field_dialog import OutputField
-from views.dialogs.analysis_result_dialog import AnalysisResultDialog
-from views.dialogs.comment_dialog import CommentDialog
+from src.common.tab_layout import TabLayout
+from src.views.dialogs.output_field_dialog import OutputField
+from src.views.dialogs.analysis_result_dialog import AnalysisResultDialog
+from src.views.dialogs.comment_dialog import CommentDialog
 
 
 class AnalysisTab(TabLayout):

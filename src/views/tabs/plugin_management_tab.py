@@ -2,7 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QLabel, QVBoxLayout, QPushButton, QLineEdit, QComboBox, QListWidget, \
     QTextEdit, QGridLayout
 
-from common.tab_layout import TabLayout
+from src.common.tab_layout import TabLayout
 
 
 class PluginManagementTab(TabLayout):

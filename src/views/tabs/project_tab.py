@@ -1,9 +1,7 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QWheelEvent
 from PyQt5.QtWidgets import QVBoxLayout, QListWidget, QPushButton, QGridLayout, QLineEdit, QTextEdit, QLabel, \
     QTableWidget, QTableWidgetItem
 
-from common.tab_layout import TabLayout
+from src.common.tab_layout import TabLayout
 
 
 class ProjectTab(TabLayout):
