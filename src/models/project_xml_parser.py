@@ -7,24 +7,29 @@ name = etree.SubElement(project, "name")
 description = etree.SubElement(project, "description")
 binaryPath = etree.SubElement(project, "binaryPath")
 binaryProperties = etree.SubElement(project, "binaryProperties")
-'''
-os = etree.SubElement(binary, "")
-binaryType = etree.SubElement(binary, "")
-machine = etree.SubElement(binary, "")
-binaryClass = etree.SubElement(binary, "")
-bits = etree.SubElement(binary, "")
-language = etree.SubElement(binary, "")
-canary = etree.SubElement(binary, "")
-crypto = etree.SubElement(binary, "")
-nx = etree.SubElement(binary, "")
-pic = etree.SubElement(binary, "")
-relocs = etree.SubElement(binary, "")
-relro = etree.SubElement(binary, "")
-stripped = etree.SubElement(binary, "")
-'''
-name.text = "Project 1"
+os = etree.SubElement(binaryProperties, "os")
+binaryType = etree.SubElement(binaryProperties, "binaryType")
+machine = etree.SubElement(binaryProperties, "machine")
+binaryClass = etree.SubElement(binaryProperties, "class")
+bits = etree.SubElement(binaryProperties, "bits")
+language = etree.SubElement(binaryProperties, "language")
+canary = etree.SubElement(binaryProperties, "canary")
+crypto = etree.SubElement(binaryProperties, "crypto")
+nx = etree.SubElement(binaryProperties, "nx")
+pic = etree.SubElement(binaryProperties, "pic")
+relocs = etree.SubElement(binaryProperties, "relocs")
+relro = etree.SubElement(binaryProperties, "relro")
+stripped = etree.SubElement(binaryProperties, "stripped")
 
-print(etree.tostring(project, pretty_print=True))
+name.text = "Project 1"
+description.text = "My first project"
+binaryPath.text = "/mnt/c/Windows/System32/PING.exe"
+os.text = "windows"
+# TODO: fill in the rest of the code
+
+schema.is_valid(etree.tostring(project).decode())
+
+print(schema.is_valid(etree.tostring(project).decode()))
 
 # class ProjectSchemaParser:
 #     def __init__(self):
