@@ -1,5 +1,6 @@
 from xmlschema import XMLSchema
 from lxml import etree
+import xml.etree.ElementTree as ET
 schema = XMLSchema("C:\\Users\\DxExWxExY\\PycharmProjects\\BEAT\\res\\project_schema.xsd")
 
 project = etree.Element("project")
@@ -27,10 +28,31 @@ binaryPath.text = "/mnt/c/Windows/System32/PING.exe"
 os.text = "windows"
 # TODO: fill in the rest of the code
 
-schema.is_valid(etree.tostring(project).decode())
+xml = open("C:\\Users\\DxExWxExY\\PycharmProjects\\BEAT\\res\\project_schema.xsd.xml", "r").read().strip()
+parser = ET.fromstring(xml)
 
-print(schema.is_valid(etree.tostring(project).decode()))
+# for table in parser.getiterator('project'):
+#     for child in table:
+#         print(child.tag, child.text)
 
-# class ProjectSchemaParser:
-#     def __init__(self):
-#         pass
+# print(parser[3][0].tag)
+# schema.is_valid(etree.tostring(project).decode())
+
+# print(f"IS XML VALID: {schema.is_valid(etree.tostring(project).decode())}")
+
+
+
+class ProjectSchemaParser:
+    def __init__(self, xml):
+        self.xml = xml
+        self.schema = XMLSchema("C:\\Users\\DxExWxExY\\PycharmProjects\\BEAT\\res\\project_schema.xsd")
+    #     TODO: Figure out proper coupling
+
+    def getObject(self):
+        parser = ET.fromstring(self.xml)
+        if self.schema.is_valid(self.xml):
+            print("Is valid")
+
+if __name__ == "__main__":
+    x = ProjectSchemaParser(xml)
+    x.getObject()
