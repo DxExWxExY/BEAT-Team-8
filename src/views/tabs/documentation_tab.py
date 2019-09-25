@@ -14,14 +14,12 @@ class DocumentationTab(TabLayout):
     def leftPanelBuilder(self):
         layout = QVBoxLayout()
         documentationList = QListWidget()
-        addProjectButton = QPushButton('New Project')
 
         documentationList.addItem("BEAT Documentation")
         documentationList.addItem("Plugin Structure")
 
         layout.addLayout(self.searchBuilder())
         layout.addWidget(documentationList)
-        layout.addWidget(addProjectButton)
 
         return layout
 
@@ -34,8 +32,6 @@ class DocumentationTab(TabLayout):
         content.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         layout.addWidget(content, 0, 0)
-
-        layout.setContentsMargins(100, 0, 100, 0)
 
         return layout
 

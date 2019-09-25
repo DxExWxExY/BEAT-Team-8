@@ -71,7 +71,6 @@ class AnalysisTab(TabLayout):
         gridLayout.addItem(btnGrid, 0, 2, 1, 1)
 
         rightLayout.addLayout(gridLayout)
-        rightLayout.setContentsMargins(100, 0, 100, 0)
 
         return rightLayout
 

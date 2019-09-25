@@ -8,4 +8,5 @@ class ProjectItem(QListWidgetItem):
         self.description = f"{n}"
         self.binaryPath = f"{n}"
         self.binaryProperties = [f"{n}"]
+#         TODO: Add Missing fields
 

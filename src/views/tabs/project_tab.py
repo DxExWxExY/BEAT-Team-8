@@ -14,7 +14,7 @@ class ProjectTab(TabLayout):
     def leftPanelBuilder(self):
         layout = QVBoxLayout()
         self.projectList = QListWidget()
-        self.addProjectButton = QPushButton('New Project')
+        self.addProjectButton = QPushButton('Add New Project')
 
         layout.addLayout(self.searchBuilder())
         layout.addWidget(self.projectList)
@@ -37,14 +37,14 @@ class ProjectTab(TabLayout):
         layout.addWidget(QLabel('Binary File Path'), 3, 0)
         layout.addWidget(QLabel('Binary File Properties'), 4, 0)
 
-        layout.addWidget(self.projectName, 0, 1)
-        layout.addWidget(self.projectDescription, 1, 1, 2, 1)
-        layout.addWidget(self.binPath, 3, 1)
-        layout.addWidget(self.tableBuilder(), 4, 1)
+        layout.addWidget(self.projectName, 0, 1, 1, 9)
+        layout.addWidget(self.projectDescription, 1, 1, 2, 9)
+        layout.addWidget(self.binPath, 3, 1, 1, 8)
+        layout.addWidget(self.tableBuilder(), 4, 1, 1, 9)
 
-        layout.addWidget(self.deleteButton, 5, 0)
-        layout.addWidget(self.saveButton, 5, 2)
-        layout.addWidget(self.browsePath, 3, 2)
+        layout.addWidget(self.deleteButton, 5, 8)
+        layout.addWidget(self.saveButton, 5, 9)
+        layout.addWidget(self.browsePath, 3, 9)
 
         return layout
 

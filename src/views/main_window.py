@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
         self.tabs.addTab(PointsOfInterestTab(), "Points of Interest")
         self.tabs.addTab(DocumentationTab(), "Documentation")
         self.tabs.setStyleSheet("QTabBar::tab { height: 50%; width: 200%; }")
-        self.tabs.setFont(QFont("", 12))
+        self.tabs.setFont(QFont("", 11))
 
     def buildWindow(self):
         # Tabs
