@@ -67,10 +67,6 @@ class TabLayout(QWidget):
     def build(self):
         self.setLayout(self.__mainGrid)
 
-    def fileBrowser(self, textBox):
-        callback = QFileDialog.getOpenFileName()
-        if callback:
-            textBox.setText(str(callback[0]))
     def wheelEvent(self, event: QWheelEvent):
         if event.modifiers() == Qt.ControlModifier:
             font = QFont()
