@@ -1,6 +1,9 @@
 from xmlschema import XMLSchema
 from lxml import etree
 import xml.etree.ElementTree as ET
+
+from src.models.project_item import ProjectItem
+
 schema = XMLSchema("C:\\Users\\DxExWxExY\\PycharmProjects\\BEAT\\res\\project_schema.xsd")
 
 project = etree.Element("project")
@@ -43,16 +46,15 @@ parser = ET.fromstring(xml)
 
 
 class ProjectSchemaParser:
-    def __init__(self, xml):
+    def __init__(self, xml=""):
         self.xml = xml
         self.schema = XMLSchema("C:\\Users\\DxExWxExY\\PycharmProjects\\BEAT\\res\\project_schema.xsd")
     #     TODO: Figure out proper coupling
 
-    def getObject(self):
+    def __getObject(self):
         parser = ET.fromstring(self.xml)
         if self.schema.is_valid(self.xml):
             print("Is valid")
 
-if __name__ == "__main__":
-    x = ProjectSchemaParser(xml)
-    x.getObject()
+    def getItems(self):
+        return [ProjectItem(i) for i in range(5)]

@@ -14,11 +14,11 @@ class ProjectTab(TabLayout):
     def leftPanelBuilder(self):
         layout = QVBoxLayout()
         self.projectList = QListWidget()
-        addProjectButton = QPushButton('New Project')
+        self.addProjectButton = QPushButton('New Project')
 
         layout.addLayout(self.searchBuilder())
         layout.addWidget(self.projectList)
-        layout.addWidget(addProjectButton)
+        layout.addWidget(self.addProjectButton)
 
         return layout
 
@@ -28,7 +28,7 @@ class ProjectTab(TabLayout):
         self.projctName = QLineEdit()
         self.projctDescription = QTextEdit()
         self.binPath = QLineEdit()
-        self.browsePath = QPushButton()
+        self.browsePath = QPushButton('Browse')
         self.deleteButton = QPushButton('Delete')
         self.saveButton = QPushButton('Save')
 
@@ -51,14 +51,13 @@ class ProjectTab(TabLayout):
     def searchBuilder(self):
         layout = QGridLayout()
 
-        searchBox = QLineEdit()
-        searchBox.setPlaceholderText("Search Projects")
-        searchBox.returnPressed.connect(lambda: print("Enter Detected"))
+        self.searchBox = QLineEdit()
+        self.searchBox.setPlaceholderText("Search Projects")
 
-        searchButton = QPushButton('Search')
+        self.searchButton = QPushButton('Search')
 
-        layout.addWidget(searchBox, 0, 0, 1, 4)
-        layout.addWidget(searchButton, 0, 4, 1, 2)
+        layout.addWidget(self.searchBox, 0, 0, 1, 4)
+        layout.addWidget(self.searchButton, 0, 4, 1, 2)
 
         return layout
 
