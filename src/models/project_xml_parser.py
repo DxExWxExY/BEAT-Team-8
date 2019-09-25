@@ -46,12 +46,13 @@ parser = ET.fromstring(xml)
 
 
 class ProjectSchemaParser:
-    def __init__(self, xml=""):
-        self.xml = xml
+    def __init__(self):
         self.schema = XMLSchema("C:\\Users\\DxExWxExY\\PycharmProjects\\BEAT\\res\\project_schema.xsd")
     #     TODO: Figure out proper coupling
 
     def __getObject(self):
+        self.xml = ""
+        # TODO: Get everything from the DB
         parser = ET.fromstring(self.xml)
         if self.schema.is_valid(self.xml):
             print("Is valid")

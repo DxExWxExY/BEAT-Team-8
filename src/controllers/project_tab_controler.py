@@ -14,9 +14,9 @@ class ProjectTabController:
 
     def __populateList(self):
         # TODO: Retrieve object from parser
-        items = self.__parser.getItems()
-        for item in items:
-            self.tab.projectList.addItem(item)
+        self.items = self.__parser.getItems()
+        for item in self.items:
+            self.tab.projectList.addItem(item.name)
         pass
 
     def __addEventHandlers(self):
@@ -27,8 +27,9 @@ class ProjectTabController:
         self.tab.projectList.itemSelectionChanged.connect(lambda: self.__updateUI())
 
     def __updateUI(self):
-        # self.tab.projectList.currentItem().data()
-        pass
+        i = self.tab.projectList.indexFromItem(self.tab.projectList.currentItem()).row()
+        self.tab.projectName.setText(self.items[i].name)
+        self.tab.projectDescription.setText(self.items[i].description)
 
     def __fileBrowser(self, textBox):
         callback = QFileDialog.getOpenFileName()

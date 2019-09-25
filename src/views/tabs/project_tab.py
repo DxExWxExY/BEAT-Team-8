@@ -25,8 +25,8 @@ class ProjectTab(TabLayout):
     def rightPanelBuilder(self):
         layout = QGridLayout()
 
-        self.projctName = QLineEdit()
-        self.projctDescription = QTextEdit()
+        self.projectName = QLineEdit()
+        self.projectDescription = QTextEdit()
         self.binPath = QLineEdit()
         self.browsePath = QPushButton('Browse')
         self.deleteButton = QPushButton('Delete')
@@ -37,8 +37,8 @@ class ProjectTab(TabLayout):
         layout.addWidget(QLabel('Binary File Path'), 3, 0)
         layout.addWidget(QLabel('Binary File Properties'), 4, 0)
 
-        layout.addWidget(self.projctName, 0, 1)
-        layout.addWidget(self.projctDescription, 1, 1, 2, 1)
+        layout.addWidget(self.projectName, 0, 1)
+        layout.addWidget(self.projectDescription, 1, 1, 2, 1)
         layout.addWidget(self.binPath, 3, 1)
         layout.addWidget(self.tableBuilder(), 4, 1)
 

@@ -9,6 +9,3 @@ class ProjectItem(QListWidgetItem):
         self.binaryPath = f"{n}"
         self.binaryProperties = [f"{n}"]
 
-    def text(self) -> str:
-        return self.name
-
