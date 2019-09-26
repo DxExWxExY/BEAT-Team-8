@@ -29,11 +29,10 @@ class ProjectTabController:
         self.tab.saveButton.clicked.connect(lambda: self.__saveProject())
 
     def __updateUI(self):
-        self.tab.projectList.update()
         selectedItem = self.__getSelectedItem()
-        self.tab.projectName.setText(selectedItem.name)
-        self.tab.projectDescription.setText(selectedItem.description)
-        self.tab.binPath.setText(selectedItem.binaryPath)
+        self.tab.projectName.setText(selectedItem[0].name)
+        self.tab.projectDescription.setText(selectedItem[0].description)
+        self.tab.binPath.setText(selectedItem[0].binaryPath)
 
     def __fileBrowser(self):
         callback = QFileDialog.getOpenFileName()
@@ -46,18 +45,23 @@ class ProjectTabController:
 
     def __getSelectedItem(self):
         i = self.tab.projectList.indexFromItem(self.tab.projectList.currentItem()).row()
-        return self.items[i]
+        return self.items[i], i
 
     def __saveProject(self):
-        selectedItem = self.__getSelectedItem()
+        selectedItem, i = self.__getSelectedItem()
         selectedItem.name = self.tab.projectName.text()
         selectedItem.description = self.tab.projectDescription.toPlainText()
         selectedItem.binaryPath = self.tab.binPath.text()
-        self.tab.projectList.repaint()
+
+    def __deleteProject(self):
+        self.items.remove(self.__getSelectedItem()[1])
+        self.tab.projectList.takeItem(self.__getSelectedItem()[0].name)
+        self.tab.projectList.update()
 
 
     def __addProject(self):
         # TODO: Move logic to model
-        self.items.append(ProjectItem(0))
+        self.items.append(ProjectItem(len(self.items)))
         self.tab.projectList.addItem(self.items[-1].name)
         pass
+
