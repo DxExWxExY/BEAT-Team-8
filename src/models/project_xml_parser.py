@@ -31,7 +31,7 @@ binaryPath.text = "/mnt/c/Windows/System32/PING.exe"
 os.text = "windows"
 # TODO: fill in the rest of the code
 
-xml = open("C:\\Users\\DxExWxExY\\PycharmProjects\\BEAT\\res\\project_schema.xsd.xml", "r").read().strip()
+xml = open("C:\\Users\\DxExWxExY\\PycharmProjects\\BEAT\\res\\project_sample.xml", "r").read().strip()
 parser = ET.fromstring(xml)
 
 # for table in parser.getiterator('project'):

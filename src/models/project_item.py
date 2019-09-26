@@ -1,7 +1,4 @@
-from PyQt5.QtWidgets import QListWidgetItem
-
-
-class ProjectItem(QListWidgetItem):
+class ProjectItem():
     def __init__(self, n):
         super().__init__()
         self.name = f"Project {n}"
