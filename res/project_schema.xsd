@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="project">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="description" type="xs:string"/>
+                <xs:element name="binaryPath" type="xs:string"/>
+                <xs:element name="binaryProperties">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="os" type="xs:string"/>
+                            <xs:element name="binaryType" type="xs:string"/>
+                            <xs:element name="machine" type="xs:string"/>
+                            <xs:element name="class" type="xs:string"/>
+                            <xs:element name="bits" type="xs:string"/>
+                            <xs:element name="language" type="xs:string"/>
+                            <xs:element name="canary" type="xs:string"/>
+                            <xs:element name="crypto" type="xs:string"/>
+                            <xs:element name="nx" type="xs:string"/>
+                            <xs:element name="pic" type="xs:string"/>
+                            <xs:element name="relocs" type="xs:string"/>
+                            <xs:element name="relro" type="xs:string"/>
+                            <xs:element name="stripped" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

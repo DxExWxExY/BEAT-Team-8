@@ -1,0 +1,20 @@
+<project>
+  <name>string</name>
+  <description>string</description>
+  <binaryPath>string</binaryPath>
+  <binaryProperties>
+    <os>string</os>
+    <binaryType>string</binaryType>
+    <machine>string</machine>
+    <class>string</class>
+    <bits>string</bits>
+    <language>string</language>
+    <canary>string</canary>
+    <crypto>string</crypto>
+    <nx>string</nx>
+    <pic>string</pic>
+    <relocs>string</relocs>
+    <relro>string</relro>
+    <stripped>string</stripped>
+  </binaryProperties>
+</project>

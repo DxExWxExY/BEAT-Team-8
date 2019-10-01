@@ -1,16 +1,20 @@
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QFont, QWheelEvent
 from PyQt5.QtWidgets import QWidget, QGridLayout, QFrame, QLabel, QVBoxLayout, QFileDialog
 
-from common import constants
+from src.common import constants
 
 
 class TabLayout(QWidget):
     def __init__(self, leftPanelLabel, rightPanelLabel, hasTopPanel=False):
         super().__init__()
+        self.fontSize = 11
         self.__mainGrid = QGridLayout()
         leftFrame = QFrame()
         rightFrame = QFrame()
         TopFrame = QFrame()
+
+        self.setFont(QFont("", self.fontSize))
 
         self._leftPanelLayout = QVBoxLayout()
         self._rightPanelLayout = QVBoxLayout()
@@ -65,7 +69,18 @@ class TabLayout(QWidget):
     def build(self):
         self.setLayout(self.__mainGrid)
 
-    def fileBrowser(self, textBox):
-        callback = QFileDialog.getOpenFileName()
-        if callback:
-            textBox.setText(str(callback[0]))
+    def wheelEvent(self, event: QWheelEvent):
+        if event.modifiers() == Qt.ControlModifier:
+            font = QFont()
+            if event.angleDelta().y() > 0:
+                self.fontSize += 2
+                print(self.fontSize)
+                font.setPointSize(self.fontSize)
+                self.setFont(font)
+            else:
+                if self.fontSize > 2:
+                    self.fontSize -= 2
+                    print(self.fontSize)
+                    font.setPointSize(self.fontSize)
+                    self.setFont(font)
+            self.update()
