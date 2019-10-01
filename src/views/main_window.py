@@ -3,6 +3,7 @@ from PyQt5.QtGui import QWheelEvent, QFont
 from PyQt5.QtWidgets import QDesktopWidget, QTabWidget, QMainWindow
 
 from src.common import constants
+from src.controllers.analysis_tab_controller import AnalysisTabController
 from src.controllers.project_tab_controler import ProjectTabController
 from src.views.tabs.analysis_tab import AnalysisTab
 from src.views.tabs.documentation_tab import DocumentationTab
@@ -16,6 +17,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.projectController = ProjectTabController()
+        self.analysisController = AnalysisTabController()
         self.fontSize = 14
         self.tabBuilder()
         self.buildWindow()
@@ -24,7 +26,7 @@ class MainWindow(QMainWindow):
         # TODO: Add tab implementations
         self.tabs = QTabWidget()
         self.tabs.addTab(self.projectController.tab, "Project")
-        self.tabs.addTab(AnalysisTab(), "Analysis")
+        self.tabs.addTab(self.analysisController.tab, "Analysis")
         self.tabs.addTab(PluginManagementTab(), "Plugin Management")
         self.tabs.addTab(PointsOfInterestTab(), "Points of Interest")
         self.tabs.addTab(DocumentationTab(), "Documentation")
