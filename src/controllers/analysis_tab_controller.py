@@ -12,6 +12,7 @@ class AnalysisTabController:
         # self.model = AnalysisModel()
         self.__addEventHandlers()
         self.__populateList()
+        self.__populateDropdowns()
 
     def __addEventHandlers(self):
         self.tab.projectList.itemClicked.connect(lambda: self.__displayPOI())
@@ -25,6 +26,18 @@ class AnalysisTabController:
         # TODO: Move this logic to model
         for i in range(4):
             self.tab.projectList.addItem(QListWidgetItem("Item %i" % i))
+
+    def __populateDropdowns(self):
+        # TODO: Move this logic to model
+        self.tab.dropDownMenuPlugin.addItem("Network Plugin")
+        self.tab.dropDownMenuPlugin.addItem("Cryptography Plugin")
+
+        self.tab.dropDownMenuPoi.addItem("Function")
+        self.tab.dropDownMenuPoi.addItem("Variable")
+        self.tab.dropDownMenuPoi.addItem("String")
+        self.tab.dropDownMenuPoi.addItem("DLL")
+        self.tab.dropDownMenuPoi.addItem("Struct")
+        self.tab.dropDownMenuPoi.addItem("Packet Protocol")
 
     def __searchForItem(self):
         print("Search triggered")

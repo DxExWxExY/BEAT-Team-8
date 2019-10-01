@@ -32,7 +32,7 @@ class AnalysisTab(TabLayout):
         CommentVertLayout = QtWidgets.QVBoxLayout()
         btnSpacer = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
 
-        TerminalContent = QPlainTextEdit()
+        terminalContent = QPlainTextEdit()
 
         self.commentBtn = QPushButton("C")
         self.analysisResultBtn = QPushButton("A")
@@ -50,7 +50,7 @@ class AnalysisTab(TabLayout):
         btnGrid.addItem(btnSpacer)
 
         gridLayout.addWidget(self.poiContentArea, 0, 0, 1, 1)
-        gridLayout.addWidget(TerminalContent, 1, 0, 1, 1)
+        gridLayout.addWidget(terminalContent, 1, 0, 1, 1)
         gridLayout.addItem(CommentVertLayout, 0, 1, 1, 1)
         gridLayout.addItem(btnGrid, 0, 2, 1, 1)
 
@@ -79,37 +79,22 @@ class AnalysisTab(TabLayout):
         return layout
 
     def staticLayout(self):
-        layout = QtWidgets.QHBoxLayout()
+        layout = QtWidgets.QGridLayout()
 
-        gridLayout = QtWidgets.QGridLayout()
-
-        dropDownMenuPlugin = QtWidgets.QComboBox()
-        dropDownMenuPlugin.addItem("Network Plugin")
-        dropDownMenuPlugin.addItem("Cryptography Plugin")
-        gridLayout.addWidget(dropDownMenuPlugin, 0, 2, 2, 2)
-
-        dropDownMenuPoi = QtWidgets.QComboBox()
-        dropDownMenuPoi.addItem("Function")
-        dropDownMenuPoi.addItem("Variable")
-        dropDownMenuPoi.addItem("String")
-        dropDownMenuPoi.addItem("DLL")
-        dropDownMenuPoi.addItem("Struct")
-        dropDownMenuPoi.addItem("Packet Protocol")
-        gridLayout.addWidget(dropDownMenuPoi, 0, 6, 1, 2)
+        self.dropDownMenuPlugin = QtWidgets.QComboBox()
+        self.dropDownMenuPoi = QtWidgets.QComboBox()
 
         pluginLabel = QtWidgets.QLabel("Plugin")
-        gridLayout.addWidget(pluginLabel, 0, 0, 2, 2)
+        staticLabel = QtWidgets.QLabel("Static Analysis")
+        poiTypeLabel = QtWidgets.QLabel("Point of Interest Type")
+        staticRunBtn = QtWidgets.QPushButton("Run")
 
-        StaticAn = QtWidgets.QLabel("Static analysis")
-        gridLayout.addWidget(StaticAn, 0, 8, 2, 2)
-
-        label_3 = QtWidgets.QLabel("Point of Interest type")
-        gridLayout.addWidget(label_3, 0, 4, 2, 2)
-
-        staticRunbtn = QtWidgets.QPushButton("Run")
-        gridLayout.addWidget(staticRunbtn, 0, 10, 2, 2)
-
-        layout.addLayout(gridLayout)
+        layout.addWidget(self.dropDownMenuPlugin, 0, 2, 2, 2)
+        layout.addWidget(self.dropDownMenuPoi, 0, 6, 1, 2)
+        layout.addWidget(pluginLabel, 0, 0, 2, 2)
+        layout.addWidget(staticLabel, 0, 8, 2, 2)
+        layout.addWidget(poiTypeLabel, 0, 4, 2, 2)
+        layout.addWidget(staticRunBtn, 0, 10, 2, 2)
 
         return layout
 
@@ -117,11 +102,11 @@ class AnalysisTab(TabLayout):
         layout = QtWidgets.QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
 
-        DynamicAn = QtWidgets.QLabel("Dynamic analysis")
+        DynamicAn = QtWidgets.QLabel("Dynamic Analysis")
         dynamicRunbtn = QtWidgets.QPushButton("Run")
         dynamicStopbtn = QtWidgets.QPushButton("Stop")
-
         spacerItem = QtWidgets.QSpacerItem(1, 1, QSizePolicy.Expanding)
+
         layout.addItem(spacerItem)
         layout.addWidget(DynamicAn)
         layout.addWidget(dynamicRunbtn)
