@@ -2,7 +2,7 @@ from xmlschema import XMLSchema
 from lxml import etree
 import xml.etree.ElementTree as ET
 
-from src.models.project_item import ProjectItem
+from src.items.project_item import ProjectItem
 
 schema = XMLSchema("C:\\Users\\DxExWxExY\\PycharmProjects\\BEAT\\res\\project_schema.xsd")
 
@@ -58,4 +58,5 @@ class ProjectSchemaParser:
             print("Is valid")
 
     def getItems(self):
-        return [ProjectItem(i) for i in range(5)]
+        if type is 0:
+            return [ProjectItem(i) for i in range(5)]

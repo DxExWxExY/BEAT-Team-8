@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QDesktopWidget, QTabWidget, QMainWindow
 from src.common import constants
 from src.controllers.analysis_tab_controller import AnalysisTabController
 from src.controllers.project_tab_controler import ProjectTabController
+from src.controllers.pulgin_management_tab_controller import PluginManagementTabController
 from src.views.tabs.analysis_tab import AnalysisTab
 from src.views.tabs.documentation_tab import DocumentationTab
 from src.views.tabs.plugin_management_tab import PluginManagementTab
@@ -18,16 +19,16 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.projectController = ProjectTabController()
         self.analysisController = AnalysisTabController()
+        self.pluginManagementController = PluginManagementTabController()
         self.fontSize = 14
         self.tabBuilder()
         self.buildWindow()
 
     def tabBuilder(self):
-        # TODO: Add tab implementations
         self.tabs = QTabWidget()
         self.tabs.addTab(self.projectController.tab, "Project")
         self.tabs.addTab(self.analysisController.tab, "Analysis")
-        self.tabs.addTab(PluginManagementTab(), "Plugin Management")
+        self.tabs.addTab(self.pluginManagementController.tab, "Plugin Management")
         self.tabs.addTab(PointsOfInterestTab(), "Points of Interest")
         self.tabs.addTab(DocumentationTab(), "Documentation")
         self.tabs.setStyleSheet("QTabBar::tab { height: 50%; width: 200%; }")

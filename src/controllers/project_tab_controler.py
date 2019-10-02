@@ -1,24 +1,22 @@
 from PyQt5.QtWidgets import QFileDialog
 
-from src.models.project_item import ProjectItem
-from src.models.project_xml_parser import ProjectSchemaParser
+from src.items.project_item import ProjectItem
+from src.models.project_model import ProjectModel
+from src.parsers.project_xml_parser import ProjectSchemaParser
 from src.views.tabs.project_tab import ProjectTab
 
 
 class ProjectTabController:
     def __init__(self):
         self.tab = ProjectTab()
-        # self.model = ProjectModel()
-        self.__parser = ProjectSchemaParser()
+        self.model = ProjectModel()
         self.__addEventHandlers()
         self.__populateList()
 
     def __populateList(self):
-        # TODO: Move this logic to model
-        self.items = self.__parser.getItems()
-        for item in self.items:
+        self.items = []
+        for item in self.model.getProjectList():
             self.tab.projectList.addItem(item.name)
-        pass
 
     def __addEventHandlers(self):
         self.tab.browsePath.clicked.connect(lambda: self.__fileBrowser())
@@ -41,7 +39,6 @@ class ProjectTabController:
 
     def __searchForItem(self):
         print("Search triggered")
-        pass
 
     def __getSelectedItem(self):
         i = self.tab.projectList.indexFromItem(self.tab.projectList.currentItem()).row()
@@ -52,16 +49,15 @@ class ProjectTabController:
         selectedItem.name = self.tab.projectName.text()
         selectedItem.description = self.tab.projectDescription.toPlainText()
         selectedItem.binaryPath = self.tab.binPath.text()
+        # TODO: Get Current Objects from list OR register new instance in DB
+        self.model.sendStateData([])
 
     def __deleteProject(self):
         self.items.remove(self.__getSelectedItem()[1])
         self.tab.projectList.takeItem(self.__getSelectedItem()[0].name)
         self.tab.projectList.update()
 
-
     def __addProject(self):
         # TODO: Move logic to model
         self.items.append(ProjectItem(len(self.items)))
         self.tab.projectList.addItem(self.items[-1].name)
-        pass
-

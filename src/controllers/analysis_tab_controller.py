@@ -16,8 +16,8 @@ class AnalysisTabController:
 
     def __addEventHandlers(self):
         self.tab.projectList.itemClicked.connect(lambda: self.__displayPOI())
-        self.tab.searchBox.returnPressed.connect(lambda: self.__searchForItem())
-        self.tab.searchButton.clicked.connect(lambda: self.__searchForItem())
+        self.tab.searchBox.returnPressed.connect(lambda: self.__searchForPoi())
+        self.tab.searchButton.clicked.connect(lambda: self.__searchForPoi())
         self.tab.commentBtn.clicked.connect(lambda: self.__commentWindow())
         self.tab.analysisResultBtn.clicked.connect(lambda: self.__analysisResultWindow())
         self.tab.outputFieldViewBtn.clicked.connect(lambda: self.__outputFieldWindow())
@@ -39,7 +39,7 @@ class AnalysisTabController:
         self.tab.dropDownMenuPoi.addItem("Struct")
         self.tab.dropDownMenuPoi.addItem("Packet Protocol")
 
-    def __searchForItem(self):
+    def __searchForPoi(self):
         print("Search triggered")
         pass
 
