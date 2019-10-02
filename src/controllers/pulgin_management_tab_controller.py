@@ -22,6 +22,8 @@ class PluginManagementTabController:
         self.tab.savePlugin.clicked.connect(lambda: self.__savePlugin())
 
     def __populateLists(self):
+        self.tab.pluginList.clear()
+        self.tab.poiList.clear()
         for item in self.model.getPluginList():
             self.tab.pluginList.addItem(item.name)
         self.tab.poiList.addItems(self.model.getPoiList())
@@ -44,8 +46,6 @@ class PluginManagementTabController:
         current.description = self.tab.pluginDescription.text()
         current.structurePath = self.tab.pluginStructurePath.text()
         current.dataSetPath = self.tab.dataSetPath.text()
-        self.tab.pluginList.clear()
-        self.tab.poiList.clear()
         self.__populateLists()
 
     def __deletePlugin(self):

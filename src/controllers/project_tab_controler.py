@@ -13,8 +13,8 @@ class ProjectTabController:
         self.__populateList()
 
     def __populateList(self):
-        self.items = []
-        for item in self.model.getProjectList():
+        self.items = self.model.getProjectList()
+        for item in self.items:
             self.tab.projectList.addItem(item.name)
 
     def __addEventHandlers(self):
