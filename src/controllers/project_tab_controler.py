@@ -2,7 +2,6 @@ from PyQt5.QtWidgets import QFileDialog
 
 from src.items.project_item import ProjectItem
 from src.models.project_model import ProjectModel
-from src.parsers.project_xml_parser import ProjectSchemaParser
 from src.views.tabs.project_tab import ProjectTab
 
 

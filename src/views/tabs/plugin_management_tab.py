@@ -15,12 +15,12 @@ class PluginManagementTab(TabLayout):
     def leftPanelBuilder(self):
         layout = QVBoxLayout()
         self.pluginList = QListWidget()
-        addPlugin = QPushButton("Add New Plugin")
+        self.addPlugin = QPushButton("Add New Plugin")
 
         layout.addLayout(self.searchBuilder())
 
         layout.addWidget(self.pluginList)
-        layout.addWidget(addPlugin)
+        layout.addWidget(self.addPlugin)
 
         return layout
 
@@ -38,7 +38,7 @@ class PluginManagementTab(TabLayout):
 
         # Predefined Data Set
         dataSetLabel = QLabel("Predefined Data Set")
-        self.dataSetPath = QLineEdit("C:/plugin_data_set.xml")
+        self.dataSetPath = QLineEdit()
         self.browseDataPath = QPushButton("Browse")
 
         layout.addWidget(dataSetLabel, 1, 0)
@@ -47,13 +47,13 @@ class PluginManagementTab(TabLayout):
 
         # Plugin Name
         pluginNameLabel = QLabel("Plugin Name")
-        self.pluginName = QLineEdit("Network")
+        self.pluginName = QLineEdit()
         layout.addWidget(pluginNameLabel, 2, 0)
         layout.addWidget(self.pluginName, 2, 1, 1, 9)
 
         # Plugin Description
         plugingDescriptionLabel = QLabel("Plugin Description")
-        self.pluginDescription = QTextEdit("Plugin used to detect network behaviors in binaries")
+        self.pluginDescription = QTextEdit()
         layout.addWidget(plugingDescriptionLabel, 3, 0)
         layout.addWidget(self.pluginDescription, 3, 1, 1, 9)
 
