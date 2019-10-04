@@ -10,11 +10,10 @@ class ProjectTabController:
         self.tab = ProjectTab()
         self.model = ProjectModel()
         self.__addEventHandlers()
-        self.__populateList()
+        self.__populateProjectList()
 
-    def __populateList(self):
-        self.items = self.model.getProjectList()
-        for item in self.items:
+    def __populateProjectList(self):
+        for item in self.model.getProjectList():
             self.tab.projectList.addItem(item.name)
 
     def __addEventHandlers(self):
@@ -24,12 +23,13 @@ class ProjectTabController:
         self.tab.addProjectButton.clicked.connect(lambda: self.__addProject())
         self.tab.projectList.itemSelectionChanged.connect(lambda: self.__updateUI())
         self.tab.saveButton.clicked.connect(lambda: self.__saveProject())
+        self.tab.deleteButton.clicked.connect(lambda: self.__deleteProject())
 
     def __updateUI(self):
-        selectedItem = self.__getSelectedItem()
-        self.tab.projectName.setText(selectedItem[0].name)
-        self.tab.projectDescription.setText(selectedItem[0].description)
-        self.tab.binPath.setText(selectedItem[0].binaryPath)
+        selectedItem = self.model.getSelectedProject(self.__getCurrentItem())
+        self.tab.projectName.setText(selectedItem.name)
+        self.tab.projectDescription.setText(selectedItem.description)
+        self.tab.binPath.setText(selectedItem.binaryPath)
 
     def __fileBrowser(self):
         callback = QFileDialog.getOpenFileName()
@@ -39,24 +39,24 @@ class ProjectTabController:
     def __searchForItem(self):
         print("Search triggered")
 
-    def __getSelectedItem(self):
+    def __getCurrentItem(self):
         i = self.tab.projectList.indexFromItem(self.tab.projectList.currentItem()).row()
-        return self.items[i], i
+        return i
 
     def __saveProject(self):
-        selectedItem, i = self.__getSelectedItem()
+        selectedItem = self.model.getSelectedProject(self.__getCurrentItem())
         selectedItem.name = self.tab.projectName.text()
         selectedItem.description = self.tab.projectDescription.toPlainText()
         selectedItem.binaryPath = self.tab.binPath.text()
-        # TODO: Get Current Objects from list OR register new instance in DB
-        self.model.sendStateData([])
+        self.tab.projectList.clear()
+        self.__populateProjectList()
 
     def __deleteProject(self):
-        self.items.remove(self.__getSelectedItem()[1])
-        self.tab.projectList.takeItem(self.__getSelectedItem()[0].name)
-        self.tab.projectList.update()
+        self.model.deleteProject(self.__getCurrentItem())
+        self.tab.projectList.clear()
+        self.__populateProjectList()
 
     def __addProject(self):
-        # TODO: Move logic to model
-        self.items.append(ProjectItem(len(self.items)))
-        self.tab.projectList.addItem(self.items[-1].name)
+        self.model.addProject()
+        self.tab.projectList.clear()
+        self.__populateProjectList()

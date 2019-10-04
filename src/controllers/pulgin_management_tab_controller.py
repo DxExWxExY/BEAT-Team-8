@@ -9,7 +9,7 @@ class PluginManagementTabController:
         self.tab = PluginManagementTab()
         self.model = PluginManagementModel()
         self.__addEventHandlers()
-        self.__populateProjectList()
+        self.__populatePluginList()
 
     def __addEventHandlers(self):
         self.tab.addPlugin.clicked.connect(lambda: self.__addPlugin())
@@ -20,7 +20,7 @@ class PluginManagementTabController:
         self.tab.deletePlugin.clicked.connect(lambda: self.__deletePlugin())
         self.tab.savePlugin.clicked.connect(lambda: self.__savePlugin())
 
-    def __populateProjectList(self):
+    def __populatePluginList(self):
         for item in self.model.getPluginList():
             self.tab.pluginList.addItem(item.name)
 
@@ -41,12 +41,12 @@ class PluginManagementTabController:
         current.structurePath = self.tab.pluginStructurePath.text()
         current.dataSetPath = self.tab.dataSetPath.text()
         self.tab.pluginList.clear()
-        self.__populateProjectList()
+        self.__populatePluginList()
 
     def __deletePlugin(self):
         self.model.deletePlugin(self.__currentItem())
         self.tab.pluginList.clear()
-        self.__populateProjectList()
+        self.__populatePluginList()
 
     def __currentItem(self):
         return self.tab.pluginList.indexFromItem(self.tab.pluginList.currentItem()).row()
@@ -57,7 +57,7 @@ class PluginManagementTabController:
     def __addPlugin(self):
         self.model.addPlugin()
         self.tab.pluginList.clear()
-        self.__populateProjectList()
+        self.__populatePluginList()
 
     def __fileBrowser(self, isData=False):
         callback = QFileDialog.getOpenFileName()
