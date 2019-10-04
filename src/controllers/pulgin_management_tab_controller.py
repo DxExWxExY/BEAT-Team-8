@@ -9,8 +9,7 @@ class PluginManagementTabController:
         self.tab = PluginManagementTab()
         self.model = PluginManagementModel()
         self.__addEventHandlers()
-        self.__populateLists()
-        self.__populateDropdowns()
+        self.__populateProjectList()
 
     def __addEventHandlers(self):
         self.tab.addPlugin.clicked.connect(lambda: self.__addPlugin())
@@ -21,17 +20,12 @@ class PluginManagementTabController:
         self.tab.deletePlugin.clicked.connect(lambda: self.__deletePlugin())
         self.tab.savePlugin.clicked.connect(lambda: self.__savePlugin())
 
-    def __populateLists(self):
-        self.tab.pluginList.clear()
-        self.tab.poiList.clear()
+    def __populateProjectList(self):
         for item in self.model.getPluginList():
             self.tab.pluginList.addItem(item.name)
-        self.tab.poiList.addItems(self.model.getPoiList())
-
-    def __populateDropdowns(self):
-        self.tab.outputField.addItems(self.model.getOutputFieldItems())
 
     def __updateUI(self):
+        self.tab.poiList.clear()
         selectedItem = self.model.getSelectedPlugin(self.__currentItem())
         self.tab.pluginStructurePath.setText(selectedItem.structurePath)
         self.tab.dataSetPath.setText(selectedItem.dataSetPath)
@@ -43,14 +37,16 @@ class PluginManagementTabController:
     def __savePlugin(self):
         current = self.model.getSelectedPlugin(self.__currentItem())
         current.name = self.tab.pluginName.text()
-        current.description = self.tab.pluginDescription.text()
+        current.description = self.tab.pluginDescription.toPlainText()
         current.structurePath = self.tab.pluginStructurePath.text()
         current.dataSetPath = self.tab.dataSetPath.text()
-        self.__populateLists()
+        self.tab.pluginList.clear()
+        self.__populateProjectList()
 
     def __deletePlugin(self):
         self.model.deletePlugin(self.__currentItem())
-        pass
+        self.tab.pluginList.clear()
+        self.__populateProjectList()
 
     def __currentItem(self):
         return self.tab.pluginList.indexFromItem(self.tab.pluginList.currentItem()).row()
@@ -60,6 +56,8 @@ class PluginManagementTabController:
 
     def __addPlugin(self):
         self.model.addPlugin()
+        self.tab.pluginList.clear()
+        self.__populateProjectList()
 
     def __fileBrowser(self, isData=False):
         callback = QFileDialog.getOpenFileName()
