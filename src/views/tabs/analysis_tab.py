@@ -1,4 +1,5 @@
 from PyQt5 import QtWidgets
+from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import *
 
 from src.common.tab_layout import TabLayout
@@ -33,6 +34,15 @@ class AnalysisTab(TabLayout):
         btnSpacer = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
 
         terminalContent = QPlainTextEdit()
+        self.cliInput = QLineEdit()
+
+        terminalContent.setPlaceholderText("Terminal Output")
+        self.cliInput.setPlaceholderText("Enter Terminal Commands Here...")
+
+        terminalContent.setFont(QFont("Consolas", 11))
+        self.cliInput.setFont(QFont("Consolas", 11))
+
+        terminalContent.setReadOnly(True)
 
         self.commentBtn = QPushButton("C")
         self.analysisResultBtn = QPushButton("A")
@@ -53,6 +63,7 @@ class AnalysisTab(TabLayout):
         gridLayout.addWidget(terminalContent, 1, 0, 1, 1)
         gridLayout.addItem(CommentVertLayout, 0, 1, 1, 1)
         gridLayout.addItem(btnGrid, 0, 2, 1, 1)
+        gridLayout.addWidget(self.cliInput, 2, 0, 1, 1)
 
         rightLayout.addLayout(gridLayout)
 

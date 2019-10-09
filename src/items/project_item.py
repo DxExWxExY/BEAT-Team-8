@@ -4,6 +4,9 @@ class ProjectItem():
         self.name = f"Project {n}"
         self.description = f"{n}"
         self.binaryPath = f"{n}"
-        self.binaryProperties = [f"{n}"]
+        self.binaryProperties = dict()
+
+    def hasBinaryAttributes(self):
+        return len(self.binaryProperties) > 0
 #         TODO: Add Missing fields
 

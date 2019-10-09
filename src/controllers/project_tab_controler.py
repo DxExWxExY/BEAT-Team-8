@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QFileDialog
 
-from src.items.project_item import ProjectItem
 from src.models.project_model import ProjectModel
 from src.views.tabs.project_tab import ProjectTab
 
@@ -30,6 +29,7 @@ class ProjectTabController:
         self.tab.projectName.setText(selectedItem.name)
         self.tab.projectDescription.setText(selectedItem.description)
         self.tab.binPath.setText(selectedItem.binaryPath)
+    #     TODO: Populate table view
 
     def __fileBrowser(self):
         callback = QFileDialog.getOpenFileName()
