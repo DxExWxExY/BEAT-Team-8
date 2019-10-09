@@ -1,5 +1,5 @@
 from src.items.project_item import ProjectItem
-from src.models.StaticAnalyzer import StaticAnalyzer
+from src.models.static_analyzer import StaticAnalyzer
 from src.parsers.project_xml_parser import ProjectSchemaParser
 
 
@@ -22,6 +22,10 @@ class ProjectModel:
 
     def deleteProject(self, i):
         self.__projectList.pop(i)
+
+    def runStatic(self, pluginName, filterType):
+        plugin = self.__parser.getPlugin(pluginName)
+        return self.__staticAnalyzer.getPois(pluginName, filterType)
 
     def __checkAttributes(self):
         for e in self.__projectList:

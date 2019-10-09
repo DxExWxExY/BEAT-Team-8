@@ -62,6 +62,10 @@ class AnalysisTabController:
             x.append(str(self.tab.projectList.selectedItems()[i].text()))
         self.__updatePOI(x)
 
+    def __runStatic(self):
+        plugin = self.tab.dropDownMenuPlugin.getCurrent()
+        self.tab.poiList.addItems(self.model.getPois(plugin.name))
+
     def __updatePOI(self, x):
         screen = ""
         for i in range(len(x)):

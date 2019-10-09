@@ -8,8 +8,8 @@ strs = r2.cmdj("iij") # Grab all imports used by binary ping in json format.
 BinInfo = r2.cmdj("ij")
 a=r2.cmdj("isj")
 
-importList =[];
-info=[];
+importList =[]
+info=[]
 
 for i in range(len(strs)):
     obj = strs[i]
