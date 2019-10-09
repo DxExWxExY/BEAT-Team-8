@@ -23,12 +23,12 @@ class ProjectModel:
     def deleteProject(self, i):
         self.__projectList.pop(i)
 
-    def runStatic(self, pluginName, filterType):
-        plugin = self.__parser.getPlugin(pluginName)
-        return self.__staticAnalyzer.getPois(pluginName, filterType)
+    # def runStatic(self, pluginName, filterType):
+    #     plugin = self.__parser.getPlugin(pluginName)
+    #     return self.__staticAnalyzer.getPois(pluginName, filterType)
 
     def __checkAttributes(self):
         for e in self.__projectList:
             if not e.hasBinaryAttributes():
-                self.__staticAnalyzer.getBinaryProperties(e.binaryPath)
-                e.binaryProperties = list
+                self.__staticAnalyzer.setPath(e.binaryPath)
+                e.binaryProperties = self.__staticAnalyzer.getBinaryProperties()
