@@ -14,7 +14,7 @@ class TabLayout(QWidget):
         rightFrame = QFrame()
         TopFrame = QFrame()
 
-        self.setFont(QFont("", self.fontSize))
+        self.setFont(QFont("arial", self.fontSize))
 
         self._leftPanelLayout = QVBoxLayout()
         self._rightPanelLayout = QVBoxLayout()

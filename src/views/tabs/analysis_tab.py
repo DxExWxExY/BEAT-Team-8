@@ -18,11 +18,11 @@ class AnalysisTab(TabLayout):
 
     def leftPanelBuilder(self):
         layout = QVBoxLayout()
-        self.projectList = QListWidget()
+        self.poiList = QListWidget()
         layout.addLayout(self.searchBuilder())
-        self.projectList.setSelectionMode(QAbstractItemView.MultiSelection)
+        self.poiList.setSelectionMode(QAbstractItemView.MultiSelection)
 
-        layout.addWidget(self.projectList)
+        layout.addWidget(self.poiList)
 
         return layout
 
@@ -33,16 +33,16 @@ class AnalysisTab(TabLayout):
         CommentVertLayout = QtWidgets.QVBoxLayout()
         btnSpacer = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
 
-        terminalContent = QPlainTextEdit()
+        self.terminalContent = QPlainTextEdit()
         self.cliInput = QLineEdit()
 
-        terminalContent.setPlaceholderText("Terminal Output")
+        self.terminalContent.setPlaceholderText("Terminal Output")
         self.cliInput.setPlaceholderText("Enter Terminal Commands Here...")
 
-        terminalContent.setFont(QFont("Consolas", 11))
+        self.terminalContent.setFont(QFont("Consolas", 11))
         self.cliInput.setFont(QFont("Consolas", 11))
 
-        terminalContent.setReadOnly(True)
+        self.terminalContent.setReadOnly(True)
 
         self.commentBtn = QPushButton("C")
         self.analysisResultBtn = QPushButton("A")
@@ -60,7 +60,7 @@ class AnalysisTab(TabLayout):
         btnGrid.addItem(btnSpacer)
 
         gridLayout.addWidget(self.poiContentArea, 0, 0, 1, 1)
-        gridLayout.addWidget(terminalContent, 1, 0, 1, 1)
+        gridLayout.addWidget(self.terminalContent, 1, 0, 1, 1)
         gridLayout.addItem(CommentVertLayout, 0, 1, 1, 1)
         gridLayout.addItem(btnGrid, 0, 2, 1, 1)
         gridLayout.addWidget(self.cliInput, 2, 0, 1, 1)
@@ -98,14 +98,16 @@ class AnalysisTab(TabLayout):
         pluginLabel = QtWidgets.QLabel("Plugin")
         staticLabel = QtWidgets.QLabel("Static Analysis")
         poiTypeLabel = QtWidgets.QLabel("Point of Interest Type")
-        staticRunBtn = QtWidgets.QPushButton("Run")
+        self.staticRunBtn = QtWidgets.QPushButton("Run")
+
+
 
         layout.addWidget(self.dropDownMenuPlugin, 0, 2, 2, 2)
         layout.addWidget(self.dropDownMenuPoi, 0, 6, 1, 2)
         layout.addWidget(pluginLabel, 0, 0, 2, 2)
         layout.addWidget(staticLabel, 0, 8, 2, 2)
         layout.addWidget(poiTypeLabel, 0, 4, 2, 2)
-        layout.addWidget(staticRunBtn, 0, 10, 2, 2)
+        layout.addWidget(self.staticRunBtn, 0, 10, 2, 2)
 
         return layout
 

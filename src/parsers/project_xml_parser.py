@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 
 from src.items.project_item import ProjectItem
 
-schema = XMLSchema("C:\\Users\\DxExWxExY\\PycharmProjects\\BEAT\\res\\project_schema.xsd")
+schema = XMLSchema("res/project_schema.xsd")
 
 project = etree.Element("project")
 name = etree.SubElement(project, "name")
@@ -31,7 +31,7 @@ binaryPath.text = "/mnt/c/Windows/System32/PING.exe"
 os.text = "windows"
 # TODO: fill in the rest of the code
 
-xml = open("C:\\Users\\DxExWxExY\\PycharmProjects\\BEAT\\res\\project_sample.xml", "r").read().strip()
+xml = open("res/project_sample.xml", "r").read().strip()
 parser = ET.fromstring(xml)
 
 # for table in parser.getiterator('project'):
@@ -47,7 +47,7 @@ parser = ET.fromstring(xml)
 
 class ProjectSchemaParser:
     def __init__(self):
-        self.schema = XMLSchema("C:\\Users\\DxExWxExY\\PycharmProjects\\BEAT\\res\\project_schema.xsd")
+        self.schema = XMLSchema("res/project_schema.xsd")
     #     TODO: Figure out proper coupling
 
     def __getObject(self):

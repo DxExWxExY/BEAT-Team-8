@@ -8,6 +8,7 @@ class StaticAnalyzer:
             self.analyzer = r2pipe.open(path)
             self.analyzer.cmd("aaa")
             self.analyzer.cmd("doo")
+            print("si jalo")
         except:
             self.analyzer = None
 
@@ -47,3 +48,18 @@ class StaticAnalyzer:
                 if e in filter:
                     results.append(e)
             return results
+
+    # finds functions,strings,variables, statically
+    def R2findPOI(self):
+
+
+        POISlist = []
+        list= self.__executej("isj")
+
+        for i in range(len(list)):
+            if (list[i]['type']) == "FUNC":
+                POISlist.append((str(list[i]['name'])))
+        print(POISlist)
+        return POISlist
+
+

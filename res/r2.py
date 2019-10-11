@@ -60,7 +60,7 @@ add=[]
 for i in range(len(a)):
     if (a[i]['type']) == "FUNC":
         list.append((str(a[i]['name'])))
-        add.append((str(a[i]['paddr'])))
+        add.append((str(a[i]['vaddr'])))
 
 print("functions")
 for i in range(len(list)):
@@ -70,7 +70,7 @@ print("\n")
 print("variables")
 for i in range(len(a)):
     if (a[i]['name']) == "multiply(int, int)" :
-        address = "s "+ hex(a[i]['paddr'])
+        address = "s "+ hex(a[i]['vaddr'])
         print(address)
 
         r2.cmd("ds")
