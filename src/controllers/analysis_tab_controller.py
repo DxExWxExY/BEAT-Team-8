@@ -9,6 +9,7 @@ from src.views.tabs.analysis_tab import AnalysisTab
 class AnalysisTabController:
     def __init__(self):
         self.tab = AnalysisTab()
+        self.project = None
         # self.model = AnalysisModel()
         self.__addEventHandlers()
         self.__populateList()
@@ -71,3 +72,6 @@ class AnalysisTabController:
         for i in range(len(x)):
             screen += x[i] + "\n"
         self.tab.poiContentArea.setPlainText(screen)
+
+    def setProject(self, project):
+        self.project = project

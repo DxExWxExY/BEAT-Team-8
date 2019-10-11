@@ -33,6 +33,7 @@ class MainWindow(QMainWindow):
         self.tabs.addTab(DocumentationTab(), "Documentation")
         self.tabs.setStyleSheet("QTabBar::tab { height: 50%; width: 200%; }")
         self.tabs.setFont(QFont("", 11))
+        self.tabs.currentChanged.connect(lambda: self.setProjectForUse())
 
     def buildWindow(self):
         # Tabs
@@ -47,6 +48,10 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(constants.SYSTEM_TITLE)
         self.setGeometry(qtRectangle)
         self.show()
+
+    def setProjectForUse(self):
+        project = self.projectController.getCurrentProject()
+        self.analysisController.setProject(project)
 
     def wheelEvent(self, event: QWheelEvent):
         if event.modifiers() == Qt.ControlModifier:

@@ -73,3 +73,6 @@ class ProjectTabController:
         self.model.addProject()
         self.tab.projectList.clear()
         self.__populateProjectList()
+
+    def getCurrentProject(self):
+        return self.model.getSelectedProject(self.__getCurrentItem())
