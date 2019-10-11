@@ -14,9 +14,12 @@ class AnalysisModel:
 
 
     def run_static(self):
-        time.sleep(5)
+        # time.sleep(5)
         self.__staticAnalyzer.setPath("res/ex.o")
-        self.__POISlist = self.__staticAnalyzer.R2findPOI()
+        self.__POISlist = self.__staticAnalyzer.R2findPOI("function")
+        self.__POISlist += self.__staticAnalyzer.R2findPOI("dll")
+        self.__POISlist += self.__staticAnalyzer.R2findPOI("strings")
+        print(self.__POISlist,"-----")
         self.__message= "Static analysis complete."
 
     def getPoiList(self):

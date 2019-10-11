@@ -70,9 +70,10 @@ class AnalysisTabController:
         self.__updatePOI(x)
 
     def __runStatic(self):
-        t = Thread(target=self.model.run_static)
-        t.start()
+        # t = Thread(target=self.model.run_static)
+        # t.start()
         # t.join()
+        self.model.run_static()
         self.__updateTerminal()
         self.__populateList()
 

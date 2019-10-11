@@ -1,3 +1,5 @@
+import base64
+
 import r2pipe
 
 class StaticAnalyzer:
@@ -7,7 +9,7 @@ class StaticAnalyzer:
         try:
             self.analyzer = r2pipe.open(path)
             self.analyzer.cmd("aaa")
-            self.analyzer.cmd("doo")
+            # self.analyzer.cmd("doo")
             print("si jalo")
         except:
             self.analyzer = None
@@ -50,16 +52,29 @@ class StaticAnalyzer:
             return results
 
     # finds functions,strings,variables, statically
-    def R2findPOI(self):
+    def R2findPOI(self, filterType):
 
+        POISlist =[]
+        if filterType == "function":
+            list = self.__executej("isj")
+            for i in range(len(list)):
+                if(list[i]['type']) == "FUNC":
+                    POISlist.append((str(list[i]['name'])))
+            # print(POISlist)
+            return POISlist
 
-        POISlist = []
-        list= self.__executej("isj")
+        if(filterType == "dll"):
+            strs = self.__executej("iij")  # Grab all imports used by binary ping in json format.
+            for i in range(len(strs)):
+                obj = strs[i]
+                POISlist.append(str(obj['name']))
+            return POISlist
 
-        for i in range(len(list)):
-            if (list[i]['type']) == "FUNC":
-                POISlist.append((str(list[i]['name'])))
-        print(POISlist)
-        return POISlist
-
-
+        if (filterType == "strings"):
+            strs = self.__executej("izj")  # Grab all imports used by binary ping in json format.
+            # print(strs)
+            for i in range(len(strs)):
+                POISlist.append(base64.b64decode(str(strs[i]['string'])).decode())
+                # POISlist.append(str(obj['string']))
+            print(POISlist)
+            return POISlist
