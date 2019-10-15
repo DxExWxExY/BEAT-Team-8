@@ -26,9 +26,16 @@ class AnalysisTabController:
         self.tab.analysisResultBtn.clicked.connect(lambda: self.__analysisResultWindow())
         self.tab.outputFieldViewBtn.clicked.connect(lambda: self.__outputFieldWindow())
         self.tab.staticRunBtn.clicked.connect(lambda : self.__runStatic())
+        self.tab.dropDownMenuPoi.currentIndexChanged.connect(lambda : self.__populateList())
 
     def __populateList(self):
-        list = self.model.getPoiList()
+
+        filter = str(self.tab.dropDownMenuPoi.currentText())
+        self.tab.poiList.clear()
+        list = []
+        if filter != "":
+            list = self.model.getFilterList(filter)
+
         for item in list:
             self.tab.poiList.addItem(item)
 
@@ -86,3 +93,6 @@ class AnalysisTabController:
 
     def __updateTerminal(self):
         self.tab.terminalContent.appendPlainText(self.model.getTerminalOutput())
+
+
+

@@ -78,3 +78,4 @@ class StaticAnalyzer:
                 # POISlist.append(str(obj['string']))
             print(POISlist)
             return POISlist
+        # TODO add variables, structs, pckt protocol

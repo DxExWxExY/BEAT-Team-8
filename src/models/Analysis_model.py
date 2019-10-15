@@ -16,9 +16,9 @@ class AnalysisModel:
     def run_static(self):
         # time.sleep(5)
         self.__staticAnalyzer.setPath("res/ex.o")
-        self.__POISlist = self.__staticAnalyzer.R2findPOI("function")
-        self.__POISlist += self.__staticAnalyzer.R2findPOI("dll")
-        self.__POISlist += self.__staticAnalyzer.R2findPOI("strings")
+        self.__POISlist ["Function"] = self.__staticAnalyzer.R2findPOI("function")
+        self.__POISlist ["DLL"]= self.__staticAnalyzer.R2findPOI("dll")
+        self.__POISlist ["String"] = self.__staticAnalyzer.R2findPOI("strings")
         print(self.__POISlist,"-----")
         self.__message= "Static analysis complete."
 
@@ -27,3 +27,18 @@ class AnalysisModel:
 
     def getTerminalOutput(self):
         return self.__message
+
+    def getFilterList(self, filter):
+        if filter == "All":
+            temp = []
+            for key in self.__POISlist.keys():
+                temp += self.__POISlist[key]
+            return temp
+
+        if filter not in "Variable Struct Packet Protocol":
+            return self.__POISlist[filter]
+        else:
+            return []
+
+
+
