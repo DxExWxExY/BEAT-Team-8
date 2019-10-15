@@ -79,3 +79,6 @@ class StaticAnalyzer:
             print(POISlist)
             return POISlist
         # TODO add variables, structs, pckt protocol
+
+    def close(self):
+        self.__execute("exit")

@@ -9,7 +9,6 @@ class ProjectModel:
         self.__parser = ProjectSchemaParser()
         self.__staticAnalyzer = StaticAnalyzer()
         self.__projectList = [ProjectItem(i) for i in range(5)]
-        self.__checkAttributes()
 
     def getProjectList(self):
         return self.__projectList
@@ -23,12 +22,9 @@ class ProjectModel:
     def deleteProject(self, i):
         self.__projectList.pop(i)
 
-    # def runStatic(self, pluginName, filterType):
-    #     plugin = self.__parser.getPlugin(pluginName)
-    #     return self.__staticAnalyzer.getPois(pluginName, filterType)
+    def checkAttributes(self, i):
+        if not self.__projectList[i].hasBinaryAttributes():
+            self.__staticAnalyzer.setPath(self.__projectList[i].binaryPath)
+            self.__projectList[i].binaryProperties = self.__staticAnalyzer.getBinaryProperties()
+            self.__staticAnalyzer.close()
 
-    def __checkAttributes(self):
-        for e in self.__projectList:
-            if not e.hasBinaryAttributes():
-                self.__staticAnalyzer.setPath(e.binaryPath)
-                e.binaryProperties = self.__staticAnalyzer.getBinaryProperties()
