@@ -14,8 +14,8 @@ class AnalysisModel:
         self.__message = ''
 
 
-    def run_static(self):
-        self.__staticAnalyzer.setPath("res%sex.o" % os.sep)
+    def run_static(self, path):
+        self.__staticAnalyzer.setPath(path)
         self.__POISlist ["Function"] = self.__staticAnalyzer.R2findPOI("function")
         self.__POISlist ["DLL"]= self.__staticAnalyzer.R2findPOI("dll")
         self.__POISlist ["String"] = self.__staticAnalyzer.R2findPOI("strings")

@@ -27,7 +27,6 @@ class AnalysisTabController:
         self.tab.dropDownMenuPoi.currentIndexChanged.connect(lambda : self.__populateList())
 
     def __populateList(self):
-
         filter = str(self.tab.dropDownMenuPoi.currentText())
         self.tab.poiList.clear()
         list = []
@@ -75,7 +74,7 @@ class AnalysisTabController:
         self.__updatePOI(x)
 
     def __runStatic(self):
-        self.model.run_static()
+        self.model.run_static(self.project.binaryPath)
         self.__updateTerminal()
         self.__populateList()
 
