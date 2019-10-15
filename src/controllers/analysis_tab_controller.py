@@ -43,6 +43,7 @@ class AnalysisTabController:
         self.tab.dropDownMenuPlugin.addItem("Network Plugin")
         self.tab.dropDownMenuPlugin.addItem("Cryptography Plugin")
 
+        self.tab.dropDownMenuPoi.addItem("All")
         self.tab.dropDownMenuPoi.addItem("Function")
         self.tab.dropDownMenuPoi.addItem("Variable")
         self.tab.dropDownMenuPoi.addItem("String")
@@ -67,10 +68,10 @@ class AnalysisTabController:
         self.tab.analysisResultWindow.show()
 
     def __displayPOI(self):
-        items = self.tab.projectList.selectedItems()
+        items = self.tab.poiList.selectedItems()
         x = []
         for i in range(len(items)):
-            x.append(str(self.tab.projectList.selectedItems()[i].text()))
+            x.append(str(self.tab.poiList.selectedItems()[i].text()))
         self.__updatePOI(x)
 
     def __runStatic(self):
