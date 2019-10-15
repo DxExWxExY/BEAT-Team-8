@@ -29,9 +29,10 @@ class ProjectTabController:
         self.tab.projectName.setText(selectedItem.name)
         self.tab.projectDescription.setText(selectedItem.description)
         self.tab.binPath.setText(selectedItem.binaryPath)
+
         self.tab.table.setItem(0, 1, QTableWidgetItem(selectedItem.binaryProperties['os']))
         self.tab.table.setItem(1, 1, QTableWidgetItem(selectedItem.binaryProperties['arch']))
-        self.tab.table.setItem(2, 1, QTableWidgetItem(selectedItem.binaryProperties['']))
+        self.tab.table.setItem(2, 1, QTableWidgetItem(selectedItem.binaryProperties['machine']))
         self.tab.table.setItem(3, 1, QTableWidgetItem("Win PE"))
         self.tab.table.setItem(4, 1, QTableWidgetItem(selectedItem.binaryProperties['bits']))
         self.tab.table.setItem(5, 1, QTableWidgetItem("Language"))
