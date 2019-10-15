@@ -1,5 +1,3 @@
-from threading import Thread
-
 from PyQt5.QtWidgets import QListWidgetItem
 
 from src.models.Analysis_model import AnalysisModel
@@ -9,10 +7,10 @@ from src.views.dialogs.output_field_dialog import OutputField
 from src.views.tabs.analysis_tab import AnalysisTab
 
 
-
 class AnalysisTabController:
     def __init__(self):
         self.tab = AnalysisTab()
+        self.project = None
         self.model = AnalysisModel()
         self.__addEventHandlers()
         self.__populateList()
@@ -45,7 +43,6 @@ class AnalysisTabController:
         self.tab.dropDownMenuPlugin.addItem("Network Plugin")
         self.tab.dropDownMenuPlugin.addItem("Cryptography Plugin")
 
-        self.tab.dropDownMenuPoi.addItem("All")
         self.tab.dropDownMenuPoi.addItem("Function")
         self.tab.dropDownMenuPoi.addItem("Variable")
         self.tab.dropDownMenuPoi.addItem("String")
@@ -70,20 +67,16 @@ class AnalysisTabController:
         self.tab.analysisResultWindow.show()
 
     def __displayPOI(self):
-        items = self.tab.poiList.selectedItems()
+        items = self.tab.projectList.selectedItems()
         x = []
         for i in range(len(items)):
-            x.append(str(self.tab.poiList.selectedItems()[i].text()))
+            x.append(str(self.tab.projectList.selectedItems()[i].text()))
         self.__updatePOI(x)
 
     def __runStatic(self):
-        # t = Thread(target=self.model.run_static)
-        # t.start()
-        # t.join()
         self.model.run_static()
         self.__updateTerminal()
         self.__populateList()
-
 
     def __updatePOI(self, x):
         screen = ""
@@ -94,5 +87,5 @@ class AnalysisTabController:
     def __updateTerminal(self):
         self.tab.terminalContent.appendPlainText(self.model.getTerminalOutput())
 
-
-
+    def setProject(self, project):
+        self.project = project

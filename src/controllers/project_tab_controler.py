@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem
 
 from src.models.project_model import ProjectModel
 from src.views.tabs.project_tab import ProjectTab
@@ -29,7 +29,19 @@ class ProjectTabController:
         self.tab.projectName.setText(selectedItem.name)
         self.tab.projectDescription.setText(selectedItem.description)
         self.tab.binPath.setText(selectedItem.binaryPath)
-    #     TODO: Populate table view
+        self.tab.table.setItem(0, 1, QTableWidgetItem(selectedItem.binaryProperties['os']))
+        self.tab.table.setItem(1, 1, QTableWidgetItem(selectedItem.binaryProperties['arch']))
+        self.tab.table.setItem(2, 1, QTableWidgetItem(selectedItem.binaryProperties['']))
+        self.tab.table.setItem(3, 1, QTableWidgetItem("Win PE"))
+        self.tab.table.setItem(4, 1, QTableWidgetItem(selectedItem.binaryProperties['bits']))
+        self.tab.table.setItem(5, 1, QTableWidgetItem("Language"))
+        self.tab.table.setItem(6, 1, QTableWidgetItem(selectedItem.binaryProperties['canary']))
+        self.tab.table.setItem(7, 1, QTableWidgetItem(selectedItem.binaryProperties['crypto']))
+        self.tab.table.setItem(8, 1, QTableWidgetItem(selectedItem.binaryProperties['nx']))
+        self.tab.table.setItem(9, 1, QTableWidgetItem(selectedItem.binaryProperties['pic']))
+        self.tab.table.setItem(10, 1, QTableWidgetItem(selectedItem.binaryProperties['relocs']))
+        self.tab.table.setItem(11, 1, QTableWidgetItem("Relor"))
+        self.tab.table.setItem(12, 1, QTableWidgetItem(selectedItem.binaryProperties['stripped']))
 
     def __fileBrowser(self):
         callback = QFileDialog.getOpenFileName()
@@ -48,6 +60,7 @@ class ProjectTabController:
         selectedItem.name = self.tab.projectName.text()
         selectedItem.description = self.tab.projectDescription.toPlainText()
         selectedItem.binaryPath = self.tab.binPath.text()
+        
         self.tab.projectList.clear()
         self.__populateProjectList()
 
@@ -60,3 +73,6 @@ class ProjectTabController:
         self.model.addProject()
         self.tab.projectList.clear()
         self.__populateProjectList()
+
+    def getCurrentProject(self):
+        return self.model.getSelectedProject(self.__getCurrentItem())
