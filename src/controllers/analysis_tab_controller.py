@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QListWidgetItem
 
-from src.models.Analysis_model import AnalysisModel
+from src.models.analysis_model import AnalysisModel
 from src.views.dialogs.analysis_result_dialog import AnalysisResultDialog
 from src.views.dialogs.comment_dialog import CommentDialog
 from src.views.dialogs.output_field_dialog import OutputField

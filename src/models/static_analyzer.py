@@ -2,6 +2,7 @@ import base64
 
 import r2pipe
 
+
 class StaticAnalyzer:
     pass
 
@@ -53,32 +54,27 @@ class StaticAnalyzer:
 
     # finds functions,strings,variables, statically
     def R2findPOI(self, filterType):
-
-        POISlist =[]
+        poiList = []
         if filterType == "function":
             list = self.__executej("isj")
             for i in range(len(list)):
-                if(list[i]['type']) == "FUNC":
-                    POISlist.append((str(list[i]['name'])))
-            # print(POISlist)
-            return POISlist
+                if (list[i]['type']) == "FUNC":
+                    poiList.append((str(list[i]['name'])))
+            return poiList
 
-        if(filterType == "dll"):
+        if (filterType == "dll"):
             strs = self.__executej("iij")  # Grab all imports used by binary ping in json format.
             for i in range(len(strs)):
                 obj = strs[i]
-                POISlist.append(str(obj['name']))
-            return POISlist
+                poiList.append(str(obj['name']))
+            return poiList
 
         if (filterType == "strings"):
             strs = self.__executej("izj")  # Grab all imports used by binary ping in json format.
-            # print(strs)
             for i in range(len(strs)):
-                POISlist.append(base64.b64decode(str(strs[i]['string'])).decode())
-                # POISlist.append(str(obj['string']))
-            print(POISlist)
-            return POISlist
-        # TODO add variables, structs, pckt protocol
+                poiList.append(base64.b64decode(str(strs[i]['string'])).decode())
+            return poiList
+        # TODO add variables, structs, packet protocol
 
     def close(self):
         self.__execute("exit")
