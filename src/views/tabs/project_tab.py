@@ -62,26 +62,26 @@ class ProjectTab(TabLayout):
         return layout
 
     def tableBuilder(self):
-        table = QTableWidget()
-        table.setRowCount(13)
-        table.setColumnCount(2)
+        self.table = QTableWidget()
+        self.table.setRowCount(13)
+        self.table.setColumnCount(2)
 
-        table.setItem(0, 0, QTableWidgetItem('OS'))
-        table.setItem(1, 0, QTableWidgetItem('Binary Type'))
-        table.setItem(2, 0, QTableWidgetItem('Machine'))
-        table.setItem(3, 0, QTableWidgetItem('Class'))
-        table.setItem(4, 0, QTableWidgetItem('Bits'))
-        table.setItem(5, 0, QTableWidgetItem('Language'))
-        table.setItem(6, 0, QTableWidgetItem('Canary'))
-        table.setItem(7, 0, QTableWidgetItem('Crypto'))
-        table.setItem(8, 0, QTableWidgetItem('Nx'))
-        table.setItem(9, 0, QTableWidgetItem('Pic'))
-        table.setItem(10, 0, QTableWidgetItem('Relocs'))
-        table.setItem(11, 0, QTableWidgetItem('Relro'))
-        table.setItem(12, 0, QTableWidgetItem('Stripped'))
+        self.table.setItem(0, 0, QTableWidgetItem('OS'))
+        self.table.setItem(1, 0, QTableWidgetItem('Binary Type'))
+        self.table.setItem(2, 0, QTableWidgetItem('Machine'))
+        self.table.setItem(3, 0, QTableWidgetItem('Class'))
+        self.table.setItem(4, 0, QTableWidgetItem('Bits'))
+        self.table.setItem(5, 0, QTableWidgetItem('Language'))
+        self.table.setItem(6, 0, QTableWidgetItem('Canary'))
+        self.table.setItem(7, 0, QTableWidgetItem('Crypto'))
+        self.table.setItem(8, 0, QTableWidgetItem('Nx'))
+        self.table.setItem(9, 0, QTableWidgetItem('Pic'))
+        self.table.setItem(10, 0, QTableWidgetItem('Relocs'))
+        self.table.setItem(11, 0, QTableWidgetItem('Relro'))
+        self.table.setItem(12, 0, QTableWidgetItem('Stripped'))
 
-        table.setHorizontalHeaderLabels(['Name', 'Value'])
-        table.verticalHeader().setVisible(False)
-        table.horizontalHeader().setStretchLastSection(True)
+        self.table.setHorizontalHeaderLabels(['Name', 'Value'])
+        self.table.verticalHeader().setVisible(False)
+        self.table.horizontalHeader().setStretchLastSection(True)
 
-        return table
+        return self.table

@@ -1,24 +1,19 @@
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem
 
-from src.models.project_item import ProjectItem
-from src.models.project_xml_parser import ProjectSchemaParser
+from src.models.project_model import ProjectModel
 from src.views.tabs.project_tab import ProjectTab
 
 
 class ProjectTabController:
     def __init__(self):
         self.tab = ProjectTab()
-        # self.model = ProjectModel()
-        self.__parser = ProjectSchemaParser()
+        self.model = ProjectModel()
         self.__addEventHandlers()
-        self.__populateList()
+        self.__populateProjectList()
 
-    def __populateList(self):
-        # TODO: Move this logic to model
-        self.items = self.__parser.getItems()
-        for item in self.items:
+    def __populateProjectList(self):
+        for item in self.model.getProjectList():
             self.tab.projectList.addItem(item.name)
-        pass
 
     def __addEventHandlers(self):
         self.tab.browsePath.clicked.connect(lambda: self.__fileBrowser())
@@ -27,12 +22,31 @@ class ProjectTabController:
         self.tab.addProjectButton.clicked.connect(lambda: self.__addProject())
         self.tab.projectList.itemSelectionChanged.connect(lambda: self.__updateUI())
         self.tab.saveButton.clicked.connect(lambda: self.__saveProject())
+        self.tab.deleteButton.clicked.connect(lambda: self.__deleteProject())
 
     def __updateUI(self):
-        selectedItem = self.__getSelectedItem()
-        self.tab.projectName.setText(selectedItem[0].name)
-        self.tab.projectDescription.setText(selectedItem[0].description)
-        self.tab.binPath.setText(selectedItem[0].binaryPath)
+        selectedItem = self.model.getSelectedProject(self.__getCurrentIndex())
+        self.tab.projectName.setText(selectedItem.name)
+        self.tab.projectDescription.setText(selectedItem.description)
+        self.tab.binPath.setText(selectedItem.binaryPath)
+        if selectedItem.hasBinaryAttributes():
+            self.tab.table.setItem(0, 1, QTableWidgetItem(selectedItem.binaryProperties['os']))
+            self.tab.table.setItem(1, 1, QTableWidgetItem(selectedItem.binaryProperties['arch']))
+            self.tab.table.setItem(2, 1, QTableWidgetItem(selectedItem.binaryProperties['machine']))
+            self.tab.table.setItem(3, 1, QTableWidgetItem("Win PE"))
+            self.tab.table.setItem(4, 1, QTableWidgetItem(selectedItem.binaryProperties['bits']))
+            self.tab.table.setItem(5, 1, QTableWidgetItem("Language"))
+            self.tab.table.setItem(6, 1, QTableWidgetItem(selectedItem.binaryProperties['canary']))
+            self.tab.table.setItem(7, 1, QTableWidgetItem(selectedItem.binaryProperties['crypto']))
+            self.tab.table.setItem(8, 1, QTableWidgetItem(selectedItem.binaryProperties['nx']))
+            self.tab.table.setItem(9, 1, QTableWidgetItem(selectedItem.binaryProperties['pic']))
+            self.tab.table.setItem(10, 1, QTableWidgetItem(selectedItem.binaryProperties['relocs']))
+            self.tab.table.setItem(11, 1, QTableWidgetItem("Relor"))
+            self.tab.table.setItem(12, 1, QTableWidgetItem(selectedItem.binaryProperties['stripped']))
+
+    def __populateTable(self):
+        selectedItem = self.model.getSelectedProject(self.__getCurrentIndex())
+
 
     def __fileBrowser(self):
         callback = QFileDialog.getOpenFileName()
@@ -41,27 +55,36 @@ class ProjectTabController:
 
     def __searchForItem(self):
         print("Search triggered")
-        pass
 
-    def __getSelectedItem(self):
+    def __getCurrentIndex(self):
         i = self.tab.projectList.indexFromItem(self.tab.projectList.currentItem()).row()
-        return self.items[i], i
+        return i
 
     def __saveProject(self):
-        selectedItem, i = self.__getSelectedItem()
+        selectedItem = self.model.getSelectedProject(self.__getCurrentIndex())
         selectedItem.name = self.tab.projectName.text()
         selectedItem.description = self.tab.projectDescription.toPlainText()
         selectedItem.binaryPath = self.tab.binPath.text()
+        
+        self.model.checkAttributes(self.__getCurrentIndex())
+        self.__updateUI()
+
+        index = self.__getCurrentIndex()
+
+        self.tab.projectList.clear()
+        self.__populateProjectList()
+
+        self.tab.projectList.setCurrentRow(index)
 
     def __deleteProject(self):
-        self.items.remove(self.__getSelectedItem()[1])
-        self.tab.projectList.takeItem(self.__getSelectedItem()[0].name)
-        self.tab.projectList.update()
-
+        self.model.deleteProject(self.__getCurrentIndex())
+        self.tab.projectList.clear()
+        self.__populateProjectList()
 
     def __addProject(self):
-        # TODO: Move logic to model
-        self.items.append(ProjectItem(len(self.items)))
-        self.tab.projectList.addItem(self.items[-1].name)
-        pass
+        self.model.addProject()
+        self.tab.projectList.clear()
+        self.__populateProjectList()
 
+    def getCurrentProject(self):
+        return self.model.getSelectedProject(self.__getCurrentIndex())
