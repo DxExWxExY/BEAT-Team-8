@@ -33,15 +33,15 @@ class ProjectTabController:
             self.tab.table.setItem(0, 1, QTableWidgetItem(selectedItem.binaryProperties['os']))
             self.tab.table.setItem(1, 1, QTableWidgetItem(selectedItem.binaryProperties['arch']))
             self.tab.table.setItem(2, 1, QTableWidgetItem(selectedItem.binaryProperties['machine']))
-            self.tab.table.setItem(3, 1, QTableWidgetItem("Win PE"))
+            self.tab.table.setItem(3, 1, QTableWidgetItem(selectedItem.binaryProperties['class']))
             self.tab.table.setItem(4, 1, QTableWidgetItem(selectedItem.binaryProperties['bits']))
-            self.tab.table.setItem(5, 1, QTableWidgetItem("Language"))
+            self.tab.table.setItem(5, 1, QTableWidgetItem(selectedItem.binaryProperties['lang']))
             self.tab.table.setItem(6, 1, QTableWidgetItem(selectedItem.binaryProperties['canary']))
             self.tab.table.setItem(7, 1, QTableWidgetItem(selectedItem.binaryProperties['crypto']))
             self.tab.table.setItem(8, 1, QTableWidgetItem(selectedItem.binaryProperties['nx']))
             self.tab.table.setItem(9, 1, QTableWidgetItem(selectedItem.binaryProperties['pic']))
             self.tab.table.setItem(10, 1, QTableWidgetItem(selectedItem.binaryProperties['relocs']))
-            self.tab.table.setItem(11, 1, QTableWidgetItem("Relor"))
+            self.tab.table.setItem(11, 1, QTableWidgetItem(selectedItem.binaryProperties['relro']))
             self.tab.table.setItem(12, 1, QTableWidgetItem(selectedItem.binaryProperties['stripped']))
 
     def __populateTable(self):

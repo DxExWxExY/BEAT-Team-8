@@ -1,10 +1,10 @@
 <project>
-  <name>string</name>
-  <description>string</description>
-  <binaryPath>string</binaryPath>
+  <name>Sample Project</name>
+  <description>This is a sample project</description>
+  <binaryPath>res/ex.o</binaryPath>
   <binaryProperties>
-    <os>string</os>
-    <binaryType>string</binaryType>
+    <os>Linux</os>
+    <binaryType>x86</binaryType>
     <machine>string</machine>
     <class>string</class>
     <bits>string</bits>
