@@ -13,12 +13,15 @@ class ProjectModel:
         return self.__projectList
 
     def getSelectedProject(self, i):
-        return self.__projectList[i]
+        if len(self.__projectList) > 0:
+            return self.__projectList[i % len(self.__projectList)]
+        return None
 
     def addProject(self, path):
         item = ProjectItem(path=path)
         self.checkAttributes(item)
         self.__projectList.append(item)
+        print(len(self.__projectList))
 
     def deleteProject(self, i):
         self.__projectList.pop(i)

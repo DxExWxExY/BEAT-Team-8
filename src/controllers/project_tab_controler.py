@@ -27,26 +27,48 @@ class ProjectTabController:
 
     def __updateUI(self):
         selectedItem = self.model.getSelectedProject(self.__getCurrentIndex())
-        self.tab.projectName.setText(selectedItem.name)
-        self.tab.projectDescription.setText(selectedItem.description)
-        self.tab.binPath.setText(selectedItem.binaryPath)
-        if selectedItem.hasBinaryAttributes():
-            self.tab.table.setItem(0, 1, QTableWidgetItem(selectedItem.binaryProperties['os']))
-            self.tab.table.setItem(1, 1, QTableWidgetItem(selectedItem.binaryProperties['arch']))
-            self.tab.table.setItem(2, 1, QTableWidgetItem(selectedItem.binaryProperties['machine']))
-            self.tab.table.setItem(3, 1, QTableWidgetItem(selectedItem.binaryProperties['class']))
-            self.tab.table.setItem(4, 1, QTableWidgetItem(selectedItem.binaryProperties['bits']))
-            self.tab.table.setItem(5, 1, QTableWidgetItem(selectedItem.binaryProperties['lang']))
-            self.tab.table.setItem(6, 1, QTableWidgetItem(selectedItem.binaryProperties['canary']))
-            self.tab.table.setItem(7, 1, QTableWidgetItem(selectedItem.binaryProperties['crypto']))
-            self.tab.table.setItem(8, 1, QTableWidgetItem(selectedItem.binaryProperties['nx']))
-            self.tab.table.setItem(9, 1, QTableWidgetItem(selectedItem.binaryProperties['pic']))
-            self.tab.table.setItem(10, 1, QTableWidgetItem(selectedItem.binaryProperties['relocs']))
-            self.tab.table.setItem(11, 1, QTableWidgetItem(selectedItem.binaryProperties['relro']))
-            self.tab.table.setItem(12, 1, QTableWidgetItem(selectedItem.binaryProperties['stripped']))
+        if selectedItem is not None:
+            self.tab.saveButton.setEnabled(True)
+            self.tab.deleteButton.setEnabled(True)
+            self.tab.projectName.setText(selectedItem.name)
+            self.tab.projectDescription.setText(selectedItem.description)
+            self.tab.binPath.setText(selectedItem.binaryPath)
+            if selectedItem.hasBinaryAttributes():
+                self.tab.table.setItem(0, 1, QTableWidgetItem(selectedItem.binaryProperties['os']))
+                self.tab.table.setItem(1, 1, QTableWidgetItem(selectedItem.binaryProperties['arch']))
+                self.tab.table.setItem(2, 1, QTableWidgetItem(selectedItem.binaryProperties['machine']))
+                self.tab.table.setItem(3, 1, QTableWidgetItem(selectedItem.binaryProperties['class']))
+                self.tab.table.setItem(4, 1, QTableWidgetItem(selectedItem.binaryProperties['bits']))
+                self.tab.table.setItem(5, 1, QTableWidgetItem(selectedItem.binaryProperties['lang']))
+                self.tab.table.setItem(6, 1, QTableWidgetItem(selectedItem.binaryProperties['canary']))
+                self.tab.table.setItem(7, 1, QTableWidgetItem(selectedItem.binaryProperties['crypto']))
+                self.tab.table.setItem(8, 1, QTableWidgetItem(selectedItem.binaryProperties['nx']))
+                self.tab.table.setItem(9, 1, QTableWidgetItem(selectedItem.binaryProperties['pic']))
+                self.tab.table.setItem(10, 1, QTableWidgetItem(selectedItem.binaryProperties['relocs']))
+                self.tab.table.setItem(11, 1, QTableWidgetItem(selectedItem.binaryProperties['relro']))
+                self.tab.table.setItem(12, 1, QTableWidgetItem(selectedItem.binaryProperties['stripped']))
+        else:
+            self.__clearUI()
 
-    def __populateTable(self):
-        selectedItem = self.model.getSelectedProject(self.__getCurrentIndex())
+    def __clearUI(self):
+        self.tab.projectName.clear()
+        self.tab.projectDescription.clear()
+        self.tab.binPath.clear()
+        self.tab.table.setItem(0, 1, QTableWidgetItem(""))
+        self.tab.table.setItem(1, 1, QTableWidgetItem(""))
+        self.tab.table.setItem(2, 1, QTableWidgetItem(""))
+        self.tab.table.setItem(3, 1, QTableWidgetItem(""))
+        self.tab.table.setItem(4, 1, QTableWidgetItem(""))
+        self.tab.table.setItem(5, 1, QTableWidgetItem(""))
+        self.tab.table.setItem(6, 1, QTableWidgetItem(""))
+        self.tab.table.setItem(7, 1, QTableWidgetItem(""))
+        self.tab.table.setItem(8, 1, QTableWidgetItem(""))
+        self.tab.table.setItem(9, 1, QTableWidgetItem(""))
+        self.tab.table.setItem(10, 1, QTableWidgetItem(""))
+        self.tab.table.setItem(11, 1, QTableWidgetItem(""))
+        self.tab.table.setItem(12, 1, QTableWidgetItem(""))
+        self.tab.saveButton.setEnabled(False)
+        self.tab.deleteButton.setEnabled(False)
 
 
     def __fileBrowser(self):
@@ -63,15 +85,16 @@ class ProjectTabController:
 
     def __saveProject(self):
         selectedItem = self.model.getSelectedProject(self.__getCurrentIndex())
-        selectedItem.name = self.tab.projectName.text()
-        selectedItem.description = self.tab.projectDescription.toPlainText()
-        selectedItem.binaryPath = self.tab.binPath.text()
-        self.__updateUI()
-        index = self.__getCurrentIndex()
-        self.tab.projectList.clear()
-        self.__populateProjectList()
-        self.tab.projectList.setCurrentRow(index)
-        self.model.saveProject(index)
+        if selectedItem is not None:
+            selectedItem.name = self.tab.projectName.text()
+            selectedItem.description = self.tab.projectDescription.toPlainText()
+            selectedItem.binaryPath = self.tab.binPath.text()
+            self.__updateUI()
+            index = self.__getCurrentIndex()
+            self.tab.projectList.clear()
+            self.__populateProjectList()
+            self.tab.projectList.setCurrentRow(index)
+            self.model.saveProject(index)
 
     def __deleteProject(self):
         self.model.deleteProject(self.__getCurrentIndex())
