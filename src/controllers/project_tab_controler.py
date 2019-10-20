@@ -1,3 +1,4 @@
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem
 
 from src.models.project_model import ProjectModel
@@ -65,16 +66,12 @@ class ProjectTabController:
         selectedItem.name = self.tab.projectName.text()
         selectedItem.description = self.tab.projectDescription.toPlainText()
         selectedItem.binaryPath = self.tab.binPath.text()
-        
-        self.model.checkAttributes(self.__getCurrentIndex())
         self.__updateUI()
-
         index = self.__getCurrentIndex()
-
         self.tab.projectList.clear()
         self.__populateProjectList()
-
         self.tab.projectList.setCurrentRow(index)
+        self.model.saveProject(index)
 
     def __deleteProject(self):
         self.model.deleteProject(self.__getCurrentIndex())
@@ -82,9 +79,20 @@ class ProjectTabController:
         self.__populateProjectList()
 
     def __addProject(self):
-        self.model.addProject()
-        self.tab.projectList.clear()
-        self.__populateProjectList()
+        callback = QFileDialog.getOpenFileName()
+        try:
+            if callback:
+                self.model.addProject(str(callback[0]))
+                self.tab.projectList.clear()
+                self.__populateProjectList()
+            self.tab.projectList.setCurrentRow(self.tab.projectList.count() - 1)
+        except:
+            errorDialog = QtWidgets.QMessageBox()
+            errorDialog.setText('Unsupported File')
+            errorDialog.setWindowTitle("Error")
+            errorDialog.setInformativeText("The selected file is not ELF x86 or PE x86")
+            errorDialog.setIcon(3)
+            errorDialog.exec_()
 
     def getCurrentProject(self):
         return self.model.getSelectedProject(self.__getCurrentIndex())

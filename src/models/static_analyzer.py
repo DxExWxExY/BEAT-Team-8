@@ -11,7 +11,6 @@ class StaticAnalyzer:
             self.analyzer = r2pipe.open(path)
             self.analyzer.cmd("aaa")
             # self.analyzer.cmd("doo")
-            print("jalo? jalo")
         except:
             self.analyzer = None
 
@@ -19,19 +18,21 @@ class StaticAnalyzer:
         if self.analyzer is not None:
             properties = dict()
             BinInfo = self.__executej("ij")
+            # TODO: Fix findings
             properties['file'] = BinInfo["core"]["file"]
             properties['os'] = BinInfo["bin"]["os"]
             properties['arch'] = BinInfo["bin"]["arch"]
             properties['machine'] = BinInfo["bin"]["machine"]
-            properties['bits'] = BinInfo["bin"]["bits"]
-            properties['canary'] = BinInfo["bin"]["canary"]
-            properties['crypto'] = BinInfo["bin"]["crypto"]
-            properties['nx'] = BinInfo["bin"]["nx"]
-            properties['pic'] = BinInfo["bin"]["pic"]
-            properties['relocs'] = BinInfo["bin"]["relocs"]
-            properties['stripped'] = BinInfo["bin"]["stripped"]
-            properties['endian'] = BinInfo["bin"]["endian"]
-            properties['format'] = BinInfo["core"]["format"]
+            properties['class'] = BinInfo["core"]["format"]
+            properties['bits'] = str(BinInfo["bin"]["bits"])
+            properties['lang'] = "Language"#BinInfo["bin"]["bits"]
+            properties['canary'] = str(BinInfo["bin"]["canary"])
+            properties['crypto'] = str(BinInfo["bin"]["crypto"])
+            properties['nx'] = str(BinInfo["bin"]["nx"])
+            properties['pic'] = str(BinInfo["bin"]["pic"])
+            properties['relocs'] = str(BinInfo["bin"]["relocs"])
+            properties['relro'] = str(BinInfo["bin"]["relro"])
+            properties['stripped'] = str(BinInfo["bin"]["stripped"])
             return properties
 
     def __execute(self, command):
@@ -78,3 +79,4 @@ class StaticAnalyzer:
 
     def close(self):
         self.__execute("exit")
+        self.analyzer = None

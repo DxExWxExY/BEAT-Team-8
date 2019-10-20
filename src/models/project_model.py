@@ -15,15 +15,20 @@ class ProjectModel:
     def getSelectedProject(self, i):
         return self.__projectList[i]
 
-    def addProject(self):
-        self.__projectList.append(ProjectItem())
+    def addProject(self, path):
+        item = ProjectItem(path=path)
+        self.checkAttributes(item)
+        self.__projectList.append(item)
 
     def deleteProject(self, i):
         self.__projectList.pop(i)
 
-    def checkAttributes(self, i):
-        if not self.__projectList[i].hasBinaryAttributes():
-            self.__staticAnalyzer.setPath(self.__projectList[i].binaryPath)
-            self.__projectList[i].binaryProperties = self.__staticAnalyzer.getBinaryProperties()
+    def checkAttributes(self, item):
+        if not item.hasBinaryAttributes():
+            self.__staticAnalyzer.setPath(item.binaryPath)
+            item.binaryProperties = self.__staticAnalyzer.getBinaryProperties()
             self.__staticAnalyzer.close()
 
+    def saveProject(self, i):
+        item = self.__projectList[i]
+        self.__parser.updateEntry(item)
