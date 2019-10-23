@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 from src.items.project_item import ProjectItem
 
 
-class ProjectSchemaParser:
+class XMLParser:
     def __init__(self):
         self.schema = XMLSchema("res%sproject_schema.xsd" % os.sep)
 
@@ -81,3 +81,14 @@ class ProjectSchemaParser:
         if self.schema.is_valid(xml):
             # TODO: send query to DB to update this specific entry
             print("XML IS VALID")
+
+    def getFilterAndPlugin(self, plugin):
+        if plugin == 'pa':
+            return plugin
+
+    def __pluginsFromDB(self):
+        # DB query as objs
+        return []
+
+    def __deserializer(self):
+        return object()

@@ -1,9 +1,4 @@
-import os
-import time
-
-from src.items.project_item import ProjectItem
-from src.models.static_analyzer import StaticAnalyzer
-from src.parsers.project_xml_parser import ProjectSchemaParser
+from src.analyzers.static_analyzer import StaticAnalyzer
 
 
 class AnalysisModel:

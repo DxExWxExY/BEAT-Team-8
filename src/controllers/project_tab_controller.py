@@ -70,7 +70,6 @@ class ProjectTabController:
         self.tab.saveButton.setEnabled(False)
         self.tab.deleteButton.setEnabled(False)
 
-
     def __fileBrowser(self):
         callback = QFileDialog.getOpenFileName()
         if callback:
