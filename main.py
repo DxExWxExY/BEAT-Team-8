@@ -9,3 +9,4 @@ if __name__ == "__main__":
     app.setAttribute(Qt.AA_EnableHighDpiScaling, True)
     mainWindow = MainWindow()
     sys.exit(app.exec_())
+ 
