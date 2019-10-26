@@ -9,6 +9,7 @@ class ProjectTabController:
     def __init__(self):
         self.tab = ProjectTab()
         self.model = ProjectModel()
+        self.project = None
         self.__addEventHandlers()
         self.__populateProjectList()
 
@@ -27,26 +28,26 @@ class ProjectTabController:
 
     def __updateUI(self):
         selectedItem = self.model.getSelectedProject(self.__getCurrentIndex())
+        self.project = selectedItem
         if selectedItem is not None:
             self.tab.saveButton.setEnabled(True)
             self.tab.deleteButton.setEnabled(True)
             self.tab.projectName.setText(selectedItem.name)
             self.tab.projectDescription.setText(selectedItem.description)
             self.tab.binPath.setText(selectedItem.binaryPath)
-            if selectedItem.hasBinaryAttributes():
-                self.tab.table.setItem(0, 1, QTableWidgetItem(selectedItem.binaryProperties['os']))
-                self.tab.table.setItem(1, 1, QTableWidgetItem(selectedItem.binaryProperties['arch']))
-                self.tab.table.setItem(2, 1, QTableWidgetItem(selectedItem.binaryProperties['machine']))
-                self.tab.table.setItem(3, 1, QTableWidgetItem(selectedItem.binaryProperties['class']))
-                self.tab.table.setItem(4, 1, QTableWidgetItem(selectedItem.binaryProperties['bits']))
-                self.tab.table.setItem(5, 1, QTableWidgetItem(selectedItem.binaryProperties['lang']))
-                self.tab.table.setItem(6, 1, QTableWidgetItem(selectedItem.binaryProperties['canary']))
-                self.tab.table.setItem(7, 1, QTableWidgetItem(selectedItem.binaryProperties['crypto']))
-                self.tab.table.setItem(8, 1, QTableWidgetItem(selectedItem.binaryProperties['nx']))
-                self.tab.table.setItem(9, 1, QTableWidgetItem(selectedItem.binaryProperties['pic']))
-                self.tab.table.setItem(10, 1, QTableWidgetItem(selectedItem.binaryProperties['relocs']))
-                self.tab.table.setItem(11, 1, QTableWidgetItem(selectedItem.binaryProperties['relro']))
-                self.tab.table.setItem(12, 1, QTableWidgetItem(selectedItem.binaryProperties['stripped']))
+            self.tab.table.setItem(0, 1, QTableWidgetItem(selectedItem.binaryProperties['os']))
+            self.tab.table.setItem(1, 1, QTableWidgetItem(selectedItem.binaryProperties['arch']))
+            self.tab.table.setItem(2, 1, QTableWidgetItem(selectedItem.binaryProperties['machine']))
+            self.tab.table.setItem(3, 1, QTableWidgetItem(selectedItem.binaryProperties['class']))
+            self.tab.table.setItem(4, 1, QTableWidgetItem(selectedItem.binaryProperties['bits']))
+            self.tab.table.setItem(5, 1, QTableWidgetItem(selectedItem.binaryProperties['lang']))
+            self.tab.table.setItem(6, 1, QTableWidgetItem(selectedItem.binaryProperties['canary']))
+            self.tab.table.setItem(7, 1, QTableWidgetItem(selectedItem.binaryProperties['crypto']))
+            self.tab.table.setItem(8, 1, QTableWidgetItem(selectedItem.binaryProperties['nx']))
+            self.tab.table.setItem(9, 1, QTableWidgetItem(selectedItem.binaryProperties['pic']))
+            self.tab.table.setItem(10, 1, QTableWidgetItem(selectedItem.binaryProperties['relocs']))
+            self.tab.table.setItem(11, 1, QTableWidgetItem(selectedItem.binaryProperties['relro']))
+            self.tab.table.setItem(12, 1, QTableWidgetItem(selectedItem.binaryProperties['stripped']))
         else:
             self.__clearUI()
 
@@ -117,4 +118,4 @@ class ProjectTabController:
             errorDialog.exec_()
 
     def getCurrentProject(self):
-        return self.model.getSelectedProject(self.__getCurrentIndex())
+        return self.project

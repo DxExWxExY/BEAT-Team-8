@@ -10,9 +10,10 @@ from src.items.project_item import ProjectItem
 
 class XMLParser:
     def __init__(self):
+        # TODO: Update schema use
         self.schema = XMLSchema("res%sproject_schema.xsd" % os.sep)
 
-    def __getObject(self):
+    def __getProjectObject(self):
         # TODO: Get everything from the DB
         xml = open("res%sproject_sample.xml" % os.sep, "r").read().strip()
         parser = ET.fromstring(xml)
@@ -38,10 +39,7 @@ class XMLParser:
             item.binaryProperties = properties
             return item
 
-    def getItems(self):
-        return [self.__getObject()]
-
-    def updateEntry(self, item):
+    def __createProjectEntry(self, item):
         project = etree.Element("project")
         name = etree.SubElement(project, "name")
         description = etree.SubElement(project, "description")
@@ -83,20 +81,18 @@ class XMLParser:
             # TODO: send query to DB to update this specific entry
             print("XML IS VALID")
 
-    def getFilterAndPlugin(self, plugin):
-        if plugin == 'pa':
-            return plugin
+    def updateEntry(self, which, item):
+        if which == "project":
+            self.__createProjectEntry(item)
 
-    def __pluginsFromDB(self):
-        # DB query as objs
-        return []
-
-    def __deserializer(self):
-        return object()
+    def __getPluginObject(self):
+        pass
 
     def getEntries(self, which):
         if which == "plugin":
             item = PluginItem()
             item.name = "Network Plugin"
-            item.types = ["All", "Function" , "Variable", "String", "DLL", "Struct", "Packet Protocol"]
+            item.types = ["All", "Function", "Variable", "String", "DLL", "Struct", "Packet Protocol"]
             return [item]
+        if which == "project":
+            return [self.__getProjectObject()]

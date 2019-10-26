@@ -1,3 +1,5 @@
+from PyQt5 import QtWidgets
+
 from src.models.analysis_model import AnalysisModel
 from src.views.dialogs.analysis_result_dialog import AnalysisResultDialog
 from src.views.dialogs.comment_dialog import CommentDialog
@@ -43,6 +45,7 @@ class AnalysisTabController:
             self.tab.dynamicRunbtn.setEnabled(False)
             self.tab.dynamicStopbtn.setEnabled(False)
             self.tab.dropDownMenuPoi.clear()
+            self.tab.poiContentArea.clear()
         else:
             self.tab.dropDownMenuPoi.setEnabled(True)
             self.tab.staticRunBtn.setEnabled(True)
@@ -79,9 +82,17 @@ class AnalysisTabController:
         self.__updatePOI(x)
 
     def __runStatic(self):
-        self.model.run_static(self.project.binaryPath)
-        self.__updateTerminal()
-        self.__populateList()
+        if self.project is not None:
+            self.model.run_static(self.project.binaryPath)
+            self.__updateTerminal()
+            self.__populateList()
+        else:
+            errorDialog = QtWidgets.QMessageBox()
+            errorDialog.setText('Project Not Selected')
+            errorDialog.setWindowTitle("Error")
+            errorDialog.setInformativeText("Select a project from the Project Tab.")
+            errorDialog.setIcon(3)
+            errorDialog.exec_()
 
     def __updatePOI(self, x):
         screen = ""
