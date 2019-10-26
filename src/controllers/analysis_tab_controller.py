@@ -30,7 +30,7 @@ class AnalysisTabController:
         self.tab.poiList.clear()
         list = []
         if filter != "":
-            list = self.model.getFilterList(filter)
+            list = self.model.setFilterList(filter)
 
         for item in list:
             self.tab.poiList.addItem(item)
@@ -42,23 +42,18 @@ class AnalysisTabController:
             self.tab.staticRunBtn.setEnabled(False)
             self.tab.dynamicRunbtn.setEnabled(False)
             self.tab.dynamicStopbtn.setEnabled(False)
+            self.tab.dropDownMenuPoi.clear()
         else:
             self.tab.dropDownMenuPoi.setEnabled(True)
             self.tab.staticRunBtn.setEnabled(True)
             self.tab.dynamicRunbtn.setEnabled(True)
             self.tab.dynamicStopbtn.setEnabled(True)
+            self.tab.dropDownMenuPoi.clear()
+            self.tab.dropDownMenuPoi.addItems(self.model.getPluginFilters(selected))
+
 
     def __populateDropdowns(self):
-        # TODO: Move this logic to model
         self.tab.dropDownMenuPlugin.addItems(self.model.getPluginsList())
-
-        self.tab.dropDownMenuPoi.addItem("All")
-        self.tab.dropDownMenuPoi.addItem("Function")
-        self.tab.dropDownMenuPoi.addItem("Variable")
-        self.tab.dropDownMenuPoi.addItem("String")
-        self.tab.dropDownMenuPoi.addItem("DLL")
-        self.tab.dropDownMenuPoi.addItem("Struct")
-        self.tab.dropDownMenuPoi.addItem("Packet Protocol")
 
     def __searchForPoi(self):
         print("Search triggered")

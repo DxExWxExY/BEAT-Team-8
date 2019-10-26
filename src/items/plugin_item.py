@@ -1,8 +1,7 @@
 class PluginItem:
-    def __init__(self, n):
-        self.structurePath = f"Path {n}"
-        self.dataSetPath = f"Path {n}"
-        self.name = f"Plugin {n}"
-        self.description = f"Description {n}"
+    def __init__(self):
+        self.name = ""
+        self.description = ""
         self.outputFields = ["Output Type X"]
-        self.pois = [f"PoI {n}" for n in range(5)]
+        self.pois = []
+        self.types = []

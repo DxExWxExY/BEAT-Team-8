@@ -6,16 +6,16 @@ class AnalysisModel:
     def __init__(self):
         self.parser = XMLParser()
         self.__staticAnalyzer = StaticAnalyzer()
+        self.__pluginList = self.parser.getEntries("plugin")
         self.__poiList = dict()
         self.__message = ''
 
-
     def run_static(self, path):
         self.__staticAnalyzer.setPath(path)
-        self.__poiList ["Function"] = self.__staticAnalyzer.R2findPOI("function")
-        self.__poiList ["DLL"]= self.__staticAnalyzer.R2findPOI("dll")
-        self.__poiList ["String"] = self.__staticAnalyzer.R2findPOI("strings")
-        self.__message= "Static analysis complete."
+        self.__poiList["Function"] = self.__staticAnalyzer.R2findPOI("function")
+        self.__poiList["DLL"] = self.__staticAnalyzer.R2findPOI("dll")
+        self.__poiList["String"] = self.__staticAnalyzer.R2findPOI("strings")
+        self.__message = "Static analysis complete."
 
     def getPoiList(self):
         return self.__poiList
@@ -23,10 +23,15 @@ class AnalysisModel:
     def getTerminalOutput(self):
         return self.__message
 
-    def getPluginsList(self):
-        return ["Select Plugin"] + self.parser.getEntries("plugin")
+    def getPluginFilters(self, pluginName):
+        for plugin in self.__pluginList:
+            if pluginName in plugin.name:
+                return plugin.types
 
-    def getFilterList(self, filter):
+    def getPluginsList(self):
+        return ["Select Plugin"] + [item.name for item in self.__pluginList]
+
+    def setFilterList(self, filter):
         if len(self.__poiList) is 0:
             return []
 
@@ -40,6 +45,3 @@ class AnalysisModel:
             return self.__poiList[filter]
         else:
             return []
-
-
-

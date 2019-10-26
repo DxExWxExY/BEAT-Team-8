@@ -4,6 +4,7 @@ from xmlschema import XMLSchema
 from lxml import etree
 import xml.etree.ElementTree as ET
 
+from src.items.plugin_item import PluginItem
 from src.items.project_item import ProjectItem
 
 
@@ -95,4 +96,7 @@ class XMLParser:
 
     def getEntries(self, which):
         if which == "plugin":
-            return ["Network Plugin"]
+            item = PluginItem()
+            item.name = "Network Plugin"
+            item.types = ["All", "Function" , "Variable", "String", "DLL", "Struct", "Packet Protocol"]
+            return [item]
