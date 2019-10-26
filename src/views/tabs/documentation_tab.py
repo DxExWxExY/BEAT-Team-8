@@ -40,7 +40,6 @@ class DocumentationTab(TabLayout):
 
         searchBox = QLineEdit()
         searchBox.setPlaceholderText("Search Documentation")
-        searchBox.returnPressed.connect(lambda: print("Enter Detected"))
 
         searchButton = QPushButton('Search')
 

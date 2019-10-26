@@ -94,4 +94,3 @@ class AnalysisTabController:
 
     def setProject(self, project):
         self.project = project
-        print(self.project.name)

@@ -58,7 +58,6 @@ class PointsOfInterestTab(TabLayout):
 
         searchBox = QLineEdit()
         searchBox.setPlaceholderText("Search Points of Interest")
-        searchBox.returnPressed.connect(lambda: print("Enter Detected"))
 
         searchButton = QPushButton('Search')
 

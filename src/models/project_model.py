@@ -21,7 +21,6 @@ class ProjectModel:
         item = ProjectItem(path=path)
         self.__checkAttributes(item)
         self.__projectList.append(item)
-        print(len(self.__projectList))
 
     def deleteProject(self, i):
         self.__projectList.pop(i)
