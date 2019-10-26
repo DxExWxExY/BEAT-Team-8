@@ -1,6 +1,7 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QGridLayout, QPlainTextEdit, QVBoxLayout, QListWidget, QAbstractItemView, QLineEdit, \
+    QPushButton, QSizePolicy
 
 from src.common.tab_layout import TabLayout
 
@@ -44,13 +45,9 @@ class AnalysisTab(TabLayout):
 
         self.terminalContent.setReadOnly(True)
 
-        self.commentBtn = QPushButton("C")
-        self.analysisResultBtn = QPushButton("A")
-        self.outputFieldViewBtn = QPushButton("O")
-
-        self.commentBtn.setToolTip("Comment")
-        self.analysisResultBtn.setToolTip("Analysis Results")
-        self.outputFieldViewBtn.setToolTip("Output Field View")
+        self.commentBtn = QPushButton("Comment")
+        self.analysisResultBtn = QPushButton("Analysis Results")
+        self.outputFieldViewBtn = QPushButton("Output")
 
         CommentVertLayout.addWidget(self.commentBtn)
         CommentVertLayout.addItem(btnSpacer)
@@ -70,11 +67,34 @@ class AnalysisTab(TabLayout):
         return rightLayout
 
     def TopPanelBuilder(self):
-        topLayout = QGridLayout()
-        topLayout.addLayout(self.staticLayout(), 0, 0)
-        topLayout.addLayout(self.dynamicLayout(), 0, 1)
+        layout = QGridLayout()
 
-        return topLayout
+        self.dropDownMenuPlugin = QtWidgets.QComboBox()
+        self.dropDownMenuPoi = QtWidgets.QComboBox()
+
+        pluginLabel = QtWidgets.QLabel("Plugin")
+        staticLabel = QtWidgets.QLabel("Static Analysis")
+        poiTypeLabel = QtWidgets.QLabel("Point of Interest Type")
+        self.staticRunBtn = QtWidgets.QPushButton("Run")
+        DynamicAn = QtWidgets.QLabel("Dynamic Analysis")
+        self.dynamicRunbtn = QtWidgets.QPushButton("Run")
+        self.dynamicStopbtn = QtWidgets.QPushButton("Stop")
+        spacerItem = QtWidgets.QSpacerItem(1, 1, QSizePolicy.Expanding)
+
+        layout.addWidget(pluginLabel, 0, 0, 1,1)
+        layout.addWidget(self.dropDownMenuPlugin, 0, 1, 1, 2)
+        layout.addWidget(poiTypeLabel, 0, 3, 1, 1)
+        layout.addWidget(self.dropDownMenuPoi, 0, 4, 1, 1)
+        layout.addItem(spacerItem, 0, 5 , 1, 10)
+
+        layout.addWidget(staticLabel, 1, 0, 1, 1)
+        layout.addWidget(self.staticRunBtn, 1, 1, 1, 1)
+        layout.addWidget(DynamicAn, 1, 2, 1 ,1)
+        layout.addWidget(self.dynamicRunbtn, 1, 3, 1 ,1)
+        layout.addWidget(self.dynamicStopbtn, 1, 4, 1 ,1)
+        layout.addItem(spacerItem, 1, 5, 1 ,13)
+
+        return layout
 
     def searchBuilder(self):
         layout = QtWidgets.QGridLayout()
@@ -89,41 +109,3 @@ class AnalysisTab(TabLayout):
 
         return layout
 
-    def staticLayout(self):
-        layout = QtWidgets.QGridLayout()
-
-        self.dropDownMenuPlugin = QtWidgets.QComboBox()
-        self.dropDownMenuPoi = QtWidgets.QComboBox()
-
-        pluginLabel = QtWidgets.QLabel("Plugin")
-        staticLabel = QtWidgets.QLabel("Static Analysis")
-        poiTypeLabel = QtWidgets.QLabel("Point of Interest Type")
-        self.staticRunBtn = QtWidgets.QPushButton("Run")
-
-
-
-        layout.addWidget(self.dropDownMenuPlugin, 0, 2, 2, 2)
-        layout.addWidget(self.dropDownMenuPoi, 0, 6, 1, 2)
-        layout.addWidget(pluginLabel, 0, 0, 2, 2)
-        layout.addWidget(staticLabel, 0, 8, 2, 2)
-        layout.addWidget(poiTypeLabel, 0, 4, 2, 2)
-        layout.addWidget(self.staticRunBtn, 0, 10, 2, 2)
-
-        return layout
-
-    def dynamicLayout(self):
-        layout = QtWidgets.QHBoxLayout()
-        layout.setContentsMargins(0, 0, 0, 0)
-
-        DynamicAn = QtWidgets.QLabel("Dynamic Analysis")
-        dynamicRunbtn = QtWidgets.QPushButton("Run")
-        dynamicStopbtn = QtWidgets.QPushButton("Stop")
-        spacerItem = QtWidgets.QSpacerItem(1, 1, QSizePolicy.Expanding)
-
-        layout.addItem(spacerItem)
-        layout.addWidget(DynamicAn)
-        layout.addWidget(dynamicRunbtn)
-        layout.addWidget(dynamicStopbtn)
-        layout.addItem(spacerItem)
-
-        return layout

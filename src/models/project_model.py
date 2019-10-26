@@ -1,6 +1,6 @@
 from src.items.project_item import ProjectItem
 from src.analyzers.static_analyzer import StaticAnalyzer
-from src.storage.project_xml_parser import XMLParser
+from src.storage.xml_parser import XMLParser
 
 
 class ProjectModel:

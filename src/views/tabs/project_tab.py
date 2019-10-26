@@ -7,22 +7,22 @@ from src.common.tab_layout import TabLayout
 class ProjectTab(TabLayout):
     def __init__(self):
         super().__init__("Project View", "Detailed Project View")
-        super().addContentToLeftPanel(self.leftPanelBuilder())
-        super().addContentToRightPanel(self.rightPanelBuilder())
+        super().addContentToLeftPanel(self.__leftPanelBuilder())
+        super().addContentToRightPanel(self.__rightPanelBuilder())
         super().build()
 
-    def leftPanelBuilder(self):
+    def __leftPanelBuilder(self):
         layout = QVBoxLayout()
         self.projectList = QListWidget()
         self.addProjectButton = QPushButton('Add New Project')
 
-        layout.addLayout(self.searchBuilder())
+        layout.addLayout(self.__searchBuilder())
         layout.addWidget(self.projectList)
         layout.addWidget(self.addProjectButton)
 
         return layout
 
-    def rightPanelBuilder(self):
+    def __rightPanelBuilder(self):
         layout = QGridLayout()
 
         self.projectName = QLineEdit()
@@ -40,7 +40,7 @@ class ProjectTab(TabLayout):
         layout.addWidget(self.projectName, 0, 1, 1, 9)
         layout.addWidget(self.projectDescription, 1, 1, 2, 9)
         layout.addWidget(self.binPath, 3, 1, 1, 8)
-        layout.addWidget(self.tableBuilder(), 4, 1, 1, 9)
+        layout.addWidget(self.__tableBuilder(), 4, 1, 1, 9)
 
         layout.addWidget(self.deleteButton, 5, 8)
         layout.addWidget(self.saveButton, 5, 9)
@@ -48,7 +48,7 @@ class ProjectTab(TabLayout):
 
         return layout
 
-    def searchBuilder(self):
+    def __searchBuilder(self):
         layout = QGridLayout()
 
         self.searchBox = QLineEdit()
@@ -61,7 +61,7 @@ class ProjectTab(TabLayout):
 
         return layout
 
-    def tableBuilder(self):
+    def __tableBuilder(self):
         self.table = QTableWidget()
         self.table.setRowCount(13)
         self.table.setColumnCount(2)
@@ -85,3 +85,9 @@ class ProjectTab(TabLayout):
         self.table.horizontalHeader().setStretchLastSection(True)
 
         return self.table
+
+    def setProjectList(self, list):
+        pass
+
+    def setUIElementsText(self, item):
+        pass

@@ -92,3 +92,7 @@ class XMLParser:
 
     def __deserializer(self):
         return object()
+
+    def getEntries(self, which):
+        if which == "plugin":
+            return ["Network Plugin"]

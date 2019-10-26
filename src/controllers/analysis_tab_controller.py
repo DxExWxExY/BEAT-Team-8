@@ -1,5 +1,3 @@
-from PyQt5.QtWidgets import QListWidgetItem
-
 from src.models.analysis_model import AnalysisModel
 from src.views.dialogs.analysis_result_dialog import AnalysisResultDialog
 from src.views.dialogs.comment_dialog import CommentDialog
@@ -25,6 +23,7 @@ class AnalysisTabController:
         self.tab.outputFieldViewBtn.clicked.connect(lambda: self.__outputFieldWindow())
         self.tab.staticRunBtn.clicked.connect(lambda : self.__runStatic())
         self.tab.dropDownMenuPoi.currentIndexChanged.connect(lambda : self.__populateList())
+        self.tab.dropDownMenuPlugin.currentIndexChanged.connect(lambda: self.__selectPlugin())
 
     def __populateList(self):
         filter = str(self.tab.dropDownMenuPoi.currentText())
@@ -36,11 +35,22 @@ class AnalysisTabController:
         for item in list:
             self.tab.poiList.addItem(item)
 
+    def __selectPlugin(self):
+        selected = self.tab.dropDownMenuPlugin.currentText()
+        if selected in "Select Plugin":
+            self.tab.dropDownMenuPoi.setEnabled(False)
+            self.tab.staticRunBtn.setEnabled(False)
+            self.tab.dynamicRunbtn.setEnabled(False)
+            self.tab.dynamicStopbtn.setEnabled(False)
+        else:
+            self.tab.dropDownMenuPoi.setEnabled(True)
+            self.tab.staticRunBtn.setEnabled(True)
+            self.tab.dynamicRunbtn.setEnabled(True)
+            self.tab.dynamicStopbtn.setEnabled(True)
 
     def __populateDropdowns(self):
         # TODO: Move this logic to model
-        self.tab.dropDownMenuPlugin.addItem("Network Plugin")
-        self.tab.dropDownMenuPlugin.addItem("Cryptography Plugin")
+        self.tab.dropDownMenuPlugin.addItems(self.model.getPluginsList())
 
         self.tab.dropDownMenuPoi.addItem("All")
         self.tab.dropDownMenuPoi.addItem("Function")

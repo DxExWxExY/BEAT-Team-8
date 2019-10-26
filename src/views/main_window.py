@@ -6,11 +6,8 @@ from src.common import constants
 from src.controllers.analysis_tab_controller import AnalysisTabController
 from src.controllers.project_tab_controller import ProjectTabController
 from src.controllers.pulgin_management_tab_controller import PluginManagementTabController
-from src.views.tabs.analysis_tab import AnalysisTab
 from src.views.tabs.documentation_tab import DocumentationTab
-from src.views.tabs.plugin_management_tab import PluginManagementTab
 from src.views.tabs.points_of_intersets_tab import PointsOfInterestTab
-from src.views.tabs.project_tab import ProjectTab
 
 
 class MainWindow(QMainWindow):
