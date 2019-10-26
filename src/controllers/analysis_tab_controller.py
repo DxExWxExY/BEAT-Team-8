@@ -26,6 +26,7 @@ class AnalysisTabController:
         self.tab.staticRunBtn.clicked.connect(lambda : self.__runStatic())
         self.tab.dropDownMenuPoi.currentIndexChanged.connect(lambda : self.__populateList())
         self.tab.dropDownMenuPlugin.currentIndexChanged.connect(lambda: self.__selectPlugin())
+        self.tab.dynamicRunbtn.clicked.connect(lambda: self.__runDynamic())
 
     def __populateList(self):
         filter = str(self.tab.dropDownMenuPoi.currentText())
@@ -105,3 +106,17 @@ class AnalysisTabController:
 
     def setProject(self, project):
         self.project = project
+
+    def __runDynamic(self):
+        if self.project is not None:
+            # self.model.run_static(self.project.binaryPath)
+            # self.__updateTerminal()
+            # self.__populateList()
+            pass
+        else:
+            errorDialog = QtWidgets.QMessageBox()
+            errorDialog.setText('Project Not Selected')
+            errorDialog.setWindowTitle("Error")
+            errorDialog.setInformativeText("Select a project from the Project Tab.")
+            errorDialog.setIcon(3)
+            errorDialog.exec_()

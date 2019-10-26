@@ -15,8 +15,6 @@ class PluginManagementTabController:
         self.tab.addPlugin.clicked.connect(lambda: self.__addPlugin())
         self.tab.pluginList.itemSelectionChanged.connect(lambda: self.__updateUI())
         self.tab.searchBox.returnPressed.connect(lambda: self.__searchForPlugin())
-        self.tab.browseStructurePath.clicked.connect(lambda: self.__fileBrowser())
-        self.tab.browseDataPath.clicked.connect(lambda: self.__fileBrowser(isData=True))
         self.tab.deletePlugin.clicked.connect(lambda: self.__deletePlugin())
         self.tab.savePlugin.clicked.connect(lambda: self.__savePlugin())
 
@@ -27,8 +25,6 @@ class PluginManagementTabController:
     def __updateUI(self):
         self.tab.poiList.clear()
         selectedItem = self.model.getSelectedPlugin(self.__currentItem())
-        self.tab.pluginStructurePath.setText(selectedItem.structurePath)
-        self.tab.dataSetPath.setText(selectedItem.dataSetPath)
         self.tab.pluginName.setText(selectedItem.name)
         self.tab.pluginDescription.setText(selectedItem.description)
         self.tab.outputField.addItems(selectedItem.outputFields)

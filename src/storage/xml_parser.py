@@ -86,13 +86,15 @@ class XMLParser:
             self.__createProjectEntry(item)
 
     def __getPluginObject(self):
-        pass
+        item = PluginItem()
+        item.name = "Network Plugin"
+        item.types = ["All", "Function", "Variable", "String", "DLL", "Struct", "Packet Protocol"]
+        item.pois = ["network", "socket", "ip"]
+        item.outputFields = ["Jinja Script"]
+        return item
 
     def getEntries(self, which):
         if which == "plugin":
-            item = PluginItem()
-            item.name = "Network Plugin"
-            item.types = ["All", "Function", "Variable", "String", "DLL", "Struct", "Packet Protocol"]
-            return [item]
+            return [self.__getPluginObject()]
         if which == "project":
             return [self.__getProjectObject()]

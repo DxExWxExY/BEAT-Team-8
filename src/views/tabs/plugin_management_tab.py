@@ -27,24 +27,6 @@ class PluginManagementTab(TabLayout):
     def rightPanelBuilder(self):
         layout = QGridLayout()
 
-        # Plugin Structure
-        pluginStructureLabel = QLabel("Plugin Structure")
-        self.pluginStructurePath = QLineEdit()
-        self.browseStructurePath = QPushButton("Browse")
-
-        layout.addWidget(pluginStructureLabel, 0, 0)
-        layout.addWidget(self.pluginStructurePath, 0, 1, 1, 8)
-        layout.addWidget(self.browseStructurePath, 0, 9)
-
-        # Predefined Data Set
-        dataSetLabel = QLabel("Predefined Data Set")
-        self.dataSetPath = QLineEdit()
-        self.browseDataPath = QPushButton("Browse")
-
-        layout.addWidget(dataSetLabel, 1, 0)
-        layout.addWidget(self.dataSetPath, 1, 1, 1, 8)
-        layout.addWidget(self.browseDataPath, 1, 9)
-
         # Plugin Name
         pluginNameLabel = QLabel("Plugin Name")
         self.pluginName = QLineEdit()
