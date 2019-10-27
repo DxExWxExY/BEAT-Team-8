@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QFileDialog
 
 from src.models.plugin_management_model import PluginManagementModel
+from src.views.dialogs.edit_poi_dialog import EditPoiDialog
 from src.views.tabs.plugin_management_tab import PluginManagementTab
 
 
@@ -17,6 +18,7 @@ class PluginManagementTabController:
         self.tab.searchBox.returnPressed.connect(lambda: self.__searchForPlugin())
         self.tab.deletePlugin.clicked.connect(lambda: self.__deletePlugin())
         self.tab.savePlugin.clicked.connect(lambda: self.__savePlugin())
+        self.tab.editPoi.clicked.connect(lambda: self.__editPoiDialog())
 
     def __populatePluginList(self):
         for item in self.model.getPluginList():
@@ -61,3 +63,7 @@ class PluginManagementTabController:
                 self.tab.dataSetPath.setText(str(callback[0]))
             else:
                 self.tab.pluginStructurePath.setText(str(callback[0]))
+
+    def __editPoiDialog(self):
+        self.editPoi = EditPoiDialog()
+        self.editPoi.show()

@@ -1,18 +1,25 @@
-import typing
-
-from PyQt5 import QtCore
-from PyQt5.QtWidgets import QWidget, QGridLayout
+from PyQt5.QtWidgets import QWidget, QGridLayout, QDesktopWidget
 
 
-class EditPoi(QWidget):
+class EditPoiDialog(QWidget):
     def __init__(self):
         super().__init__()
-        self.title = 'Analysis Result View'
-        self.left = 10
-        self.top = 10
-        self.width = 300
-        self.height = 400
         self.__initUI()
+        self.__setWindowPosition()
+        self.show()
 
     def __initUI(self):
         layout = QGridLayout()
+
+
+
+        self.setWindowTitle('Edit Points of Interest')
+        self.setLayout(layout)
+
+    def __setWindowPosition(self):
+        qtRectangle = self.frameGeometry()
+        centerPoint = QDesktopWidget().availableGeometry().center()
+        qtRectangle.setWidth(480)
+        qtRectangle.setHeight(250)
+        qtRectangle.moveCenter(centerPoint)
+        self.setGeometry(qtRectangle)
