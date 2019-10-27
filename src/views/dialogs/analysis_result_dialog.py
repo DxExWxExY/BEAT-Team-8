@@ -1,20 +1,18 @@
 import sys
 
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QTextEdit, QPushButton, QGridLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QTextEdit, QPushButton, QGridLayout, \
+    QDesktopWidget
 
 
 class AnalysisResultDialog(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.title = 'Analysis Result View'
-        self.left = 10
-        self.top = 10
-        self.width = 300
-        self.height = 400
-        self.initUI()
+        self.__initUI()
+        self.__setWindowPosition()
+        self.show()
 
-    def initUI(self):
+    def __initUI(self):
         searchBox = QLineEdit()
         searchButton = QPushButton('Search')
 
@@ -42,13 +40,13 @@ class AnalysisResultDialog(QWidget):
         grid.addWidget(descriptionEdit, 5, 2, 8, 3)
         grid.addWidget(deleteButton, 15, 2, 1, 1)
         grid.addWidget(saveButton, 15, 3, 1, 1)
-        self.setWindowTitle(self.title)
-        self.setGeometry(self.left, self.top, self.width, self.height)
+        self.setWindowTitle('Analysis Result View')
         self.setLayout(grid)
-        self.show()
 
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    analysisResWin = AnalysisResultDialog()
-    sys.exit(app.exec_())
+    def __setWindowPosition(self):
+        qtRectangle = self.frameGeometry()
+        centerPoint = QDesktopWidget().availableGeometry().center()
+        qtRectangle.setWidth(300)
+        qtRectangle.setHeight(400)
+        qtRectangle.moveCenter(centerPoint)
+        self.setGeometry(qtRectangle)
