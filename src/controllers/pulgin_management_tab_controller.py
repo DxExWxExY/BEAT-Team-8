@@ -34,8 +34,6 @@ class PluginManagementTabController:
         current = self.model.getSelectedPlugin(self.__currentItem())
         current.name = self.tab.pluginName.text()
         current.description = self.tab.pluginDescription.toPlainText()
-        current.structurePath = self.tab.pluginStructurePath.text()
-        current.dataSetPath = self.tab.dataSetPath.text()
         self.tab.pluginList.clear()
         self.__populatePluginList()
 
@@ -54,6 +52,7 @@ class PluginManagementTabController:
         self.model.addPlugin()
         self.tab.pluginList.clear()
         self.__populatePluginList()
+        self.tab.pluginList.setCurrentRow(self.tab.pluginList.count() - 1)
 
     def __fileBrowser(self, isData=False):
         callback = QFileDialog.getOpenFileName()

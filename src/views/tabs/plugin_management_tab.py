@@ -55,8 +55,10 @@ class PluginManagementTab(TabLayout):
         # Bottom buttons : delete and save
         self.deletePlugin = QPushButton("Delete")
         self.savePlugin = QPushButton("Save")
+        self.editPoi = QPushButton("Edit PoI")
         layout.addWidget(self.deletePlugin, 6, 8)
         layout.addWidget(self.savePlugin, 6, 9)
+        layout.addWidget(self.editPoi, 6, 1)
 
         return layout
 

@@ -109,6 +109,7 @@ class AnalysisTabController:
 
     def __runDynamic(self):
         if self.project is not None:
+            # TODO: Replace with dynamic stuff
             # self.model.run_static(self.project.binaryPath)
             # self.__updateTerminal()
             # self.__populateList()
