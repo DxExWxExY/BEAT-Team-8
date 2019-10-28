@@ -108,7 +108,6 @@ class XMLParser:
                 item.binaryPath = entry['path']
                 item.binaryProperties = entry['properties']
                 entries.append(item)
-
             return entries
 
     def deleteEntry(self, which, item):

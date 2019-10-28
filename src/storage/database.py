@@ -15,13 +15,12 @@ class Database:
 
     def updateEntry(self, which, data):
         if which == "project":
-            self.projectsCollection.insert_one(data)
+            if data["_id"] is None:
+                self.projectsCollection.insert_one(data)
+            else:
+                condition = {"_id": data["_id"]}
+                values = {"$set": data}
+                self.projectsCollection.update_one(condition, values)
 
     def deleteEntry(self, which, id):
-        self.db[which].delete_one({"_id":id})
-
-
-if __name__ == "__main__":
-    i = ProjectItem()
-    db = Database()
-    db.updateEntry("project", i.asDictionary())
+        self.db[which].delete_one({"_id": id})
