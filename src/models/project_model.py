@@ -20,13 +20,15 @@ class ProjectModel:
     def addProject(self, path):
         item = ProjectItem(path=path)
         self.__checkAttributes(item)
-        self.__projectList.append(item)
+        self.__projectList[item.name] = item
 
     def deleteProject(self, i):
         self.__parser.deleteEntry("project" ,self.__projectList.pop(i))
 
-    def saveProject(self, i):
-        item = self.__projectList[i]
+    def saveProject(self, item, oldName=""):
+        print(self.__projectList)
+        del self.__projectList[oldName]
+        self.__projectList[item.name] = item
         self.__parser.updateEntry("project", item)
 
     def __checkAttributes(self, item):

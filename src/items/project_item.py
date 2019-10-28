@@ -1,6 +1,3 @@
-from bson import ObjectId
-
-
 class ProjectItem():
     def __init__(self, path="", name="New Project"):
         self.id = None
@@ -10,4 +7,7 @@ class ProjectItem():
         self.binaryProperties = dict()
 
     def asDictionary(self):
-        return {"_id": self.id, "name": self.name, "description": self.description, "path": self.binaryPath, "properties": self.binaryProperties}
+        if self.id is None:
+            return {"name": self.name, "description": self.description, "path": self.binaryPath,"properties": self.binaryProperties}
+        else:
+            return {"_id": self.id, "name": self.name, "description": self.description, "path": self.binaryPath, "properties": self.binaryProperties}

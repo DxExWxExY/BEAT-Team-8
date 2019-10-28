@@ -93,7 +93,6 @@ class ProjectTabController:
             for s in searches:
                 self.tab.projectList.addItem(s)
 
-
     def __getCurrentIndex(self):
         i = self.tab.projectList.currentItem().text()
         return i
@@ -101,15 +100,16 @@ class ProjectTabController:
     def __saveProject(self):
         selectedItem = self.model.getSelectedProject(self.__getCurrentIndex())
         if selectedItem is not None:
+            oldName = selectedItem.name
             selectedItem.name = self.tab.projectName.text()
             selectedItem.description = self.tab.projectDescription.toPlainText()
             selectedItem.binaryPath = self.tab.binPath.text()
-            self.__updateUI()
-            index = self.__getCurrentIndex()
+            self.model.saveProject(selectedItem, oldName=oldName)
+            index = self.tab.projectList.indexFromItem(self.tab.projectList.currentItem()).row()
             self.tab.projectList.clear()
             self.__populateProjectList()
             self.tab.projectList.setCurrentRow(index)
-            self.model.saveProject(index)
+            self.__updateUI()
 
     def __deleteProject(self):
         self.model.deleteProject(self.__getCurrentIndex())

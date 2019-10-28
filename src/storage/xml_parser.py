@@ -93,6 +93,7 @@ class XMLParser:
         item.outputFields = ["Jinja Script"]
         return item
 
+
     def getEntries(self, which):
         if which == "plugin":
             for entry in self.db.getEntries('plugin'):

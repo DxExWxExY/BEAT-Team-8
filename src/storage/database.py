@@ -1,7 +1,5 @@
 from pymongo import MongoClient
 
-from src.items.project_item import ProjectItem
-
 
 class Database:
     def __init__(self):
@@ -15,8 +13,15 @@ class Database:
 
     def updateEntry(self, which, data):
         if which == "project":
-            if data["_id"] is None:
+            if not "_id" in data.keys():
                 self.projectsCollection.insert_one(data)
+            else:
+                condition = {"_id": data["_id"]}
+                values = {"$set": data}
+                self.projectsCollection.update_one(condition, values)
+        if which == "plugin":
+            if not "_id" in data.keys():
+                self.pluginsCollection.insert_one(data)
             else:
                 condition = {"_id": data["_id"]}
                 values = {"$set": data}
