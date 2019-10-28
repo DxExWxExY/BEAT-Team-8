@@ -99,7 +99,7 @@ class XMLParser:
                 pass
             return [self.__getPluginObject()]
         if which == "project":
-            entries = []
+            entries = {}
             for entry in self.db.getEntries('project'):
                 item = ProjectItem()
                 item.id = entry['_id']
@@ -107,7 +107,7 @@ class XMLParser:
                 item.description = entry['description']
                 item.binaryPath = entry['path']
                 item.binaryProperties = entry['properties']
-                entries.append(item)
+                entries[item.name] = item
             return entries
 
     def deleteEntry(self, which, item):

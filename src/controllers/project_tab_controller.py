@@ -14,8 +14,8 @@ class ProjectTabController:
         self.__populateProjectList()
 
     def __populateProjectList(self):
-        for item in self.model.getProjectList():
-            self.tab.projectList.addItem(item.name)
+        for item in self.model.getProjectList().keys():
+            self.tab.projectList.addItem(item)
 
     def __addEventHandlers(self):
         self.tab.browsePath.clicked.connect(lambda: self.__fileBrowser())
@@ -77,10 +77,25 @@ class ProjectTabController:
             self.tab.binPath.setText(str(callback[0]))
 
     def __searchForItem(self):
-        print("Search triggered")
+        searchText = self.tab.searchBox.text().lower()
+        # When search is triggered with an empty string clear the list
+        if searchText is "":
+            self.tab.projectList.clear()
+            self.__populateProjectList()
+        else:
+            # get all the items with substring of searched string
+            searches = []
+            for projectName in self.model.getProjectList().keys():
+                if searchText in projectName.lower():
+                    searches.append(projectName)
+            # add those items with substring into the list
+            self.tab.projectList.clear()
+            for s in searches:
+                self.tab.projectList.addItem(s)
+
 
     def __getCurrentIndex(self):
-        i = self.tab.projectList.indexFromItem(self.tab.projectList.currentItem()).row()
+        i = self.tab.projectList.currentItem().text()
         return i
 
     def __saveProject(self):
