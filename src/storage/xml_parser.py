@@ -6,11 +6,12 @@ import xml.etree.ElementTree as ET
 
 from src.items.plugin_item import PluginItem
 from src.items.project_item import ProjectItem
+from src.storage.database import Database
 
 
 class XMLParser:
     def __init__(self):
-        # TODO: Update schema use
+        self.db = Database()
         self.schema = XMLSchema("res%sproject_schema.xsd" % os.sep)
 
     def __getProjectObject(self):
@@ -78,8 +79,7 @@ class XMLParser:
 
         xml = etree.tostring(project).decode()
         if self.schema.is_valid(xml):
-            # TODO: send query to DB to update this specific entry
-            print("XML IS VALID")
+            self.db.updateEntry("project", item.asDictionary())
 
     def updateEntry(self, which, item):
         if which == "project":
@@ -95,6 +95,21 @@ class XMLParser:
 
     def getEntries(self, which):
         if which == "plugin":
+            for entry in self.db.getEntries('plugin'):
+                pass
             return [self.__getPluginObject()]
         if which == "project":
-            return [self.__getProjectObject()]
+            entries = []
+            for entry in self.db.getEntries('project'):
+                item = ProjectItem()
+                item.id = entry['_id']
+                item.name = entry['name']
+                item.description = entry['description']
+                item.binaryPath = entry['path']
+                item.binaryProperties = entry['properties']
+                entries.append(item)
+
+            return entries
+
+    def deleteEntry(self, which, item):
+        self.db.deleteEntry(which, item.id)

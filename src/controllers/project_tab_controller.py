@@ -109,7 +109,7 @@ class ProjectTabController:
                 self.tab.projectList.clear()
                 self.__populateProjectList()
             self.tab.projectList.setCurrentRow(self.tab.projectList.count() - 1)
-        except:
+        except KeyError:
             errorDialog = QtWidgets.QMessageBox()
             errorDialog.setText('Unsupported File')
             errorDialog.setWindowTitle("Error")

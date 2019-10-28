@@ -23,14 +23,13 @@ class ProjectModel:
         self.__projectList.append(item)
 
     def deleteProject(self, i):
-        self.__projectList.pop(i)
+        self.__parser.deleteEntry("project" ,self.__projectList.pop(i))
 
     def saveProject(self, i):
         item = self.__projectList[i]
         self.__parser.updateEntry("project", item)
 
     def __checkAttributes(self, item):
-        if not item.hasBinaryAttributes():
-            self.__staticAnalyzer.setPath(item.binaryPath)
-            item.binaryProperties = self.__staticAnalyzer.getBinaryProperties()
-            self.__staticAnalyzer.close()
+        self.__staticAnalyzer.setPath(item.binaryPath)
+        item.binaryProperties = self.__staticAnalyzer.getBinaryProperties()
+        self.__staticAnalyzer.close()
