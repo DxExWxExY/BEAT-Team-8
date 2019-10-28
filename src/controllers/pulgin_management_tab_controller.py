@@ -15,6 +15,7 @@ class PluginManagementTabController:
         self.tab.addPlugin.clicked.connect(lambda: self.__addPlugin())
         self.tab.pluginList.itemSelectionChanged.connect(lambda: self.__updateUI())
         self.tab.searchBox.returnPressed.connect(lambda: self.__searchForPlugin())
+        self.tab.searchButton.clicked.connect(lambda: self.__searchForPlugin())
         self.tab.deletePlugin.clicked.connect(lambda: self.__deletePlugin())
         self.tab.savePlugin.clicked.connect(lambda: self.__savePlugin())
 
@@ -48,7 +49,21 @@ class PluginManagementTabController:
         return self.tab.pluginList.indexFromItem(self.tab.pluginList.currentItem()).row()
 
     def __searchForPlugin(self):
-        print("At least you entered something \\(\'\'/)/")
+        searchText = self.tab.searchBox.text().lower()
+        # When search is triggered with an empty string clear the list
+        if searchText is "":
+            self.tab.pluginList.clear()
+            self.__populatePluginList()
+        else:
+            # get all the items with substring of searched string
+            searches = []
+            for pluginName in self.model.getPluginList().keys():
+                if searchText in pluginName.lower():
+                    searches.append(pluginName)
+            # add those items with substring into the list
+            self.tab.pluginList.clear()
+            for s in searches:
+                self.tab.pluginList.addItem(s)
 
     def __addPlugin(self):
         self.model.addPlugin()

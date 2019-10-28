@@ -97,4 +97,5 @@ class XMLParser:
         if which == "plugin":
             return [self.__getPluginObject()]
         if which == "project":
-            return [self.__getProjectObject()]
+            item = self.__getProjectObject()
+            return {item.name: item}

@@ -12,9 +12,9 @@ class ProjectModel:
     def getProjectList(self):
         return self.__projectList
 
-    def getSelectedProject(self, i):
+    def getSelectedProject(self, key):
         if len(self.__projectList) > 0:
-            return self.__projectList[i % len(self.__projectList)]
+            return self.__projectList[key]
         return None
 
     def addProject(self, path):

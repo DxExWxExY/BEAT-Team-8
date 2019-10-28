@@ -60,8 +60,21 @@ class AnalysisTabController:
         self.tab.dropDownMenuPlugin.addItems(self.model.getPluginsList())
 
     def __searchForPoi(self):
-        print("Search triggered")
-        pass
+        searchText = self.tab.searchBox.text().lower()
+        if searchText is "":
+            self.tab.poiList.clear()
+            self.__populateList()
+        else:
+            searchList = []
+            for poiType in self.model.getPoiList().keys():
+                for poiName in self.model.getPoiList()[poiType]:
+                    if searchText in poiName.lower():
+                        searchList.append(poiName)
+            self.tab.poiList.clear()
+            for item in searchList:
+                self.tab.poiList.addItem(item)
+
+
 
     def __commentWindow(self):
         self.tab.commentView = CommentDialog()
