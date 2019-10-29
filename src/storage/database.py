@@ -32,6 +32,7 @@ class Database:
     def deleteEntry(self, which, id):
         self.db[which].delete_one({"_id": id})
 
+
 if __name__ == "__main__":
     item = PluginItem()
     item.name = "Network Plugin"

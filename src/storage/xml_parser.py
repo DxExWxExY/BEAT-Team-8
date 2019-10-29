@@ -93,12 +93,19 @@ class XMLParser:
         item.outputFields = ["Jinja Script"]
         return item
 
-
     def getEntries(self, which):
         if which == "plugin":
+            entries = {}
             for entry in self.db.getEntries('plugin'):
-                pass
-            return [self.__getPluginObject()]
+                item = PluginItem()
+                item.id = entry['_id']
+                item.name = entry['name']
+                item.description = entry['description']
+                item.outputFields = entry['fields']
+                item.pois = entry['pois']
+                item.types = entry['types']
+                entries[item.name] = item
+            return entries
         if which == "project":
             entries = {}
             for entry in self.db.getEntries('project'):
@@ -112,5 +119,4 @@ class XMLParser:
             return entries
 
     def deleteEntry(self, which, item):
-
         self.db.deleteEntry(which, item.id)
