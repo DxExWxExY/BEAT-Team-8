@@ -112,4 +112,5 @@ class XMLParser:
             return entries
 
     def deleteEntry(self, which, item):
+
         self.db.deleteEntry(which, item.id)
