@@ -14,7 +14,11 @@ class ProjectModel:
 
     def getSelectedProject(self, key):
         if len(self.__projectList) > 0:
-            return self.__projectList[key]
+            try:
+                return self.__projectList[key]
+            except KeyError:
+                # return self.__projectList[]
+                pass
         return None
 
     def addProject(self, path):
@@ -25,8 +29,7 @@ class ProjectModel:
     def deleteProject(self, i):
         self.__parser.deleteEntry("project" ,self.__projectList.pop(i))
 
-    def saveProject(self, item, oldName=""):
-        print(self.__projectList)
+    def saveProject(self, item, oldName):
         del self.__projectList[oldName]
         self.__projectList[item.name] = item
         self.__parser.updateEntry("project", item)

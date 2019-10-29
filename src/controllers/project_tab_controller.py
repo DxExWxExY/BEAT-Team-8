@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem
 
 from src.models.project_model import ProjectModel
@@ -105,9 +105,12 @@ class ProjectTabController:
             selectedItem.description = self.tab.projectDescription.toPlainText()
             selectedItem.binaryPath = self.tab.binPath.text()
             self.model.saveProject(selectedItem, oldName=oldName)
-            index = self.tab.projectList.indexFromItem(self.tab.projectList.currentItem()).row()
+            itemIndex = self.tab.projectList.findItems(oldName, QtCore.Qt.MatchExactly)
+            i = self.tab.projectList.row(itemIndex[0])
+            self.tab.projectList.takeItem(i)
             self.tab.projectList.clear()
             self.__populateProjectList()
+            index = self.tab.projectList.count() - 1
             self.tab.projectList.setCurrentRow(index)
             self.__updateUI()
 
@@ -115,6 +118,7 @@ class ProjectTabController:
         self.model.deleteProject(self.__getCurrentIndex())
         self.tab.projectList.clear()
         self.__populateProjectList()
+        self.tab.projectList.setCurrentRow(self.tab.projectList.count() - 1)
 
     def __addProject(self):
         callback = QFileDialog.getOpenFileName()
