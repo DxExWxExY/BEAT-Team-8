@@ -1,5 +1,7 @@
 from pymongo import MongoClient
 
+from src.items.plugin_item import PluginItem
+
 
 class Database:
     def __init__(self):
@@ -29,3 +31,13 @@ class Database:
 
     def deleteEntry(self, which, id):
         self.db[which].delete_one({"_id": id})
+
+if __name__ == "__main__":
+    item = PluginItem()
+    item.name = "Network Plugin"
+    item.types = ["All", "Function", "Variable", "String", "DLL", "Struct", "Packet Protocol"]
+    item.pois = ["network", "socket", "ip"]
+    item.outputFields = ["Jinja Script"]
+
+    db = Database()
+    db.updateEntry("plugin", item.asDictionary())
