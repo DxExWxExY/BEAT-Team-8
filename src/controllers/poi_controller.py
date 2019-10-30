@@ -21,6 +21,11 @@ class POITabController:
     def __searchPoi(self):
         pass
 
+    def __populateList(self):
+        selected = self.tab.existingPluginsDropdown.currentText()
+        self.tab.poiList.clear()
+        self.tab.poiList.addItems(self.model.getPluginPois(selected))
+
     def __selectPlugin(self):
         selected = self.tab.existingPluginsDropdown.currentText()
         if selected in "Select Plugin":
@@ -41,6 +46,8 @@ class POITabController:
         # TODO: filter by type
         pass
 
-    def __addPoiToPlugin(self, which):
-        self.model
-        pass
+    def __addPoiToPlugin(self):
+        poi = "net"
+        which = self.tab.existingPluginsDropdown.currentText()
+        self.model.addPoiDefinition(which, poi)
+        self.__populateList()

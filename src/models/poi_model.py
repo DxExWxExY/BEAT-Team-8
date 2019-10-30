@@ -12,8 +12,8 @@ class POIModel:
     def getPluginPois(self, key):
         return self.__pluginList[key].pois
 
-    def addPoiDefinition(self):
-        pass
+    def addPoiDefinition(self, key, poi):
+        self.__pluginList[key].pois += [poi]
 
     def getPluginList(self):
         return self.__pluginList
