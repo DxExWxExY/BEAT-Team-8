@@ -21,7 +21,7 @@ class Database:
                 condition = {"_id": data["_id"]}
                 values = {"$set": data}
                 self.projectsCollection.update_one(condition, values)
-        if which == "plugin":
+        elif which == "plugin":
             if not "_id" in data.keys():
                 self.pluginsCollection.insert_one(data)
             else:

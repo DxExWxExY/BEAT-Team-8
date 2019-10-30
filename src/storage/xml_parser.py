@@ -83,6 +83,8 @@ class XMLParser:
     def updateEntry(self, which, item):
         if which == "project":
             self.__createProjectEntry(item)
+        if which == "plugin":
+            self.__createPluginEntry(item)
 
     def getEntries(self, which):
         if which == "plugin":
@@ -111,3 +113,6 @@ class XMLParser:
 
     def deleteEntry(self, which, item):
         self.db.deleteEntry(which, item.id)
+
+    def __createPluginEntry(self, item):
+        self.db.updateEntry("plugin", item.asDictionary())

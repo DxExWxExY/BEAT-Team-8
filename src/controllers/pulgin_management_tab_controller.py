@@ -1,3 +1,4 @@
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import QFileDialog
 
 from src.models.plugin_management_model import PluginManagementModel
@@ -34,11 +35,20 @@ class PluginManagementTabController:
         self.tab.poiList.addItems(selectedItem.pois)
 
     def __savePlugin(self):
-        current = self.model.getSelectedPlugin(self.__currentItem())
-        current.name = self.tab.pluginName.text()
-        current.description = self.tab.pluginDescription.toPlainText()
-        self.tab.pluginList.clear()
-        self.__populatePluginList()
+        selectedPlugin = self.model.getSelectedPlugin(self.__currentItem())
+        if selectedPlugin is not None:
+            oldName = selectedPlugin.name
+            selectedPlugin.name = self.tab.pluginName.text()
+            selectedPlugin.description = self.tab.pluginDescription.toPlainText()
+            self.model.savePlugin(selectedPlugin, oldName)
+            itemIndex = self.tab.pluginList.findItems(oldName, QtCore.Qt.MatchExactly)
+            i = self.tab.pluginList.row(itemIndex[0])
+            self.tab.pluginList.takeItem(i)
+            self.tab.pluginList.clear()
+            self.__populatePluginList()
+            index = self.tab.pluginList.count() -1
+            self.tab.pluginList.setCurrentRow(index)
+            self.__updateUI()
 
     def __deletePlugin(self):
         self.model.deletePlugin(self.__currentItem())
@@ -66,18 +76,16 @@ class PluginManagementTabController:
                 self.tab.pluginList.addItem(s)
 
     def __addPlugin(self):
-        self.model.addPlugin()
-        self.tab.pluginList.clear()
-        self.__populatePluginList()
-        self.tab.pluginList.setCurrentRow(self.tab.pluginList.count() - 1)
-
-    def __fileBrowser(self, isData=False):
         callback = QFileDialog.getOpenFileName()
-        if callback:
-            if isData:
-                self.tab.dataSetPath.setText(str(callback[0]))
-            else:
-                self.tab.pluginStructurePath.setText(str(callback[0]))
+        try:
+            if callback:
+                self.model.addPlugin(str(callback[0]))
+                self.tab.pluginList.clear()
+                self.__populatePluginList()
+            self.tab.pluginList.setCurrentRow(self.tab.pluginList.count() - 1)
+        except KeyError:
+            # TODO: raise exception for file not being xml
+            pass
 
     def __editPoiDialog(self):
         self.editPoi = EditPoiDialog()

@@ -97,13 +97,13 @@ class ProjectTabController:
         return self.tab.projectList.currentItem().text()
 
     def __saveProject(self):
-        selectedItem = self.model.getSelectedProject(self.__getCurrentIndex())
-        if selectedItem is not None:
-            oldName = selectedItem.name
-            selectedItem.name = self.tab.projectName.text()
-            selectedItem.description = self.tab.projectDescription.toPlainText()
-            selectedItem.binaryPath = self.tab.binPath.text()
-            self.model.saveProject(selectedItem, oldName=oldName)
+        selectedProject = self.model.getSelectedProject(self.__getCurrentIndex())
+        if selectedProject is not None:
+            oldName = selectedProject.name
+            selectedProject.name = self.tab.projectName.text()
+            selectedProject.description = self.tab.projectDescription.toPlainText()
+            selectedProject.binaryPath = self.tab.binPath.text()
+            self.model.saveProject(selectedProject, oldName)
             itemIndex = self.tab.projectList.findItems(oldName, QtCore.Qt.MatchExactly)
             i = self.tab.projectList.row(itemIndex[0])
             self.tab.projectList.takeItem(i)
