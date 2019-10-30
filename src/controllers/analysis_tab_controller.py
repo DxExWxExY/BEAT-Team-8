@@ -55,7 +55,6 @@ class AnalysisTabController:
             self.tab.dropDownMenuPoi.clear()
             self.tab.dropDownMenuPoi.addItems(self.model.getPluginFilters(selected))
 
-
     def __populateDropdowns(self):
         self.tab.dropDownMenuPlugin.addItems(self.model.getPluginsList())
 
@@ -73,8 +72,6 @@ class AnalysisTabController:
             self.tab.poiList.clear()
             for item in searchList:
                 self.tab.poiList.addItem(item)
-
-
 
     def __commentWindow(self):
         self.tab.commentView = CommentDialog()
