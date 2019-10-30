@@ -94,7 +94,8 @@ class AnalysisTabController:
 
     def __runStatic(self):
         if self.project is not None:
-            self.model.run_static(self.project.binaryPath)
+            plugin = self.tab.dropDownMenuPlugin.currentText()
+            self.model.run_static(self.project.binaryPath, plugin)
             self.__updateTerminal()
             self.__populateList()
         else:

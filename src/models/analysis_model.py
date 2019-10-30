@@ -1,3 +1,5 @@
+from fuzzywuzzy import process
+
 from src.analyzers.static_analyzer import StaticAnalyzer
 from src.storage.xml_parser import XMLParser
 
@@ -10,11 +12,12 @@ class AnalysisModel:
         self.__poiList = dict()
         self.__message = ''
 
-    def run_static(self, path):
+    def run_static(self, path, plugin):
         self.__staticAnalyzer.setPath(path)
         self.__poiList["Function"] = self.__staticAnalyzer.R2findPOI("function")
         self.__poiList["DLL"] = self.__staticAnalyzer.R2findPOI("dll")
         self.__poiList["String"] = self.__staticAnalyzer.R2findPOI("strings")
+        self.__lint(plugin)
         self.__message = "Static analysis complete."
 
     def getPoiList(self):
@@ -43,3 +46,12 @@ class AnalysisModel:
             return self.__poiList[filter]
         else:
             return []
+
+    def __lint(self, pluginName):
+        plugin = self.__pluginList[pluginName]
+        for key in self.__poiList.keys():
+            lint = []
+            for e in self.__poiList[key]:
+                if process.extractOne(e, plugin.pois)[1] > 80:
+                    lint.append(e)
+            self.__poiList[key] = lint
