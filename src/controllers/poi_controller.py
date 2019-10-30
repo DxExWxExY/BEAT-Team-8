@@ -12,6 +12,7 @@ class POITabController:
     def __addEventHandlers(self):
         self.tab.existingPluginsDropdown.currentIndexChanged.connect(lambda: self.__selectPlugin())
         self.tab.typeDropdown.currentIndexChanged.connect(lambda: self.__selectType())
+        self.tab.addPoiButton.clicked.connect(lambda: self.__addPoiToPlugin())
 
     def __populateDropdowns(self):
         items = ["Select Plugin"] + [key for key in self.model.getPluginList().keys()]
@@ -38,4 +39,8 @@ class POITabController:
 
     def __selectType(self):
         # TODO: filter by type
+        pass
+
+    def __addPoiToPlugin(self, which):
+        self.model
         pass
