@@ -90,3 +90,6 @@ class PluginManagementTabController:
     def __editPoiDialog(self):
         self.editPoi = EditPoiDialog()
         self.editPoi.show()
+
+    def update(self):
+        self.model.update()

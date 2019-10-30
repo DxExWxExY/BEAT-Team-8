@@ -55,3 +55,6 @@ class AnalysisModel:
                 if process.extractOne(e, plugin.pois)[1] > 80:
                     lint.append(e)
             self.__poiList[key] = lint
+
+    def update(self):
+        self.__pluginList = self.parser.getEntries("plugin")

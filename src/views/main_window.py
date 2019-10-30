@@ -8,7 +8,6 @@ from src.controllers.poi_controller import POITabController
 from src.controllers.project_tab_controller import ProjectTabController
 from src.controllers.pulgin_management_tab_controller import PluginManagementTabController
 from src.views.tabs.documentation_tab import DocumentationTab
-from src.views.tabs.points_of_intersets_tab import PointsOfInterestTab
 
 
 class MainWindow(QMainWindow):
@@ -32,7 +31,7 @@ class MainWindow(QMainWindow):
         self.tabs.addTab(DocumentationTab(), "Documentation")
         self.tabs.setStyleSheet("QTabBar::tab { height: 50%; width: 200%; }")
         self.tabs.setFont(QFont("arial", 11))
-        self.tabs.currentChanged.connect(lambda: self.setProjectForUse())
+        self.tabs.currentChanged.connect(lambda: self.updateData())
 
     def buildWindow(self):
         # Tabs
@@ -48,9 +47,12 @@ class MainWindow(QMainWindow):
         self.setGeometry(qtRectangle)
         self.show()
 
-    def setProjectForUse(self):
+    def updateData(self):
         project = self.projectController.getCurrentProject()
         self.analysisController.setProject(project)
+        self.analysisController.update()
+        self.pluginManagementController.update()
+        self.poiController.update()
 
     def wheelEvent(self, event: QWheelEvent):
         if event.modifiers() == Qt.ControlModifier:

@@ -132,3 +132,6 @@ class AnalysisTabController:
             errorDialog.setInformativeText("Select a project from the Project Tab.")
             errorDialog.setIcon(3)
             errorDialog.exec_()
+
+    def update(self):
+        self.model.update()

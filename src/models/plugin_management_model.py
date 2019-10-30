@@ -28,3 +28,6 @@ class PluginManagementModel:
     def __buildItem(self, path):
         # TODO: Parse from xml
         return PluginItem()
+
+    def update(self):
+        self.__pluginList = self.__parser.getEntries("plugin")

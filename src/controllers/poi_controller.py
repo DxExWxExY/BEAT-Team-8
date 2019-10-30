@@ -54,3 +54,6 @@ class POITabController:
             which = self.tab.existingPluginsDropdown.currentText()
             self.model.addPoiDefinition(which, text)
             self.__populateList()
+
+    def update(self):
+        self.model.update()

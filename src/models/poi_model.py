@@ -24,3 +24,6 @@ class POIModel:
 
     def getPluginFilters(self, key):
         return self.__pluginList[key].types
+
+    def update(self):
+        self.__pluginList = self.parser.getEntries("plugin")
