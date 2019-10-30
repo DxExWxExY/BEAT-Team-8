@@ -1,3 +1,5 @@
+from PyQt5.QtWidgets import QInputDialog, QLineEdit
+
 from src.models.poi_model import POIModel
 from src.views.tabs.points_of_intersets_tab import PointsOfInterestTab
 
@@ -47,7 +49,8 @@ class POITabController:
         pass
 
     def __addPoiToPlugin(self):
-        poi = "net"
-        which = self.tab.existingPluginsDropdown.currentText()
-        self.model.addPoiDefinition(which, poi)
-        self.__populateList()
+        text, okPressed = QInputDialog.getText(self.tab, "New PoI", "New Point of Interest", QLineEdit.Normal)
+        if okPressed and text != '':
+            which = self.tab.existingPluginsDropdown.currentText()
+            self.model.addPoiDefinition(which, text)
+            self.__populateList()
