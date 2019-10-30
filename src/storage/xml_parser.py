@@ -15,7 +15,6 @@ class XMLParser:
         self.schema = XMLSchema("res%sproject_schema.xsd" % os.sep)
 
     def __getProjectObject(self):
-        # TODO: Get everything from the DB
         xml = open("res%sproject_sample.xml" % os.sep, "r").read().strip()
         parser = ET.fromstring(xml)
         if self.schema.is_valid(xml):
@@ -84,14 +83,6 @@ class XMLParser:
     def updateEntry(self, which, item):
         if which == "project":
             self.__createProjectEntry(item)
-
-    def __getPluginObject(self):
-        item = PluginItem()
-        item.name = "Network Plugin"
-        item.types = ["All", "Function", "Variable", "String", "DLL", "Struct", "Packet Protocol"]
-        item.pois = ["network", "socket", "ip"]
-        item.outputFields = ["Jinja Script"]
-        return item
 
     def getEntries(self, which):
         if which == "plugin":

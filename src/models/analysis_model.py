@@ -24,12 +24,10 @@ class AnalysisModel:
         return self.__message
 
     def getPluginFilters(self, pluginName):
-        for plugin in self.__pluginList:
-            if pluginName in plugin.name:
-                return plugin.types
+        return self.__pluginList[pluginName].types
 
     def getPluginsList(self):
-        return ["Select Plugin"] + [item.name for item in self.__pluginList]
+        return ["Select Plugin"] + [key for key in self.__pluginList.keys()]
 
     def setFilterList(self, filter):
         if len(self.__poiList) is 0:

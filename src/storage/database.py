@@ -8,7 +8,7 @@ class Database:
         self.client = MongoClient("mongodb://localhost:27017/")
         self.db = self.client['beat']
         self.projectsCollection = self.db['project']
-        self.pluginsCollection = self.db['plugins']
+        self.pluginsCollection = self.db['plugin']
 
     def getEntries(self, type):
         return self.db[type].find()

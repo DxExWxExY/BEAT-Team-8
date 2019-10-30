@@ -94,8 +94,7 @@ class ProjectTabController:
                 self.tab.projectList.addItem(s)
 
     def __getCurrentIndex(self):
-        i = self.tab.projectList.currentItem().text()
-        return i
+        return self.tab.projectList.currentItem().text()
 
     def __saveProject(self):
         selectedItem = self.model.getSelectedProject(self.__getCurrentIndex())

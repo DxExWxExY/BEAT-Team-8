@@ -6,20 +6,19 @@ class PluginManagementModel:
     def __init__(self):
         self.parser = XMLParser()
         self.__pluginList = self.parser.getEntries("plugin")
+        print(self.__pluginList)
 
     def getPluginList(self):
         return self.__pluginList
 
-    def getSelectedPlugin(self, i):
-        return self.__pluginList[i]
+    def getSelectedPlugin(self, key):
+        return self.__pluginList[key]
 
     def addPlugin(self):
         self.__pluginList.append(PluginItem())
 
-    def savePlugin(self, i, data):
-        # TODO: serialize all objects in lists with parser
-        self.__pluginList[i] = data
-        pass
+    def savePlugin(self, key, data):
+        self.__pluginList[key] = data
 
     def deletePlugin(self, i):
         self.__pluginList.pop(i)

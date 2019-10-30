@@ -22,8 +22,8 @@ class PluginManagementTabController:
         self.tab.editPoi.clicked.connect(lambda: self.__editPoiDialog())
 
     def __populatePluginList(self):
-        for item in self.model.getPluginList():
-            self.tab.pluginList.addItem(item.name)
+        for key in self.model.getPluginList().keys():
+            self.tab.pluginList.addItem(key)
 
     def __updateUI(self):
         self.tab.poiList.clear()
@@ -46,7 +46,7 @@ class PluginManagementTabController:
         self.__populatePluginList()
 
     def __currentItem(self):
-        return self.tab.pluginList.indexFromItem(self.tab.pluginList.currentItem()).row()
+        return self.tab.pluginList.currentItem().text()
 
     def __searchForPlugin(self):
         searchText = self.tab.searchBox.text().lower()
