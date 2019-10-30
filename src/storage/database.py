@@ -27,7 +27,7 @@ class Database:
             else:
                 condition = {"_id": data["_id"]}
                 values = {"$set": data}
-                self.projectsCollection.update_one(condition, values)
+                self.pluginsCollection.update_one(condition, values)
 
     def deleteEntry(self, which, id):
         self.db[which].delete_one({"_id": id})

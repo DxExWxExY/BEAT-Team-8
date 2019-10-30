@@ -14,6 +14,7 @@ class POIModel:
 
     def addPoiDefinition(self, key, poi):
         self.__pluginList[key].pois += [poi]
+        self.parser.updateEntry("plugin", self.__pluginList[key])
 
     def getPluginList(self):
         return self.__pluginList
