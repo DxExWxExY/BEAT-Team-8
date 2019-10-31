@@ -36,7 +36,7 @@ class AnalysisTabController:
             list = self.model.setFilterList(filter)
 
         for item in list:
-            self.tab.poiList.addItem(item)
+            self.tab.poiList.addItem(item[0])
 
     def __selectPlugin(self):
         selected = self.tab.dropDownMenuPlugin.currentText()
@@ -47,13 +47,24 @@ class AnalysisTabController:
             self.tab.dynamicStopbtn.setEnabled(False)
             self.tab.dropDownMenuPoi.clear()
             self.tab.poiContentArea.clear()
+            self.tab.poiList.clear()
         else:
+            self.tab.poiList.clear()
             self.tab.dropDownMenuPoi.setEnabled(True)
             self.tab.staticRunBtn.setEnabled(True)
             self.tab.dynamicRunbtn.setEnabled(True)
             self.tab.dynamicStopbtn.setEnabled(True)
             self.tab.dropDownMenuPoi.clear()
             self.tab.dropDownMenuPoi.addItems(self.model.getPluginFilters(selected))
+            if len(self.project.results) > 0:
+                filter = str(self.tab.dropDownMenuPoi.currentText())
+                self.tab.poiList.clear()
+                pois = []
+                if filter == "All":
+                    for key in self.project.results[selected].keys():
+                        pois += self.project.results[selected][key]
+                for item in pois:
+                    self.tab.poiList.addItem(item[0])
 
     def __populateDropdowns(self):
         self.tab.dropDownMenuPlugin.addItems(self.model.getPluginsList())
@@ -86,18 +97,22 @@ class AnalysisTabController:
         self.tab.analysisResultWindow.show()
 
     def __displayPOI(self):
-        items = self.tab.poiList.selectedItems()
-        x = []
-        for i in range(len(items)):
-            x.append(str(self.tab.poiList.selectedItems()[i].text()))
-        self.__updatePOI(x)
+        selected = self.tab.dropDownMenuPoi.currentText()
+        temp = []
+        items = [e.text() for e in self.tab.poiList.selectedItems()]
+        for e in self.model.setFilterList(selected):
+            for item in items:
+                if item == e[0]:
+                    temp.append(e)
+        self.__updatePOI(temp)
 
     def __runStatic(self):
         if self.project is not None:
             plugin = self.tab.dropDownMenuPlugin.currentText()
-            self.model.run_static(self.project.binaryPath, plugin)
+            self.model.run_static(self.project, plugin)
             self.__updateTerminal()
             self.__populateList()
+            self.model.saveProject(self.project)
         else:
             errorDialog = QtWidgets.QMessageBox()
             errorDialog.setText('Project Not Selected')
@@ -108,8 +123,9 @@ class AnalysisTabController:
 
     def __updatePOI(self, x):
         screen = ""
-        for i in range(len(x)):
-            screen += x[i] + "\n"
+        for e in x:
+            s = "\n".join(e)
+            screen += s + "\n"
         self.tab.poiContentArea.setPlainText(screen)
 
     def __updateTerminal(self):

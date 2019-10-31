@@ -53,27 +53,44 @@ class StaticAnalyzer:
                     results.append(e)
             return results
 
-    # finds functions,strings,variables, statically
     def R2findPOI(self, filterType):
         poiList = []
         if filterType == "function":
             list = self.__executej("isj")
             for i in range(len(list)):
                 if (list[i]['type']) == "FUNC":
-                    poiList.append((str(list[i]['name'])))
+                    item = []
+                    item.append(str(list[i]['name']))
+                    item.append(f"Func Name {str(list[i]['name'])}")
+                    item.append(f"Address {hex(list[i]['vaddr'])}")
+                    self.__execute(f"s {list[i]['vaddr']}")
+                    results = self.__executej("afvj")
+                    for j in range(len(results['reg'])):
+                        temp = []
+                        temp.append(results['reg'][j]['name'])
+                        temp.append(results['reg'][j]['type'])
+                        s = " ".join(temp)
+                        item.append(f"Parameter {s}")
+                    poiList.append(item)
             return poiList
 
+        strs = self.__executej("iij")
         if (filterType == "dll"):
-            strs = self.__executej("iij")  # Grab all imports used by binary ping in json format.
             for i in range(len(strs)):
-                obj = strs[i]
-                poiList.append(str(obj['name']))
+                item = []
+                item.append(strs[i]['name'])
+                item.append(f"DLL Name {strs[i]['name']}")
+                poiList.append(item)
             return poiList
 
         if (filterType == "strings"):
-            strs = self.__executej("izj")  # Grab all imports used by binary ping in json format.
+            strs = self.__executej("izj")
             for i in range(len(strs)):
-                poiList.append(base64.b64decode(str(strs[i]['string'])).decode())
+                item = []
+                item.append(base64.b64decode(str(strs[i]['string'])).decode())
+                item.append(f"String {base64.b64decode(str(strs[i]['string'])).decode()}")
+                item.append(f"Address {hex(strs[i]['vaddr'])}")
+                poiList.append(item)
             return poiList
         # TODO add variables, structs, packet protocol
 

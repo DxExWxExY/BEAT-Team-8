@@ -12,11 +12,12 @@ class AnalysisModel:
         self.__poiList = dict()
         self.__message = ''
 
-    def run_static(self, path, plugin):
-        self.__staticAnalyzer.setPath(path)
+    def run_static(self, project, plugin):
+        self.__staticAnalyzer.setPath(project.binaryPath)
         self.__poiList["Function"] = self.__staticAnalyzer.R2findPOI("function")
         self.__poiList["DLL"] = self.__staticAnalyzer.R2findPOI("dll")
         self.__poiList["String"] = self.__staticAnalyzer.R2findPOI("strings")
+        project.results[plugin] = self.__poiList
         self.__lint(plugin)
         self.__message = "Static analysis complete."
 
@@ -52,9 +53,12 @@ class AnalysisModel:
         for key in self.__poiList.keys():
             lint = []
             for e in self.__poiList[key]:
-                if process.extractOne(e, plugin.pois)[1] > 80:
+                if process.extractOne(e[0], plugin.pois)[1] > 80:
                     lint.append(e)
             self.__poiList[key] = lint
 
     def update(self):
         self.__pluginList = self.parser.getEntries("plugin")
+
+    def saveProject(self, project):
+        self.parser.updateEntry("project", project)
