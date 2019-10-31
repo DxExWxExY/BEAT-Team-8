@@ -11,8 +11,11 @@ class DynamicAnalysis:
     def setPath(self, path):
         try:
             self.analyzer = r2pipe.open(path)
-            self.analyzer.cmd("aaa")
+            # self.analyzer.cmd("aaa")
+            self.analyzer.cmd("e dbg.profile=r2.rr2")
             self.analyzer.cmd("doo")
+
+
             print("The Binary is ready for dynamic analysis")
         except:
             self.analyzer = None
@@ -42,15 +45,32 @@ class DynamicAnalysis:
 
 
     def runDynamic(self):
-        self.__execute("ood")
+        self.__execute("ood > pipe.txt")
         while True:
-            self.__execute("dc")
-            # self.__execute("s")
+            self.__execute("dc > pipe.txt")
+            file = open("pipe.txt", "r+")
+            print(file.read())
+            # file.truncate(0)
             var = self.__executej("sj")
             print(hex(var[0]['offset']), end="\n")
             print(self.__executej(f"axtj {hex(var[0]['offset'])}"))
             time.sleep(1)
         pass
+        # self.__execute("doo")
+        # while True:
+        #     self.__execute("dc")
+        #     print("running dynamic...")
+        #
+        #     # self.__execute("q")
+        #     # self.__execute("ood")
+        #
+        #     self.__execute("s")
+        #     var = self.__executej("sj")
+        #     print(hex(var[0]['offset']), end="\n")
+        #     print(self.__executej(f"axtj {hex(var[0]['offset'])}"))
+        #     time.sleep(1)
+        #
+        # pass
 
         # # Print Binary Information into the BEAT Prompt
         # binaryInfo = self.__executej("i1j")
@@ -81,6 +101,7 @@ class DynamicAnalysis:
 
 if __name__ == "__main__":
     a = DynamicAnalysis()
-    a.setPath('..\\..\\res%sex.o' % os.sep)
-    a.breakpoints()
+    a.setPath('..//..//res%sex.o' % os.sep)
+    a.runDynamic()
+    # a.breakpoints()
 
