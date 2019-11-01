@@ -4,6 +4,7 @@ from src.models.poi_model import POIModel
 from src.views.tabs.points_of_intersets_tab import PointsOfInterestTab
 
 
+# noinspection PyCallByClass
 class POITabController:
     def __init__(self):
         self.tab = PointsOfInterestTab()

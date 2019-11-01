@@ -1,10 +1,11 @@
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem
+from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QMessageBox
 
 from src.models.project_model import ProjectModel
 from src.views.tabs.project_tab import ProjectTab
 
 
+# noinspection PyCallByClass,PyCallByClass
 class ProjectTabController:
     def __init__(self):
         self.tab = ProjectTab()
@@ -94,7 +95,10 @@ class ProjectTabController:
                 self.tab.projectList.addItem(s)
 
     def __getCurrentIndex(self):
-        return self.tab.projectList.currentItem().text()
+        try:
+            return self.tab.projectList.currentItem().text()
+        except AttributeError:
+            pass
 
     def __saveProject(self):
         selectedProject = self.model.getSelectedProject(self.__getCurrentIndex())
@@ -114,13 +118,15 @@ class ProjectTabController:
             self.__updateUI()
 
     def __deleteProject(self):
-        self.model.deleteProject(self.__getCurrentIndex())
-        self.tab.projectList.clear()
-        self.__populateProjectList()
-        self.tab.projectList.setCurrentRow(self.tab.projectList.count() - 1)
+        buttonReply = QMessageBox.question(self.tab, 'Delete Project', "Are you sure you want to delete this project?",  QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if buttonReply == QMessageBox.Yes:
+            self.model.deleteProject(self.__getCurrentIndex())
+            self.tab.projectList.clear()
+            self.__populateProjectList()
+            self.tab.projectList.setCurrentRow(self.tab.projectList.count() - 1)
 
     def __addProject(self):
-        callback = QFileDialog.getOpenFileName()
+        callback = QFileDialog.getOpenFileName(self.tab)
         try:
             if callback:
                 self.model.addProject(str(callback[0]))

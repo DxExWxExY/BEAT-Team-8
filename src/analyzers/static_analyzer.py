@@ -10,7 +10,6 @@ class StaticAnalyzer:
         try:
             self.analyzer = r2pipe.open(path)
             self.analyzer.cmd("aaa")
-            # self.analyzer.cmd("doo")
         except:
             self.analyzer = None
 
@@ -18,14 +17,13 @@ class StaticAnalyzer:
         if self.analyzer is not None:
             properties = dict()
             BinInfo = self.__executej("ij")
-            # TODO: Fix findings
             properties['file'] = BinInfo["core"]["file"]
             properties['os'] = BinInfo["bin"]["os"]
             properties['arch'] = BinInfo["bin"]["arch"]
             properties['machine'] = BinInfo["bin"]["machine"]
             properties['class'] = BinInfo["core"]["format"]
             properties['bits'] = str(BinInfo["bin"]["bits"])
-            properties['lang'] = "Language"#BinInfo["bin"]["bits"]
+            properties['lang'] = BinInfo["bin"]["lang"]
             properties['canary'] = str(BinInfo["bin"]["canary"])
             properties['crypto'] = str(BinInfo["bin"]["crypto"])
             properties['nx'] = str(BinInfo["bin"]["nx"])
@@ -58,12 +56,12 @@ class StaticAnalyzer:
         if filterType == "function":
             list = self.__executej("isj")
             for i in range(len(list)):
-                if (list[i]['type']) == "FUNC":
+                if (list[i]['type']) == "FUNC" and list[i]['demname']:
                     item = []
-                    item.append(str(list[i]['name']))
-                    item.append(f"Func Name {str(list[i]['name'])}")
+                    item.append(str(list[i]['demname']))
+                    item.append(f"Func Name {str(list[i]['demname'])}")
                     item.append(f"Address {hex(list[i]['vaddr'])}")
-                    self.__execute(f"s {list[i]['vaddr']}")
+                    self.__execute(f"s {hex(list[i]['vaddr'])}")
                     results = self.__executej("afvj")
                     for j in range(len(results['reg'])):
                         temp = []
