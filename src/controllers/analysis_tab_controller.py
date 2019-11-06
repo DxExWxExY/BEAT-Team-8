@@ -56,15 +56,16 @@ class AnalysisTabController:
             self.tab.dynamicStopbtn.setEnabled(True)
             self.tab.dropDownMenuPoi.clear()
             self.tab.dropDownMenuPoi.addItems(self.model.getPluginFilters(selected))
-            if len(self.project.results) > 0:
-                filter = str(self.tab.dropDownMenuPoi.currentText())
-                self.tab.poiList.clear()
-                pois = []
-                if filter == "All":
-                    for key in self.project.results[selected].keys():
-                        pois += self.project.results[selected][key]
-                for item in pois:
-                    self.tab.poiList.addItem(item[0])
+            if self.project is not None:
+                if len(self.project.results) > 0:
+                    filter = str(self.tab.dropDownMenuPoi.currentText())
+                    self.tab.poiList.clear()
+                    pois = []
+                    if filter == "All":
+                        for key in self.project.results[selected].keys():
+                            pois += self.project.results[selected][key]
+                    for item in pois:
+                        self.tab.poiList.addItem(item[0])
 
     def __populateDropdowns(self):
         self.tab.dropDownMenuPlugin.addItems(self.model.getPluginsList())

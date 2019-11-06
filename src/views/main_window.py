@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
         self.tabs.addTab(self.pluginManagementController.tab, "Plugin Management")
         self.tabs.addTab(self.poiController.tab, "PoI Definitions")
         self.tabs.addTab(DocumentationTab(), "Documentation")
-        self.tabs.setStyleSheet("QTabBar::tab { height: 50%; width: 200%; }")
+        self.tabs.setStyleSheet("QTabBar::tab { height: 40%; width: 200%; }")
         self.tabs.setFont(QFont("arial", 11))
         self.tabs.currentChanged.connect(lambda: self.updateData())
 
@@ -53,17 +53,3 @@ class MainWindow(QMainWindow):
         self.analysisController.update()
         self.pluginManagementController.update()
         self.poiController.update()
-
-    def wheelEvent(self, event: QWheelEvent):
-        if event.modifiers() == Qt.ControlModifier:
-            font = QFont()
-            if event.angleDelta().y() > 0:
-                self.fontSize += 2
-                font.setPointSize(self.fontSize)
-                self.setFont(font)
-            else:
-                if self.fontSize > 2:
-                    self.fontSize -= 2
-                    font.setPointSize(self.fontSize)
-                    self.setFont(font)
-            self.update()
