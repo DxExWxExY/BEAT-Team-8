@@ -1,5 +1,5 @@
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QInputDialog, QLineEdit
 
 from src.models.plugin_management_model import PluginManagementModel
 from src.views.dialogs.edit_poi_dialog import EditPoiDialog
@@ -10,6 +10,7 @@ class PluginManagementTabController:
     def __init__(self):
         self.tab = PluginManagementTab()
         self.model = PluginManagementModel()
+        self.editPoiDialog = EditPoiDialog()
         self.__addEventHandlers()
         self.__populatePluginList()
 
@@ -21,6 +22,7 @@ class PluginManagementTabController:
         self.tab.deletePlugin.clicked.connect(lambda: self.__deletePlugin())
         self.tab.savePlugin.clicked.connect(lambda: self.__savePlugin())
         self.tab.editPoi.clicked.connect(lambda: self.__editPoiDialog())
+        self.editPoiDialog.addPoiButton.clicked.connect(lambda: self.__addPoiToPlugin())
 
     def __populatePluginList(self):
         for key in self.model.getPluginList().keys():
@@ -88,8 +90,15 @@ class PluginManagementTabController:
             pass
 
     def __editPoiDialog(self):
-        self.editPoi = EditPoiDialog()
-        self.editPoi.show()
+        self.editPoiDialog.show()
+
+    def __addPoiToPlugin(self):
+        text, okPressed = QInputDialog.getText(self.tab, "New PoI", "New Point of Interest", QLineEdit.Normal)
+        if okPressed and text != '':
+            # which = self.tab.existingPluginsDropdown.currentText()
+            # self.model.addPoiDefinition(which, text)
+            # self.__populateList()
+            pass
 
     def update(self):
         self.model.update()
