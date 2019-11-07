@@ -3,12 +3,11 @@ from PyQt5.QtGui import QWheelEvent, QFont
 from PyQt5.QtWidgets import QDesktopWidget, QTabWidget, QMainWindow
 
 from src.common import constants
-from src.controllers.project_tab_controler import ProjectTabController
-from src.views.tabs.analysis_tab import AnalysisTab
+from src.controllers.analysis_tab_controller import AnalysisTabController
+from src.controllers.poi_controller import POITabController
+from src.controllers.project_tab_controller import ProjectTabController
+from src.controllers.pulgin_management_tab_controller import PluginManagementTabController
 from src.views.tabs.documentation_tab import DocumentationTab
-from src.views.tabs.plugin_management_tab import PluginManagementTab
-from src.views.tabs.points_of_intersets_tab import PointsOfInterestTab
-from src.views.tabs.project_tab import ProjectTab
 
 
 class MainWindow(QMainWindow):
@@ -16,20 +15,23 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.projectController = ProjectTabController()
+        self.analysisController = AnalysisTabController()
+        self.pluginManagementController = PluginManagementTabController()
+        self.poiController = POITabController()
         self.fontSize = 14
         self.tabBuilder()
         self.buildWindow()
 
     def tabBuilder(self):
-        # TODO: Add tab implementations
         self.tabs = QTabWidget()
         self.tabs.addTab(self.projectController.tab, "Project")
-        self.tabs.addTab(AnalysisTab(), "Analysis")
-        self.tabs.addTab(PluginManagementTab(), "Plugin Management")
-        self.tabs.addTab(PointsOfInterestTab(), "Points of Interest")
+        self.tabs.addTab(self.analysisController.tab, "Analysis")
+        self.tabs.addTab(self.pluginManagementController.tab, "Plugin Management")
+        self.tabs.addTab(self.poiController.tab, "PoI Definitions")
         self.tabs.addTab(DocumentationTab(), "Documentation")
-        self.tabs.setStyleSheet("QTabBar::tab { height: 50%; width: 200%; }")
-        self.tabs.setFont(QFont("", 11))
+        self.tabs.setStyleSheet("QTabBar::tab { height: 40%; width: 200%; }")
+        self.tabs.setFont(QFont("arial", 11))
+        self.tabs.currentChanged.connect(lambda: self.updateData())
 
     def buildWindow(self):
         # Tabs
@@ -45,18 +47,9 @@ class MainWindow(QMainWindow):
         self.setGeometry(qtRectangle)
         self.show()
 
-    def wheelEvent(self, event: QWheelEvent):
-        if event.modifiers() == Qt.ControlModifier:
-            font = QFont()
-            if event.angleDelta().y() > 0:
-                self.fontSize += 2
-                print(self.fontSize)
-                font.setPointSize(self.fontSize)
-                self.setFont(font)
-            else:
-                if self.fontSize > 2:
-                    self.fontSize -= 2
-                    print(self.fontSize)
-                    font.setPointSize(self.fontSize)
-                    self.setFont(font)
-            self.update()
+    def updateData(self):
+        project = self.projectController.getCurrentProject()
+        self.analysisController.setProject(project)
+        self.analysisController.update()
+        self.pluginManagementController.update()
+        self.poiController.update()

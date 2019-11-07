@@ -14,7 +14,7 @@ class TabLayout(QWidget):
         rightFrame = QFrame()
         TopFrame = QFrame()
 
-        self.setFont(QFont("", self.fontSize))
+        self.setFont(QFont("arial", self.fontSize))
 
         self._leftPanelLayout = QVBoxLayout()
         self._rightPanelLayout = QVBoxLayout()
@@ -74,13 +74,11 @@ class TabLayout(QWidget):
             font = QFont()
             if event.angleDelta().y() > 0:
                 self.fontSize += 2
-                print(self.fontSize)
                 font.setPointSize(self.fontSize)
                 self.setFont(font)
             else:
                 if self.fontSize > 2:
                     self.fontSize -= 2
-                    print(self.fontSize)
                     font.setPointSize(self.fontSize)
                     self.setFont(font)
             self.update()

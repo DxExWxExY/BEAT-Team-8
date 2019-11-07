@@ -15,35 +15,27 @@ class PointsOfInterestTab(TabLayout):
     def leftPanelBuilder(self):
         layout = QVBoxLayout()
         self.poiList = QListWidget()
-        addPoiButton = QPushButton('Add New Point of Interest')
-
-        self.poiList.addItem("Point of Interest 1")
-        self.poiList.addItem("Point of Interest 2")
-        self.poiList.addItem("Point of Interest 3")
-        self.poiList.addItem("Point of Interest 4")
+        self.addPoiButton = QPushButton('Add New Point of Interest')
 
         self.poiList.itemSelectionChanged.connect(self.useSelectedItem)
 
         layout.addLayout(self.searchBuilder())
         layout.addWidget(self.poiList)
-        layout.addWidget(addPoiButton)
+        layout.addWidget(self.addPoiButton)
 
         return layout
 
     def rightPanelBuilder(self):
         layout = QGridLayout()
 
-        existingPluginsDropdown = QComboBox()
+        self.existingPluginsDropdown = QComboBox()
         self.typeDropdown = QComboBox()
         self.content = QTextEdit()
 
-        existingPluginsDropdown.addItems(["Network Plugin"])
-        self.typeDropdown.addItems(["Variable", "String", "DLL", "Function", "Packet Protocol", "Struct"])
-
         layout.addWidget(QLabel("Plugin"), 0, 0, Qt.AlignRight)
         layout.addWidget(QLabel("Point of Interest Type"), 0, 3, Qt.AlignRight)
-        layout.addWidget(existingPluginsDropdown, 0, 1)
-        layout.addWidget(self.typeDropdown, 0, 4)
+        layout.addWidget(self.existingPluginsDropdown, 0, 1)
+        layout.addWidget(self.typeDropdown, 0, 4, 1, 2)
 
         spacer = QSpacerItem(1, 1, QSizePolicy.Expanding)
 
@@ -58,7 +50,6 @@ class PointsOfInterestTab(TabLayout):
 
         searchBox = QLineEdit()
         searchBox.setPlaceholderText("Search Points of Interest")
-        searchBox.returnPressed.connect(lambda: print("Enter Detected"))
 
         searchButton = QPushButton('Search')
 

@@ -1,20 +1,17 @@
 import sys
 from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QLineEdit, QTextEdit,
-                             QPushButton, QGridLayout)
+                             QPushButton, QGridLayout, QDesktopWidget)
 
 
 class OutputField(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.title = 'Output Field View'
-        self.left = 10
-        self.top = 10
-        self.width = 300
-        self.height = 250
-        self.initUI()
+        self.__initUI()
+        self.__setWindowPosition()
+        self.show()
 
-    def initUI(self):
+    def __initUI(self):
         name = QLabel('Name')
         nameEdit = QLineEdit()
         nameEdit.setPlaceholderText('Name')
@@ -40,13 +37,13 @@ class OutputField(QWidget):
         grid.addWidget(locationEdit, 2, 1, 1, 3)
         grid.addWidget(browseButton, 3, 3)
         grid.addWidget(generateButton, 4, 3)
-        self.setWindowTitle(self.title)
-        self.setGeometry(self.left, self.top, self.width, self.height)
+        self.setWindowTitle('Output Field View')
         self.setLayout(grid)
-        self.show()
 
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    outputFieldView = OutputField()
-    sys.exit(app.exec_())
+    def __setWindowPosition(self):
+        qtRectangle = self.frameGeometry()
+        centerPoint = QDesktopWidget().availableGeometry().center()
+        qtRectangle.setWidth(300)
+        qtRectangle.setHeight(250)
+        qtRectangle.moveCenter(centerPoint)
+        self.setGeometry(qtRectangle)

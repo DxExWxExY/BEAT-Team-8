@@ -1,46 +1,36 @@
-import sys
-
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QLineEdit
+from PyQt5.QtWidgets import QWidget, QPushButton, QLineEdit, QDesktopWidget, QGridLayout, QTextEdit
 
 
 class CommentDialog(QWidget):
-
     def __init__(self):
+        # TODO: receive instance of the poi item whose comment will be added
         super().__init__()
-        self.textbox = QLineEdit(self)
-        self.save = QPushButton('Save', self)
-        self.clear_b = QPushButton('Clear', self)
-        self.title = 'Comment View'
-        self.left = 10
-        self.top = 10
-        self.width = 480
-        self.height = 250
-        self.initUI()
-
-    def initUI(self):
-        self.setWindowTitle(self.title)
-        self.setGeometry(self.left, self.top, self.width, self.height)
-
-        self.save.move(330, 200)
-        self.clear_b.move(400, 200)
-        # self.save.clicked.connect
-        # self.clear_b.clicked.connect()
-
-        self.textbox.move(20, 20)
-        self.textbox.resize(440, 175)
-
+        self.__initUI()
+        self.__setWindowPosition()
         self.show()
 
-    @pyqtSlot()
-    def on_click(self):
-        print('button click')
-        self.clear_b.clicked.connect(self.textbox.clear)
-        self.save.clicked.connect(self.textbox.clear)
+    def __initUI(self):
+        layout = QGridLayout()
+        self.commentBox = QTextEdit()
+        self.saveComment = QPushButton('Save')
+        self.clearComment = QPushButton('Clear')
 
+        layout.addWidget(self.commentBox, 0, 0, 5, 5)
+        layout.addWidget(self.saveComment, 6, 4, 1, 1)
+        layout.addWidget(self.clearComment, 6, 3 , 1, 1)
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = CommentDialog()
-    ex.show()
-    sys.exit(app.exec_())
+        self.clearComment.clicked.connect(lambda: self.__clearComment())
+
+        self.setWindowTitle('Comment View')
+        self.setLayout(layout)
+
+    def __setWindowPosition(self):
+        qtRectangle = self.frameGeometry()
+        centerPoint = QDesktopWidget().availableGeometry().center()
+        qtRectangle.setWidth(480)
+        qtRectangle.setHeight(250)
+        qtRectangle.moveCenter(centerPoint)
+        self.setGeometry(qtRectangle)
+
+    def __clearComment(self):
+        self.commentBox.clear()
