@@ -108,7 +108,7 @@ class XMLParser:
                 item.description = entry['description']
                 item.binaryPath = entry['path']
                 item.binaryProperties = entry['properties']
-                item.results = entry['results']
+                # item.results = entry['results']
                 entries[item.name] = item
             return entries
 
