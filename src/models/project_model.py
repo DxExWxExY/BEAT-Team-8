@@ -1,30 +1,40 @@
 from src.items.project_item import ProjectItem
-from src.models.static_analyzer import StaticAnalyzer
-from src.parsers.project_xml_parser import ProjectSchemaParser
+from src.analyzers.static_analyzer import StaticAnalyzer
+from src.storage.xml_parser import XMLParser
 
 
 class ProjectModel:
     def __init__(self):
-        # TODO: Use parser
-        self.__parser = ProjectSchemaParser()
+        self.__parser = XMLParser()
         self.__staticAnalyzer = StaticAnalyzer()
-        self.__projectList = [ProjectItem(i) for i in range(5)]
+        self.__projectList = self.__parser.getEntries("project")
 
     def getProjectList(self):
         return self.__projectList
 
-    def getSelectedProject(self, i):
-        return self.__projectList[i]
+    def getSelectedProject(self, key):
+        if len(self.__projectList) > 0:
+            try:
+                return self.__projectList[key]
+            except KeyError:
+                # return self.__projectList[]
+                pass
+        return None
 
-    def addProject(self):
-        self.__projectList.append(ProjectItem(len(self.__projectList)))
+    def addProject(self, path):
+        item = ProjectItem(path=path)
+        self.__checkAttributes(item)
+        self.__projectList[item.name] = item
 
     def deleteProject(self, i):
-        self.__projectList.pop(i)
+        self.__parser.deleteEntry("project" ,self.__projectList.pop(i))
 
-    def checkAttributes(self, i):
-        if not self.__projectList[i].hasBinaryAttributes():
-            self.__staticAnalyzer.setPath(self.__projectList[i].binaryPath)
-            self.__projectList[i].binaryProperties = self.__staticAnalyzer.getBinaryProperties()
-            self.__staticAnalyzer.close()
+    def saveProject(self, item, oldName):
+        del self.__projectList[oldName]
+        self.__projectList[item.name] = item
+        self.__parser.updateEntry("project", item)
 
+    def __checkAttributes(self, item):
+        self.__staticAnalyzer.setPath(item.binaryPath)
+        item.binaryProperties = self.__staticAnalyzer.getBinaryProperties()
+        self.__staticAnalyzer.close()

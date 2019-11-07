@@ -1,14 +1,16 @@
-import os
-
-
 class ProjectItem():
-    def __init__(self, n):
-        super().__init__()
-        self.name = f"Project {n}"
-        self.description = f"{n}"
-        self.binaryPath = "dlakjslk"
+    def __init__(self, path="", name="New Project"):
+        self.id = None
+        self.name = name
+        self.description = ""
+        self.binaryPath = path
         self.binaryProperties = dict()
+        self.results = dict()
 
-    def hasBinaryAttributes(self):
-        return self.binaryProperties
-
+    def asDictionary(self):
+        if self.id is None:
+            return {"name": self.name, "description": self.description, "path": self.binaryPath,
+                    "properties": self.binaryProperties, "results": self.results}
+        else:
+            return {"_id": self.id, "name": self.name, "description": self.description, "path": self.binaryPath,
+                    "properties": self.binaryProperties, "results": self.results}

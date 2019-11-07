@@ -74,13 +74,11 @@ class TabLayout(QWidget):
             font = QFont()
             if event.angleDelta().y() > 0:
                 self.fontSize += 2
-                print(self.fontSize)
                 font.setPointSize(self.fontSize)
                 self.setFont(font)
             else:
                 if self.fontSize > 2:
                     self.fontSize -= 2
-                    print(self.fontSize)
                     font.setPointSize(self.fontSize)
                     self.setFont(font)
             self.update()
