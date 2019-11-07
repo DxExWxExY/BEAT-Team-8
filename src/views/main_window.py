@@ -7,6 +7,7 @@ from src.controllers.analysis_tab_controller import AnalysisTabController
 from src.controllers.poi_controller import POITabController
 from src.controllers.project_tab_controller import ProjectTabController
 from src.controllers.pulgin_management_tab_controller import PluginManagementTabController
+from src.views.dialogs.prjInfoDialog import prjInfoDialog
 from src.views.tabs.documentation_tab import DocumentationTab
 
 
@@ -19,8 +20,14 @@ class MainWindow(QMainWindow):
         self.pluginManagementController = PluginManagementTabController()
         self.poiController = POITabController()
         self.fontSize = 14
-        self.tabBuilder()
-        self.buildWindow()
+        self.prjInfoDialog()
+        # self.tabBuilder()
+        # self.buildWindow()
+
+    def prjInfoDialog(self):
+        self.prjInfoDialog = prjInfoDialog()
+        self.prjInfoDialog.show()
+
 
     def tabBuilder(self):
         self.tabs = QTabWidget()
