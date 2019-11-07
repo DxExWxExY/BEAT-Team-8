@@ -29,6 +29,7 @@ class ProjectModel:
 
     def deleteProject(self, i):
         self.__parser.deleteEntry("project" ,self.__projectList[i])
+        del self.__projectList[i]
 
     def saveProject(self, item):
         self.__projectList[item.name] = item

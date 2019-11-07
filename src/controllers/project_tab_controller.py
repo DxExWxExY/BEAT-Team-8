@@ -7,6 +7,7 @@ from src.views.dialogs.prjInfoDialog import prjInfoDialog
 from src.views.dialogs.project_selection_dialog import ProjectSelection
 from src.views.tabs.project_tab import ProjectTab
 
+
 class ProjectTabController:
     def __init__(self):
         self.tab = ProjectTab()
@@ -26,7 +27,7 @@ class ProjectTabController:
         self.tab.searchBox.returnPressed.connect(lambda: self.__searchForItem())
         self.tab.searchButton.clicked.connect(lambda: self.__searchForItem())
         self.newProjectDialog.createButton.clicked.connect(lambda: self.__saveProject())
-    #     Dialog Handlers
+        #     Dialog Handlers
         self.newProjectDialog.createButton.clicked.connect(lambda: self.__saveProject())
         self.projectSelection.deleteProject.clicked.connect(lambda: self.__deleteProject())
         self.projectSelection.addProject.clicked.connect(lambda: self.__addProject())
@@ -71,10 +72,7 @@ class ProjectTabController:
                 self.tab.projectList.addItem(s)
 
     def __getCurrentIndex(self):
-        try:
-            return self.projectSelection.projectList.currentItem().text()
-        except AttributeError:
-            pass
+        return self.projectSelection.projectsList.currentItem().text()
 
     def __saveProject(self):
         self.newProjectDialog.newItem.name = self.newProjectDialog.projectName.text()
@@ -85,18 +83,18 @@ class ProjectTabController:
         self.newProjectDialog.close()
 
     def __deleteProject(self):
-        buttonReply = QMessageBox.question(self.tab, 'Delete Project', "Are you sure you want to delete this project?",  QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        buttonReply = QMessageBox.question(self.tab, 'Delete Project', "Are you sure you want to delete this project?",
+                                           QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if buttonReply == QMessageBox.Yes:
             self.model.deleteProject(self.__getCurrentIndex())
-            self.projectSelection.projectList.clear()
+            self.projectSelection.projectsList.clear()
             self.__populateProjectList()
-            self.projectSelection.projectList.setCurrentRow(self.projectSelection.projectList.count() - 1)
 
     def __addProject(self):
-        callback = QFileDialog.getOpenFileName(self.projectSelection)
+        path, response = QFileDialog.getOpenFileName(self.projectSelection)
         try:
-            if callback:
-                self.newProjectDialog.newItem = self.model.verifyBinary(callback[0])
+            if response:
+                self.newProjectDialog.newItem = self.model.verifyBinary(path)
                 self.__projectProperties()
                 self.newProjectDialog.show()
         except KeyError:

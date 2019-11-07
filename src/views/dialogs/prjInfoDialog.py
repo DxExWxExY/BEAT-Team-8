@@ -9,7 +9,7 @@ class prjInfoDialog(QWidget):
 
     def __init__(self):
         super().__init__()
-        self.newItem = ProjectItem()
+        self.newItem = None
         self.__setWindowPosition()
         self.__initUI()
 

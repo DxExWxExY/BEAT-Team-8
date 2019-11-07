@@ -19,6 +19,8 @@ class ProjectSelection(QWidget):
     def __initUI(self):
         layout = QGridLayout()
 
+        self.projectsList = QListWidget()
+
         icon = QLabel()
         beat = QLabel("\nBEAT\n")
         beat.setAlignment(Qt.AlignCenter)
@@ -31,9 +33,6 @@ class ProjectSelection(QWidget):
         self.addProject.setIcon(addIcon)
         self.addProject.setStyleSheet(BUTTON_STYLE)
 
-
-        self.projectsList = QListWidget()
-
         layout.addWidget(icon, 0, 2, 1, 1)
         layout.addWidget(beat , 1, 2)
         layout.addWidget(self.addProject, 2, 0, 1, 5)
@@ -41,7 +40,6 @@ class ProjectSelection(QWidget):
         layout.addWidget(self.projectsList, 4, 0, 1, 5)
         layout.addWidget(self.deleteProject, 5, 0, 1, 1)
         layout.addWidget(self.openProject, 5, 4, 1, 1)
-
 
         self.setLayout(layout)
 
