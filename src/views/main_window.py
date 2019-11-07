@@ -20,13 +20,9 @@ class MainWindow(QMainWindow):
         self.pluginManagementController = PluginManagementTabController()
         self.poiController = POITabController()
         self.fontSize = 14
-        self.selectionDialog()
+        self.projectController.projectSelection.show()
         # self.tabBuilder()
         # self.buildWindow()
-
-    def selectionDialog(self):
-        self.projectSelection = ProjectSelection()
-        self.projectSelection.show()
 
     def tabBuilder(self):
         self.tabs = QTabWidget()
