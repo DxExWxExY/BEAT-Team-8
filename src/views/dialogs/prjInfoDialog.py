@@ -1,12 +1,15 @@
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QWidget, QGridLayout, QDesktopWidget, QVBoxLayout, QListWidget, QPushButton, QLabel, \
-    QLineEdit, QTextEdit, QTableWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget, QGridLayout, QDesktopWidget, QVBoxLayout, QPushButton, QLabel, QLineEdit, \
+    QTableWidget, QTableWidgetItem
+
+from src.items.project_item import ProjectItem
 
 
 class prjInfoDialog(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.newItem = ProjectItem()
         self.__setWindowPosition()
         self.__initUI()
 
@@ -20,11 +23,10 @@ class prjInfoDialog(QWidget):
 
         layout = QGridLayout()
         self.projectName = QLineEdit()
-        self.projectDescription = QTextEdit()
         self.binPath = QLineEdit()
         self.browsePath = QPushButton('Browse')
-        self.deleteButton = QPushButton('Cancel')
-        self.saveButton = QPushButton('Create')
+        self.cancelButton = QPushButton('Cancel')
+        self.createButton = QPushButton('Create')
 
         layout.addWidget(QLabel("Project Name"), 0, 0)
         layout.addWidget(QLabel('Binary File Path'), 3, 0)
@@ -35,8 +37,8 @@ class prjInfoDialog(QWidget):
         layout.addWidget(self.__tableBuilder(), 5, 1, 1, 9)
 
 
-        layout.addWidget(self.deleteButton, 6, 8)
-        layout.addWidget(self.saveButton, 6, 9)
+        layout.addWidget(self.cancelButton, 6, 8)
+        layout.addWidget(self.createButton, 6, 9)
         layout.addWidget(self.browsePath, 3, 9)
         self.setLayout(layout)
 

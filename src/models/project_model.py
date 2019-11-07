@@ -21,16 +21,16 @@ class ProjectModel:
                 pass
         return None
 
-    def addProject(self, path):
+    def verifyBinary(self, path):
         item = ProjectItem(path=path)
         self.__checkAttributes(item)
-        self.__projectList[item.name] = item
+        return item
+
 
     def deleteProject(self, i):
-        self.__parser.deleteEntry("project" ,self.__projectList.pop(i))
+        self.__parser.deleteEntry("project" ,self.__projectList[i])
 
-    def saveProject(self, item, oldName):
-        del self.__projectList[oldName]
+    def saveProject(self, item):
         self.__projectList[item.name] = item
         self.__parser.updateEntry("project", item)
 
@@ -38,3 +38,6 @@ class ProjectModel:
         self.__staticAnalyzer.setPath(item.binaryPath)
         item.binaryProperties = self.__staticAnalyzer.getBinaryProperties()
         self.__staticAnalyzer.close()
+
+    def addProject(self, param):
+        pass
