@@ -50,7 +50,7 @@ class ProjectTabController:
     def __fileBrowser(self):
         callback = QFileDialog.getOpenFileName()
         if callback:
-            self.tab.binPath.setText(str(callback[0]))
+            self.newProjectDialog.binPath.setText(str(callback[0]))
 
     def __searchForItem(self):
         searchText = self.tab.searchBox.text().lower()
@@ -75,13 +75,12 @@ class ProjectTabController:
     def __saveProject(self):
         self.newProjectDialog.newItem.name = self.newProjectDialog.projectName.text()
         self.model.saveProject(self.newProjectDialog.newItem)
-        self.tab.projectList.clear()
         self.__populateProjectList()
         self.__clear()
         self.newProjectDialog.close()
 
     def __deleteProject(self):
-        buttonReply = QMessageBox.question(self.tab, 'Delete Project', "Are you sure you want to delete this project?",
+        buttonReply = QMessageBox.question(self.projectSelection, 'Delete Project', "Are you sure you want to delete this project?",
                                            QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if buttonReply == QMessageBox.Yes:
             self.model.deleteProject(self.__getCurrentIndex())
