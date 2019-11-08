@@ -9,9 +9,9 @@ from src.common.tab_layout import TabLayout
 class AnalysisTab(TabLayout):
 
     def __init__(self):
+        super().__init__("Point of Interest View", "Detailed Point of Interest View", True)
         self.list = []
         self.poiContentArea = QPlainTextEdit()
-        super().__init__("Point of Interest View", "Detailed Point of Interest View", True)
         super().addContentToTopPanel(self.TopPanelBuilder())
         super().addContentToRightPanel(self.rightPanelBuilder())
         super().addContentToLeftPanel(self.leftPanelBuilder())

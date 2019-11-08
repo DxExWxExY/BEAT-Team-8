@@ -76,16 +76,17 @@ class ProjectTabController:
         except AttributeError:
             return self.project.name
 
-
     def __saveProject(self):
-        self.newProjectDialog.newItem.name = self.newProjectDialog.projectName.text()
-        self.project = self.model.saveProject(self.newProjectDialog.newItem)
-        self.__populateProjectList()
-        self.__clear()
-        self.newProjectDialog.close()
+        if self.newProjectDialog.projectName.text():
+            self.newProjectDialog.newItem.name = self.newProjectDialog.projectName.text()
+            self.project = self.model.saveProject(self.newProjectDialog.newItem)
+            self.__populateProjectList()
+            self.__clear()
+            self.newProjectDialog.close()
 
     def __deleteProject(self):
-        buttonReply = QMessageBox.question(self.projectSelection, 'Delete Project', "Are you sure you want to delete this project?",
+        buttonReply = QMessageBox.question(self.projectSelection, 'Delete Project',
+                                           "Are you sure you want to delete this project?",
                                            QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if buttonReply == QMessageBox.Yes:
             self.model.deleteProject(self.__getCurrentIndex())
@@ -99,7 +100,6 @@ class ProjectTabController:
                 self.newProjectDialog.newItem = self.model.verifyBinary(path)
                 self.__projectProperties()
                 self.newProjectDialog.exec_()
-                self.project = self.newProjectDialog.newItem
                 self.__openProject()
         except KeyError:
             errorDialog = QtWidgets.QMessageBox()

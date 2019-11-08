@@ -22,8 +22,8 @@ class MainWindow(QMainWindow):
         self.__openSelector()
 
     def __openSelector(self, beatOpen=False):
-        if beatOpen:
-            self.close()
+        # if beatOpen:
+        #     self.close()
         self.projectController.projectSelection.exec_()
         if self.projectController.getCurrentProject() is not None:
             self.__openBeat(beatOpen)
@@ -46,7 +46,7 @@ class MainWindow(QMainWindow):
         self.tabs.addTab(self.poiController.tab, "PoI Definitions")
         self.tabs.addTab(DocumentationTab(), "Documentation")
         self.tabs.setStyleSheet("QTabBar::tab { height: 40%; width: 200%; }")
-        self.tabs.setFont(QFont("arial", 12))
+        self.tabs.setFont(QFont("arial", 11))
         self.tabs.currentChanged.connect(lambda: self.updateData())
 
     def buildWindow(self):
@@ -70,6 +70,7 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.tabs)
 
         # Setup
+        self.setFont(QFont("arial", 11))
         qtRectangle = self.frameGeometry()
         centerPoint = QDesktopWidget().availableGeometry().center()
         qtRectangle.setWidth(constants.WIDTH)
