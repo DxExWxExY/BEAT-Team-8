@@ -16,6 +16,7 @@ class ProjectTabController:
         self.__populateProjectList()
 
     def __populateProjectList(self):
+        self.projectSelection.projectsList.clear()
         for item in self.model.getProjectList().keys():
             self.projectSelection.projectsList.addItem(item)
 
@@ -70,11 +71,15 @@ class ProjectTabController:
                 self.tab.projectList.addItem(s)
 
     def __getCurrentIndex(self):
-        return self.projectSelection.projectsList.currentItem().text()
+        try:
+            return self.projectSelection.projectsList.currentItem().text()
+        except AttributeError:
+            return self.project.name
+
 
     def __saveProject(self):
         self.newProjectDialog.newItem.name = self.newProjectDialog.projectName.text()
-        self.model.saveProject(self.newProjectDialog.newItem)
+        self.project = self.model.saveProject(self.newProjectDialog.newItem)
         self.__populateProjectList()
         self.__clear()
         self.newProjectDialog.close()

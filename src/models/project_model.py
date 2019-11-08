@@ -33,6 +33,9 @@ class ProjectModel:
     def saveProject(self, item):
         self.__projectList[item.name] = item
         self.__parser.updateEntry("project", item)
+        self.__projectList = self.__parser.getEntries("project")
+        return self.__projectList[item.name]
+
 
     def __checkAttributes(self, item):
         self.__staticAnalyzer.setPath(item.binaryPath)
