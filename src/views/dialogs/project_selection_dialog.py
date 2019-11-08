@@ -3,12 +3,12 @@ import os
 from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QWidget, QDesktopWidget, QGridLayout, QLabel, QListWidget, QPushButton
+from PyQt5.QtWidgets import QDesktopWidget, QGridLayout, QLabel, QListWidget, QPushButton, QDialog
 
 from src.common.constants import BUTTON_STYLE
 
 
-class ProjectSelection(QWidget):
+class ProjectSelection(QDialog):
     def __init__(self):
         super().__init__()
         self.setFont(QFont("arial", 11))

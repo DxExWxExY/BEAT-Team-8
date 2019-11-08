@@ -31,6 +31,7 @@ class ProjectTabController:
         self.newProjectDialog.createButton.clicked.connect(lambda: self.__saveProject())
         self.projectSelection.deleteProject.clicked.connect(lambda: self.__deleteProject())
         self.projectSelection.addProject.clicked.connect(lambda: self.__addProject())
+        self.projectSelection.openProject.clicked.connect(lambda: self.__openProject())
 
     def __projectProperties(self):
         self.project = self.newProjectDialog.newItem
@@ -96,7 +97,9 @@ class ProjectTabController:
             if response:
                 self.newProjectDialog.newItem = self.model.verifyBinary(path)
                 self.__projectProperties()
-                self.newProjectDialog.show()
+                self.newProjectDialog.exec_()
+                self.project = self.newProjectDialog.newItem
+                self.__openProject()
         except KeyError:
             errorDialog = QtWidgets.QMessageBox()
             errorDialog.setText('Unsupported File')
@@ -107,6 +110,10 @@ class ProjectTabController:
 
     def getCurrentProject(self):
         return self.project
+
+    def __openProject(self):
+        self.project = self.model.getSelectedProject(self.__getCurrentIndex())
+        self.projectSelection.close()
 
     def __clear(self):
         self.newProjectDialog.projectName.clear()

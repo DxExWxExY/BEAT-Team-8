@@ -17,7 +17,6 @@ class ProjectModel:
             try:
                 return self.__projectList[key]
             except KeyError:
-                # return self.__projectList[]
                 pass
         return None
 

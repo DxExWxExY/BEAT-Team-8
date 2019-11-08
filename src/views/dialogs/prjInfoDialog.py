@@ -1,11 +1,9 @@
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QWidget, QGridLayout, QDesktopWidget, QVBoxLayout, QPushButton, QLabel, QLineEdit, \
-    QTableWidget, QTableWidgetItem
-
-from src.items.project_item import ProjectItem
+from PyQt5.QtWidgets import QGridLayout, QDesktopWidget, QVBoxLayout, QPushButton, QLabel, QLineEdit, \
+    QTableWidget, QTableWidgetItem, QDialog
 
 
-class prjInfoDialog(QWidget):
+class prjInfoDialog(QDialog):
 
     def __init__(self):
         super().__init__()
@@ -35,7 +33,6 @@ class prjInfoDialog(QWidget):
         layout.addWidget(self.projectName, 0, 1, 1, 9)
         layout.addWidget(self.binPath, 3, 1, 1, 8)
         layout.addWidget(self.__tableBuilder(), 5, 1, 1, 9)
-
 
         layout.addWidget(self.cancelButton, 6, 8)
         layout.addWidget(self.createButton, 6, 9)
@@ -67,7 +64,6 @@ class prjInfoDialog(QWidget):
 
         return self.table
 
-
     def __setWindowPosition(self):
         qtRectangle = self.frameGeometry()
         centerPoint = QDesktopWidget().availableGeometry().center()
@@ -75,5 +71,3 @@ class prjInfoDialog(QWidget):
         qtRectangle.setHeight(600)
         qtRectangle.moveCenter(centerPoint)
         self.setGeometry(qtRectangle)
-
-

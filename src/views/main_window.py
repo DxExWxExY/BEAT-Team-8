@@ -20,13 +20,16 @@ class MainWindow(QMainWindow):
         self.pluginManagementController = PluginManagementTabController()
         self.poiController = POITabController()
         self.fontSize = 14
-        self.projectController.projectSelection.show()
-        # self.tabBuilder()
-        # self.buildWindow()
+        self.projectController.projectSelection.exec_()
+        self.__openBeat()
+
+    def __openBeat(self):
+        self.updateData()
+        self.tabBuilder()
+        self.buildWindow()
 
     def tabBuilder(self):
         self.tabs = QTabWidget()
-        self.tabs.addTab(self.projectController.tab, "Project")
         self.tabs.addTab(self.analysisController.tab, "Analysis")
         self.tabs.addTab(self.pluginManagementController.tab, "Plugin Management")
         self.tabs.addTab(self.poiController.tab, "PoI Definitions")
