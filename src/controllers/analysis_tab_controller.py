@@ -24,38 +24,38 @@ class AnalysisTabController:
         self.tab.analysisResultBtn.clicked.connect(lambda: self.__analysisResultWindow())
         self.tab.outputFieldViewBtn.clicked.connect(lambda: self.__outputFieldWindow())
         self.tab.staticRunBtn.clicked.connect(lambda : self.__runStatic())
-        self.tab.dropDownMenuPoi.currentIndexChanged.connect(lambda : self.__populateList())
-        self.tab.dropDownMenuPlugin.currentIndexChanged.connect(lambda: self.__selectPlugin())
+        self.tab.poiTypeDropdown.currentIndexChanged.connect(lambda : self.__populateList())
+        self.tab.pluginDropdown.currentIndexChanged.connect(lambda: self.__selectPlugin())
         self.tab.dynamicRunbtn.clicked.connect(lambda: self.__runDynamic())
 
     def __populateList(self):
-        filter = str(self.tab.dropDownMenuPoi.currentText())
+        filter = str(self.tab.poiTypeDropdown.currentText())
         self.tab.poiList.clear()
         list = self.model.setFilterList(filter)
         for item in list:
             self.tab.poiList.addItem(item[0])
 
     def __selectPlugin(self):
-        selected = self.tab.dropDownMenuPlugin.currentText()
+        selected = self.tab.pluginDropdown.currentText()
         if selected in "Select Plugin":
-            self.tab.dropDownMenuPoi.setEnabled(False)
+            self.tab.poiTypeDropdown.setEnabled(False)
             self.tab.staticRunBtn.setEnabled(False)
             self.tab.dynamicRunbtn.setEnabled(False)
             self.tab.dynamicStopbtn.setEnabled(False)
-            self.tab.dropDownMenuPoi.clear()
+            self.tab.poiTypeDropdown.clear()
             self.tab.poiContentArea.clear()
             self.tab.poiList.clear()
         else:
             self.tab.poiList.clear()
-            self.tab.dropDownMenuPoi.setEnabled(True)
+            self.tab.poiTypeDropdown.setEnabled(True)
             self.tab.staticRunBtn.setEnabled(True)
             self.tab.dynamicRunbtn.setEnabled(True)
             self.tab.dynamicStopbtn.setEnabled(True)
-            self.tab.dropDownMenuPoi.clear()
-            self.tab.dropDownMenuPoi.addItems(self.model.getPluginFilters(selected))
+            self.tab.poiTypeDropdown.clear()
+            self.tab.poiTypeDropdown.addItems(self.model.getPluginFilters(selected))
             if self.project is not None:
                 if len(self.project.results) > 0:
-                    filter = str(self.tab.dropDownMenuPoi.currentText())
+                    filter = str(self.tab.poiTypeDropdown.currentText())
                     self.tab.poiList.clear()
                     pois = []
                     if filter == "All":
@@ -65,7 +65,7 @@ class AnalysisTabController:
                         self.tab.poiList.addItem(item[0])
 
     def __populateDropdowns(self):
-        self.tab.dropDownMenuPlugin.addItems(self.model.getPluginsList())
+        self.tab.pluginDropdown.addItems(self.model.getPluginsList())
 
     def __searchForPoi(self):
         searchText = self.tab.searchBox.text().lower()
@@ -95,7 +95,7 @@ class AnalysisTabController:
         self.tab.analysisResultWindow.show()
 
     def __displayPOI(self):
-        selected = self.tab.dropDownMenuPoi.currentText()
+        selected = self.tab.poiTypeDropdown.currentText()
         temp = []
         items = [e.text() for e in self.tab.poiList.selectedItems()]
         for e in self.model.setFilterList(selected):
@@ -106,7 +106,7 @@ class AnalysisTabController:
 
     def __runStatic(self):
         if self.project is not None:
-            plugin = self.tab.dropDownMenuPlugin.currentText()
+            plugin = self.tab.pluginDropdown.currentText()
             self.model.run_static(self.project, plugin)
             self.__updateTerminal()
             self.__populateList()
@@ -149,3 +149,4 @@ class AnalysisTabController:
 
     def update(self):
         self.model.update()
+        self.tab.pluginDropdown.setCurrentIndex(0)

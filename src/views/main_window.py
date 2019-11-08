@@ -22,8 +22,6 @@ class MainWindow(QMainWindow):
         self.__openSelector()
 
     def __openSelector(self, beatOpen=False):
-        # if beatOpen:
-        #     self.close()
         self.projectController.projectSelection.exec_()
         if self.projectController.getCurrentProject() is not None:
             self.__openBeat(beatOpen)
