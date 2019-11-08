@@ -31,10 +31,7 @@ class AnalysisTabController:
     def __populateList(self):
         filter = str(self.tab.dropDownMenuPoi.currentText())
         self.tab.poiList.clear()
-        list = []
-        if filter != "":
-            list = self.model.setFilterList(filter)
-
+        list = self.model.setFilterList(filter)
         for item in list:
             self.tab.poiList.addItem(item[0])
 
