@@ -2,80 +2,56 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QMessageBox
 
 from src.models.project_model import ProjectModel
-from src.views.tabs.project_tab import ProjectTab
+from src.views.dialogs.prjInfoDialog import prjInfoDialog
+from src.views.dialogs.project_selection_dialog import ProjectSelection
 
 
-# noinspection PyCallByClass,PyCallByClass
 class ProjectTabController:
     def __init__(self):
-        self.tab = ProjectTab()
         self.model = ProjectModel()
+        self.projectSelection = ProjectSelection()
+        self.newProjectDialog = prjInfoDialog()
         self.project = None
         self.__addEventHandlers()
         self.__populateProjectList()
 
     def __populateProjectList(self):
+        self.projectSelection.projectsList.clear()
         for item in self.model.getProjectList().keys():
-            self.tab.projectList.addItem(item)
+            self.projectSelection.projectsList.addItem(item)
 
     def __addEventHandlers(self):
-        self.tab.browsePath.clicked.connect(lambda: self.__fileBrowser())
-        self.tab.searchBox.returnPressed.connect(lambda: self.__searchForItem())
-        self.tab.searchButton.clicked.connect(lambda: self.__searchForItem())
-        self.tab.addProjectButton.clicked.connect(lambda: self.__addProject())
-        self.tab.projectList.itemSelectionChanged.connect(lambda: self.__updateUI())
-        self.tab.saveButton.clicked.connect(lambda: self.__saveProject())
-        self.tab.deleteButton.clicked.connect(lambda: self.__deleteProject())
+        # self.tab.browsePath.clicked.connect(lambda: self.__fileBrowser())
+        # self.tab.searchBox.returnPressed.connect(lambda: self.__searchForItem())
+        # self.tab.searchButton.clicked.connect(lambda: self.__searchForItem())
+        #     Dialog Handlers
+        self.newProjectDialog.createButton.clicked.connect(lambda: self.__saveProject())
+        self.newProjectDialog.createButton.clicked.connect(lambda: self.__saveProject())
+        self.projectSelection.deleteProject.clicked.connect(lambda: self.__deleteProject())
+        self.projectSelection.addProject.clicked.connect(lambda: self.__addProject())
+        self.projectSelection.openProject.clicked.connect(lambda: self.__openProject())
 
-    def __updateUI(self):
-        selectedItem = self.model.getSelectedProject(self.__getCurrentIndex())
-        self.project = selectedItem
-        if selectedItem is not None:
-            self.tab.saveButton.setEnabled(True)
-            self.tab.deleteButton.setEnabled(True)
-            self.tab.projectName.setText(selectedItem.name)
-            self.tab.projectDescription.setText(selectedItem.description)
-            self.tab.binPath.setText(selectedItem.binaryPath)
-            self.tab.table.setItem(0, 1, QTableWidgetItem(selectedItem.binaryProperties['os']))
-            self.tab.table.setItem(1, 1, QTableWidgetItem(selectedItem.binaryProperties['arch']))
-            self.tab.table.setItem(2, 1, QTableWidgetItem(selectedItem.binaryProperties['machine']))
-            self.tab.table.setItem(3, 1, QTableWidgetItem(selectedItem.binaryProperties['class']))
-            self.tab.table.setItem(4, 1, QTableWidgetItem(selectedItem.binaryProperties['bits']))
-            self.tab.table.setItem(5, 1, QTableWidgetItem(selectedItem.binaryProperties['lang']))
-            self.tab.table.setItem(6, 1, QTableWidgetItem(selectedItem.binaryProperties['canary']))
-            self.tab.table.setItem(7, 1, QTableWidgetItem(selectedItem.binaryProperties['crypto']))
-            self.tab.table.setItem(8, 1, QTableWidgetItem(selectedItem.binaryProperties['nx']))
-            self.tab.table.setItem(9, 1, QTableWidgetItem(selectedItem.binaryProperties['pic']))
-            self.tab.table.setItem(10, 1, QTableWidgetItem(selectedItem.binaryProperties['relocs']))
-            self.tab.table.setItem(11, 1, QTableWidgetItem(selectedItem.binaryProperties['relro']))
-            self.tab.table.setItem(12, 1, QTableWidgetItem(selectedItem.binaryProperties['stripped']))
-        else:
-            self.__clearUI()
-
-    def __clearUI(self):
-        self.tab.projectName.clear()
-        self.tab.projectDescription.clear()
-        self.tab.binPath.clear()
-        self.tab.table.setItem(0, 1, QTableWidgetItem(""))
-        self.tab.table.setItem(1, 1, QTableWidgetItem(""))
-        self.tab.table.setItem(2, 1, QTableWidgetItem(""))
-        self.tab.table.setItem(3, 1, QTableWidgetItem(""))
-        self.tab.table.setItem(4, 1, QTableWidgetItem(""))
-        self.tab.table.setItem(5, 1, QTableWidgetItem(""))
-        self.tab.table.setItem(6, 1, QTableWidgetItem(""))
-        self.tab.table.setItem(7, 1, QTableWidgetItem(""))
-        self.tab.table.setItem(8, 1, QTableWidgetItem(""))
-        self.tab.table.setItem(9, 1, QTableWidgetItem(""))
-        self.tab.table.setItem(10, 1, QTableWidgetItem(""))
-        self.tab.table.setItem(11, 1, QTableWidgetItem(""))
-        self.tab.table.setItem(12, 1, QTableWidgetItem(""))
-        self.tab.saveButton.setEnabled(False)
-        self.tab.deleteButton.setEnabled(False)
+    def __projectProperties(self):
+        self.project = self.newProjectDialog.newItem
+        self.newProjectDialog.binPath.setText(self.project.binaryPath)
+        self.newProjectDialog.table.setItem(0, 1, QTableWidgetItem(self.project.binaryProperties['os']))
+        self.newProjectDialog.table.setItem(1, 1, QTableWidgetItem(self.project.binaryProperties['arch']))
+        self.newProjectDialog.table.setItem(2, 1, QTableWidgetItem(self.project.binaryProperties['machine']))
+        self.newProjectDialog.table.setItem(3, 1, QTableWidgetItem(self.project.binaryProperties['class']))
+        self.newProjectDialog.table.setItem(4, 1, QTableWidgetItem(self.project.binaryProperties['bits']))
+        self.newProjectDialog.table.setItem(5, 1, QTableWidgetItem(self.project.binaryProperties['lang']))
+        self.newProjectDialog.table.setItem(6, 1, QTableWidgetItem(self.project.binaryProperties['canary']))
+        self.newProjectDialog.table.setItem(7, 1, QTableWidgetItem(self.project.binaryProperties['crypto']))
+        self.newProjectDialog.table.setItem(8, 1, QTableWidgetItem(self.project.binaryProperties['nx']))
+        self.newProjectDialog.table.setItem(9, 1, QTableWidgetItem(self.project.binaryProperties['pic']))
+        self.newProjectDialog.table.setItem(10, 1, QTableWidgetItem(self.project.binaryProperties['relocs']))
+        self.newProjectDialog.table.setItem(11, 1, QTableWidgetItem(self.project.binaryProperties['relro']))
+        self.newProjectDialog.table.setItem(12, 1, QTableWidgetItem(self.project.binaryProperties['stripped']))
 
     def __fileBrowser(self):
         callback = QFileDialog.getOpenFileName()
         if callback:
-            self.tab.binPath.setText(str(callback[0]))
+            self.newProjectDialog.binPath.setText(str(callback[0]))
 
     def __searchForItem(self):
         searchText = self.tab.searchBox.text().lower()
@@ -96,43 +72,35 @@ class ProjectTabController:
 
     def __getCurrentIndex(self):
         try:
-            return self.tab.projectList.currentItem().text()
+            return self.projectSelection.projectsList.currentItem().text()
         except AttributeError:
-            pass
+            return self.project.name
 
     def __saveProject(self):
-        selectedProject = self.model.getSelectedProject(self.__getCurrentIndex())
-        if selectedProject is not None:
-            oldName = selectedProject.name
-            selectedProject.name = self.tab.projectName.text()
-            selectedProject.description = self.tab.projectDescription.toPlainText()
-            selectedProject.binaryPath = self.tab.binPath.text()
-            self.model.saveProject(selectedProject, oldName)
-            itemIndex = self.tab.projectList.findItems(oldName, QtCore.Qt.MatchExactly)
-            i = self.tab.projectList.row(itemIndex[0])
-            self.tab.projectList.takeItem(i)
-            self.tab.projectList.clear()
+        if self.newProjectDialog.projectName.text():
+            self.newProjectDialog.newItem.name = self.newProjectDialog.projectName.text()
+            self.project = self.model.saveProject(self.newProjectDialog.newItem)
             self.__populateProjectList()
-            index = self.tab.projectList.count() - 1
-            self.tab.projectList.setCurrentRow(index)
-            self.__updateUI()
+            self.__clear()
+            self.newProjectDialog.close()
 
     def __deleteProject(self):
-        buttonReply = QMessageBox.question(self.tab, 'Delete Project', "Are you sure you want to delete this project?",  QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        buttonReply = QMessageBox.question(self.projectSelection, 'Delete Project',
+                                           "Are you sure you want to delete this project?",
+                                           QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if buttonReply == QMessageBox.Yes:
             self.model.deleteProject(self.__getCurrentIndex())
-            self.tab.projectList.clear()
+            self.projectSelection.projectsList.clear()
             self.__populateProjectList()
-            self.tab.projectList.setCurrentRow(self.tab.projectList.count() - 1)
 
     def __addProject(self):
-        callback = QFileDialog.getOpenFileName(self.tab)
+        path, response = QFileDialog.getOpenFileName(self.projectSelection)
         try:
-            if callback:
-                self.model.addProject(str(callback[0]))
-                self.tab.projectList.clear()
-                self.__populateProjectList()
-            self.tab.projectList.setCurrentRow(self.tab.projectList.count() - 1)
+            if response:
+                self.newProjectDialog.newItem = self.model.verifyBinary(path)
+                self.__projectProperties()
+                self.newProjectDialog.exec_()
+                self.__openProject()
         except KeyError:
             errorDialog = QtWidgets.QMessageBox()
             errorDialog.setText('Unsupported File')
@@ -143,3 +111,13 @@ class ProjectTabController:
 
     def getCurrentProject(self):
         return self.project
+
+    def __openProject(self):
+        self.project = self.model.getSelectedProject(self.__getCurrentIndex())
+        self.projectSelection.close()
+
+    def __clear(self):
+        self.newProjectDialog.projectName.clear()
+        self.newProjectDialog.binPath.clear()
+        for i in range(12):
+            self.newProjectDialog.table.setItem(i, 1, QTableWidgetItem(''))

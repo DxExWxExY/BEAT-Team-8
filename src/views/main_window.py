@@ -1,6 +1,7 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QWheelEvent, QFont
-from PyQt5.QtWidgets import QDesktopWidget, QTabWidget, QMainWindow
+import sys
+
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QDesktopWidget, QTabWidget, QMainWindow, QAction
 
 from src.common import constants
 from src.controllers.analysis_tab_controller import AnalysisTabController
@@ -18,13 +19,26 @@ class MainWindow(QMainWindow):
         self.analysisController = AnalysisTabController()
         self.pluginManagementController = PluginManagementTabController()
         self.poiController = POITabController()
-        self.fontSize = 14
-        self.tabBuilder()
-        self.buildWindow()
+        self.__openSelector()
+
+    def __openSelector(self, beatOpen=False):
+        self.projectController.projectSelection.exec_()
+        if self.projectController.getCurrentProject() is not None:
+            self.__openBeat(beatOpen)
+        else:
+            self.close()
+            sys.exit(0)
+
+    def __openBeat(self, wasOpen=False):
+        self.updateData()
+        if wasOpen:
+            self.show()
+        else:
+            self.tabBuilder()
+            self.buildWindow()
 
     def tabBuilder(self):
         self.tabs = QTabWidget()
-        self.tabs.addTab(self.projectController.tab, "Project")
         self.tabs.addTab(self.analysisController.tab, "Analysis")
         self.tabs.addTab(self.pluginManagementController.tab, "Plugin Management")
         self.tabs.addTab(self.poiController.tab, "PoI Definitions")
@@ -34,10 +48,27 @@ class MainWindow(QMainWindow):
         self.tabs.currentChanged.connect(lambda: self.updateData())
 
     def buildWindow(self):
+        # Menu bar
+        self.menu = self.menuBar()
+        fileMenu = self.menu.addMenu('&File')
+        viewMenu = self.menu.addMenu('&View')
+
+        openSelector = QAction('&Open Project', self)
+        openSelector.setShortcut('Ctrl+O')
+        openSelector.triggered.connect(lambda: self.__openSelector(True))
+
+        help = QAction('&Documentation', self)
+        help.setShortcut('F1')
+
+        fileMenu.addAction(openSelector)
+        viewMenu.addAction(help)
+
+        self.statusBar()
         # Tabs
         self.setCentralWidget(self.tabs)
 
         # Setup
+        self.setFont(QFont("arial", 11))
         qtRectangle = self.frameGeometry()
         centerPoint = QDesktopWidget().availableGeometry().center()
         qtRectangle.setWidth(constants.WIDTH)

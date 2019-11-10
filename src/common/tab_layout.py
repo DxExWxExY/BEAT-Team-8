@@ -8,13 +8,11 @@ from src.common import constants
 class TabLayout(QWidget):
     def __init__(self, leftPanelLabel, rightPanelLabel, hasTopPanel=False):
         super().__init__()
-        self.fontSize = 11
         self.__mainGrid = QGridLayout()
         leftFrame = QFrame()
         rightFrame = QFrame()
         TopFrame = QFrame()
-
-        self.setFont(QFont("arial", self.fontSize))
+        self.setFont(QFont("arial", 11))
 
         self._leftPanelLayout = QVBoxLayout()
         self._rightPanelLayout = QVBoxLayout()

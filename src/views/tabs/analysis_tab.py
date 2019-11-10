@@ -9,9 +9,9 @@ from src.common.tab_layout import TabLayout
 class AnalysisTab(TabLayout):
 
     def __init__(self):
+        super().__init__("Point of Interest View", "Detailed Point of Interest View", True)
         self.list = []
         self.poiContentArea = QPlainTextEdit()
-        super().__init__("Point of Interest View", "Detailed Point of Interest View", True)
         super().addContentToTopPanel(self.TopPanelBuilder())
         super().addContentToRightPanel(self.rightPanelBuilder())
         super().addContentToLeftPanel(self.leftPanelBuilder())
@@ -69,8 +69,8 @@ class AnalysisTab(TabLayout):
     def TopPanelBuilder(self):
         layout = QGridLayout()
 
-        self.dropDownMenuPlugin = QtWidgets.QComboBox()
-        self.dropDownMenuPoi = QtWidgets.QComboBox()
+        self.pluginDropdown = QtWidgets.QComboBox()
+        self.poiTypeDropdown = QtWidgets.QComboBox()
 
         pluginLabel = QtWidgets.QLabel("Plugin")
         staticLabel = QtWidgets.QLabel("Static Analysis")
@@ -82,9 +82,9 @@ class AnalysisTab(TabLayout):
         spacerItem = QtWidgets.QSpacerItem(1, 1, QSizePolicy.Expanding)
 
         layout.addWidget(pluginLabel, 0, 0, 1,1)
-        layout.addWidget(self.dropDownMenuPlugin, 0, 1, 1, 2)
+        layout.addWidget(self.pluginDropdown, 0, 1, 1, 2)
         layout.addWidget(poiTypeLabel, 0, 3, 1, 2)
-        layout.addWidget(self.dropDownMenuPoi, 0, 5, 1, 2)
+        layout.addWidget(self.poiTypeDropdown, 0, 5, 1, 2)
         layout.addItem(spacerItem, 0, 6 , 1, 10)
 
         layout.addWidget(staticLabel, 1, 0, 1, 1)
