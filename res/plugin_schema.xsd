@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="plugin">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+                <xs:element name="description" type="xs:string"/>
+                <xs:element name="pois">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="dll">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="name" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="variable">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="type" type="xs:string"/>
+                                        <xs:element name="value" type="xs:string"/>
+                                        <xs:element name="address" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="string">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="value" type="xs:string"/>
+                                        <xs:element name="address" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="function">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="paramOrder" type="xs:string"/>
+                                        <xs:element name="paramType" type="xs:string"/>
+                                        <xs:element name="paramValue" type="xs:string"/>
+                                        <xs:element name="returnType" type="xs:string"/>
+                                        <xs:element name="returnValue" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element><xs:element name="struct">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="address" type="xs:string"/>
+                                        <xs:element name="order" type="xs:string"/>
+                                        <xs:element name="type" type="xs:string"/>
+                                        <xs:element name="value" type="xs:string"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
