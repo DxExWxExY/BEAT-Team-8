@@ -55,14 +55,20 @@ class AnalysisTabController:
             self.tab.poiTypeDropdown.addItems(self.model.getPluginFilters(selected))
             if self.project is not None:
                 if len(self.project.results) > 0:
-                    filter = str(self.tab.poiTypeDropdown.currentText())
+                    filter = self.tab.poiTypeDropdown.currentText()
                     self.tab.poiList.clear()
                     pois = []
-                    if filter == "All":
-                        for key in self.project.results[selected].keys():
-                            pois += self.project.results[selected][key]
-                    for item in pois:
-                        self.tab.poiList.addItem(item[0])
+                    try:
+                        if filter == "All":
+                            for key in self.project.results[selected].keys():
+                                pois += self.project.results[selected][key]
+                        else:
+                            pois = self.project.results[selected][filter]
+                        for item in pois:
+                            # TODO: refactor to dictionary
+                            self.tab.poiList.addItem(item[0])
+                    except:
+                        pass
 
     def __populateDropdowns(self):
         self.tab.pluginDropdown.addItems(self.model.getPluginsList())
@@ -135,9 +141,6 @@ class AnalysisTabController:
     def __runDynamic(self):
         if self.project is not None:
             # TODO: Replace with dynamic stuff
-            # self.model.run_static(self.project.binaryPath)
-            # self.__updateTerminal()
-            # self.__populateList()
             pass
         else:
             errorDialog = QtWidgets.QMessageBox()
@@ -149,4 +152,6 @@ class AnalysisTabController:
 
     def update(self):
         self.model.update()
+        self.tab.pluginDropdown.clear()
+        self.__populateDropdowns()
         self.tab.pluginDropdown.setCurrentIndex(0)

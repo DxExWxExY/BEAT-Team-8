@@ -1,8 +1,7 @@
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QFileDialog, QInputDialog, QLineEdit
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
 from src.models.plugin_management_model import PluginManagementModel
-from src.views.dialogs.edit_poi_dialog import EditPoiDialog
 from src.views.tabs.plugin_management_tab import PluginManagementTab
 
 
@@ -27,11 +26,13 @@ class PluginManagementTabController:
 
     def __updateUI(self):
         self.tab.poiList.clear()
-        selectedItem = self.model.getSelectedPlugin(self.__currentItem())
-        self.tab.pluginName.setText(selectedItem.name)
-        self.tab.pluginDescription.setText(selectedItem.description)
-        self.tab.outputField.addItems(selectedItem.outputFields)
-        self.tab.poiList.addItems(selectedItem.pois)
+        self.tab.outputField.clear()
+        if self.tab.pluginList.selectedItems():
+            selectedItem = self.model.getSelectedPlugin(self.__currentItem())
+            self.tab.pluginName.setText(selectedItem.name)
+            self.tab.pluginDescription.setText(selectedItem.description)
+            self.tab.outputField.addItems(selectedItem.outputs)
+            self.tab.poiList.addItems(selectedItem.pois)
 
     def __savePlugin(self):
         selectedPlugin = self.model.getSelectedPlugin(self.__currentItem())
@@ -50,9 +51,15 @@ class PluginManagementTabController:
             self.__updateUI()
 
     def __deletePlugin(self):
-        self.model.deletePlugin(self.__currentItem())
-        self.tab.pluginList.clear()
-        self.__populatePluginList()
+        if not self.tab.pluginList.selectedItems():
+            return
+        buttonReply = QMessageBox.question(self.tab, 'Delete Plugin',
+                                           "Are you sure you want to delete this plugin?",
+                                           QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if buttonReply == QMessageBox.Yes:
+            self.model.deletePlugin(self.__currentItem())
+            self.tab.pluginList.clear()
+            self.__populatePluginList()
 
     def __currentItem(self):
         return self.tab.pluginList.currentItem().text()
@@ -75,24 +82,16 @@ class PluginManagementTabController:
                 self.tab.pluginList.addItem(s)
 
     def __addPlugin(self):
-        callback = QFileDialog.getOpenFileName()
+        path, response = QFileDialog.getOpenFileName(self.tab, 'Select Plugin XML', filter='XML files (*.xml)')
         try:
-            if callback:
-                self.model.addPlugin(str(callback[0]))
+            if response:
+                self.model.getPlugin(path)
                 self.tab.pluginList.clear()
                 self.__populatePluginList()
             self.tab.pluginList.setCurrentRow(self.tab.pluginList.count() - 1)
         except KeyError:
-            # TODO: raise exception for file not being xml
             pass
 
-    def __addPoiToPlugin(self):
-        text, okPressed = QInputDialog.getText(self.tab, "New PoI", "New Point of Interest", QLineEdit.Normal)
-        if okPressed and text != '':
-            # which = self.tab.existingPluginsDropdown.currentText()
-            # self.model.addPoiDefinition(which, text)
-            # self.__populateList()
-            pass
 
     def update(self):
         self.model.update()

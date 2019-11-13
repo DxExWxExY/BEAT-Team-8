@@ -6,8 +6,8 @@ from PyQt5.QtWidgets import QDesktopWidget, QTabWidget, QMainWindow, QAction
 from src.common import constants
 from src.controllers.analysis_tab_controller import AnalysisTabController
 from src.controllers.poi_controller import POITabController
-from src.controllers.project_tab_controller import ProjectTabController
-from src.controllers.pulgin_management_tab_controller import PluginManagementTabController
+from src.controllers.project_controller import ProjectTabController
+from src.controllers.plugin_management_controller import PluginManagementTabController
 from src.views.tabs.documentation_tab import DocumentationTab
 
 

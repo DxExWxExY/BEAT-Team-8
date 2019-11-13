@@ -16,7 +16,6 @@ class ProjectTabController:
         self.__populateProjectList()
 
     def __populateProjectList(self):
-        self.projectSelection.projectsList.clear()
         for item in self.model.getProjectList().keys():
             self.projectSelection.projectsList.addItem(item)
 

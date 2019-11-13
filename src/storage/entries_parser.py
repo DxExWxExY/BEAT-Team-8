@@ -11,11 +11,27 @@ from src.storage.database import Database
 class EntriesParser:
     def __init__(self):
         self.db = Database()
-        self.schema = XMLSchema(f"..{os.sep}..{os.sep}res{os.sep}plugin_schema.xsd")
+        self.schema = XMLSchema(f"res{os.sep}schemas{os.sep}plugin_schema.xsd")
 
     def validatePluginSchema(self, instancePath):
         xml = open(instancePath, "r").read().strip()
         return self.schema.is_valid(xml)
+
+    def getPluginFromXml(self, instancePath):
+        xml = open(instancePath, "r").read().strip()
+        tree = ET.fromstring(xml)
+        plugin = PluginItem()
+        plugin.name = tree[0].text
+        plugin.description = tree[1].text
+        plugin.types = ["All"] + [t.text for t in tree[2]]
+        plugin.outputs = [o.text for o in tree[3]]
+        for i in range(4, len(tree)):
+            poi = {}
+            poi['name'] = tree[i][0].text
+            poi['type'] = tree[i][1].text
+            poi['map'] = tree[i][2].text
+            plugin.pois[tree[i][0].text] = poi
+        self.db.updateEntry("plugin", plugin.asDictionary())
 
     def updateEntry(self, which, item):
         if which == "project":
@@ -31,7 +47,7 @@ class EntriesParser:
                 item.id = entry['_id']
                 item.name = entry['name']
                 item.description = entry['description']
-                item.outputFields = entry['fields']
+                item.outputs = entry['fields']
                 item.pois = entry['pois']
                 item.types = entry['types']
                 entries[item.name] = item

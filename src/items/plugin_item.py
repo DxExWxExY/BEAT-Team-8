@@ -3,14 +3,14 @@ class PluginItem:
         self.id = None
         self.name = "New Plugin"
         self.description = ""
-        self.outputFields = []
-        self.pois = []
+        self.outputs = []
+        self.pois = {}
         self.types = []
 
     def asDictionary(self):
         if self.id is None:
-            return {"name": self.name, "description": self.description, "fields": self.outputFields, "pois": self.pois,
+            return {"name": self.name, "description": self.description, "fields": self.outputs, "pois": self.pois,
                     "types": self.types}
         else:
-            return {"_id": self.id, "name": self.name, "description": self.description, "fields": self.outputFields,
+            return {"_id": self.id, "name": self.name, "description": self.description, "fields": self.outputs,
                     "pois": self.pois, "types": self.types}

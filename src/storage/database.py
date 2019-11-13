@@ -38,7 +38,7 @@ if __name__ == "__main__":
     item.name = "Network Plugin"
     item.types = ["All", "Function", "Variable", "String", "DLL", "Struct", "Packet Protocol"]
     item.pois = ["network", "socket", "ip"]
-    item.outputFields = ["Jinja Script"]
+    item.outputs = ["Jinja Script"]
 
     db = Database()
     db.updateEntry("plugin", item.asDictionary())
