@@ -1,12 +1,12 @@
 from fuzzywuzzy import process
 
 from src.analyzers.static_analyzer import StaticAnalyzer
-from src.storage.xml_parser import XMLParser
+from src.storage.entries_parser import EntriesParser
 
 
 class AnalysisModel:
     def __init__(self):
-        self.parser = XMLParser()
+        self.parser = EntriesParser()
         self.__staticAnalyzer = StaticAnalyzer()
         self.__pluginList = self.parser.getEntries("plugin")
         self.__poiList = dict()

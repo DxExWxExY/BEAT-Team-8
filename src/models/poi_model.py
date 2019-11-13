@@ -1,9 +1,9 @@
-from src.storage.xml_parser import XMLParser
+from src.storage.entries_parser import EntriesParser
 
 
 class POIModel:
     def __init__(self):
-        self.parser = XMLParser()
+        self.parser = EntriesParser()
         self.__pluginList = self.parser.getEntries("plugin")
 
     def getPoiDefinitionsList(self):

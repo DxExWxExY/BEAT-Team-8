@@ -9,7 +9,7 @@ from src.common.tab_layout import TabLayout
 class AnalysisTab(TabLayout):
 
     def __init__(self):
-        super().__init__("Point of Interest View", "Detailed Point of Interest View", True)
+        super().__init__("PoI Results", "PoI Details", True)
         self.list = []
         self.poiContentArea = QPlainTextEdit()
         super().addContentToTopPanel(self.TopPanelBuilder())

@@ -1,10 +1,10 @@
 from src.items.plugin_item import PluginItem
-from src.storage.xml_parser import XMLParser
+from src.storage.entries_parser import EntriesParser
 
 
 class PluginManagementModel:
     def __init__(self):
-        self.__parser = XMLParser()
+        self.__parser = EntriesParser()
         self.__pluginList = self.__parser.getEntries("plugin")
 
     def getPluginList(self):

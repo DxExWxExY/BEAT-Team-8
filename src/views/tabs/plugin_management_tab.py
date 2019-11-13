@@ -7,7 +7,7 @@ from src.common.tab_layout import TabLayout
 
 class PluginManagementTab(TabLayout):
     def __init__(self):
-        super().__init__("Plugin View", "Detailed Plugin View")
+        super().__init__("System Plugins", "Plugin Details")
         super().addContentToLeftPanel(self.leftPanelBuilder())
         super().addContentToRightPanel(self.rightPanelBuilder())
         super().build()

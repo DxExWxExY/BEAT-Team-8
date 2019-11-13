@@ -2,30 +2,17 @@
   <name>string</name>
   <description>string</description>
   <pois>
-    <dll>
-      <name>string</name>
-    </dll>
-    <variable>
-      <type>string</type>
-      <value>string</value>
-      <address>string</address>
-    </variable>
-    <string>
-      <value>string</value>
-      <address>string</address>
-    </string>
-    <function>
-      <paramOrder>string</paramOrder>
-      <paramType>string</paramType>
-      <paramValue>string</paramValue>
-      <returnType>string</returnType>
-      <returnValue>string</returnValue>
-    </function>
-    <struct>
-      <address>string</address>
-      <order>string</order>
-      <type>string</type>
-      <value>string</value>
-    </struct>
+    <name>string</name>
+    <type>string</type>
+    <mapping>string</mapping>
   </pois>
+  <pois>
+    <name>string</name>
+    <type>string</type>
+    <mapping>string</mapping>
+  </pois>
+  <types>
+    <name>string</name>
+    <name>string</name>
+  </types>
 </plugin>

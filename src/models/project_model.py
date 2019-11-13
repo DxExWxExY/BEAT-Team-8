@@ -1,11 +1,11 @@
 from src.items.project_item import ProjectItem
 from src.analyzers.static_analyzer import StaticAnalyzer
-from src.storage.xml_parser import XMLParser
+from src.storage.entries_parser import EntriesParser
 
 
 class ProjectModel:
     def __init__(self):
-        self.__parser = XMLParser()
+        self.__parser = EntriesParser()
         self.__staticAnalyzer = StaticAnalyzer()
         self.__projectList = self.__parser.getEntries("project")
 
