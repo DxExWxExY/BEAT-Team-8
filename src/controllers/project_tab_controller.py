@@ -85,6 +85,8 @@ class ProjectTabController:
             self.newProjectDialog.close()
 
     def __deleteProject(self):
+        if not self.projectSelection.projectsList.selectedItems():
+            return
         buttonReply = QMessageBox.question(self.projectSelection, 'Delete Project',
                                            "Are you sure you want to delete this project?",
                                            QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
@@ -113,9 +115,9 @@ class ProjectTabController:
         return self.project
 
     def __openProject(self):
-        self.project = self.model.getSelectedProject(self.__getCurrentIndex())
-        self.projectSelection.close()
-
+        if self.projectSelection.projectsList.selectedItems():
+            self.project = self.model.getSelectedProject(self.__getCurrentIndex())
+            self.projectSelection.close()
     def __clear(self):
         self.newProjectDialog.projectName.clear()
         self.newProjectDialog.binPath.clear()
