@@ -26,18 +26,24 @@ class PluginManagementTab(TabLayout):
 
     def poiViewer(self):
         layout = QGridLayout()
+        box = QGroupBox("PoI Details")
 
         self.nameBox = QLineEdit()
         self.typeDropdown = QComboBox()
         self.mappingBox = QLineEdit()
-        box = QGroupBox("PoI Details")
+        self.addPoi = QPushButton("Add PoI")
+        self.deletePoi = QPushButton("Delete PoI")
+        self.savePoi = QPushButton("Save PoI")
 
-        layout.addWidget(self.nameBox, 1, 1)
+        layout.addWidget(self.nameBox, 1, 1, 1, 2)
         layout.addWidget(QLabel("Seek Name:"), 1, 0)
-        layout.addWidget(self.typeDropdown, 2, 1)
+        layout.addWidget(self.typeDropdown, 2, 1, 1, 2)
         layout.addWidget(QLabel("PoI Type"), 2, 0)
-        layout.addWidget(self.mappingBox, 3, 1)
+        layout.addWidget(self.mappingBox, 3, 1, 1, 2)
         layout.addWidget(QLabel("Mapping"), 3, 0)
+        layout.addWidget(self.addPoi, 4, 0)
+        layout.addWidget(self.deletePoi, 4, 1)
+        layout.addWidget(self.savePoi, 4, 2)
 
         box.setLayout(layout)
 
@@ -70,19 +76,13 @@ class PluginManagementTab(TabLayout):
 
         layout.addWidget(poiLabel, 5, 0)
         layout.addWidget(self.poiList, 5, 1, 1, 3)
-        layout.addWidget(self.poiViewer(), 5,4,1,6)
+        layout.addWidget(self.poiViewer(), 5, 4, 1, 6)
 
         # Bottom buttons : delete and save
         self.deletePlugin = QPushButton("Delete")
         self.savePlugin = QPushButton("Save")
-        self.addPoi = QPushButton("Add PoI")
-        self.deletePoi = QPushButton("Delete PoI")
-        self.savePoi = QPushButton("Save PoI")
         layout.addWidget(self.deletePlugin, 6, 8)
         layout.addWidget(self.savePlugin, 6, 9)
-        layout.addWidget(self.addPoi, 6, 1)
-        layout.addWidget(self.deletePoi, 6, 2)
-        layout.addWidget(self.savePoi, 6, 3)
 
         return layout
 
