@@ -1,6 +1,6 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QLabel, QVBoxLayout, QPushButton, QLineEdit, QComboBox, QListWidget, \
-    QTextEdit, QGridLayout
+    QTextEdit, QGridLayout, QGroupBox
 
 from src.common.tab_layout import TabLayout
 
@@ -23,6 +23,25 @@ class PluginManagementTab(TabLayout):
         layout.addWidget(self.addPlugin)
 
         return layout
+
+    def poiViewer(self):
+        layout = QGridLayout()
+
+        self.nameBox = QLineEdit()
+        self.typeDropdown = QComboBox()
+        self.mappingBox = QLineEdit()
+        box = QGroupBox("PoI Details")
+
+        layout.addWidget(self.nameBox, 1, 1)
+        layout.addWidget(QLabel("Seek Name:"), 1, 0)
+        layout.addWidget(self.typeDropdown, 2, 1)
+        layout.addWidget(QLabel("PoI Type"), 2, 0)
+        layout.addWidget(self.mappingBox, 3, 1)
+        layout.addWidget(QLabel("Mapping"), 3, 0)
+
+        box.setLayout(layout)
+
+        return box
 
     def rightPanelBuilder(self):
         layout = QGridLayout()
@@ -50,15 +69,20 @@ class PluginManagementTab(TabLayout):
         self.poiList = QListWidget()
 
         layout.addWidget(poiLabel, 5, 0)
-        layout.addWidget(self.poiList, 5, 1, 1, 9)
+        layout.addWidget(self.poiList, 5, 1, 1, 3)
+        layout.addWidget(self.poiViewer(), 5,4,1,6)
 
         # Bottom buttons : delete and save
         self.deletePlugin = QPushButton("Delete")
         self.savePlugin = QPushButton("Save")
-        self.editPoi = QPushButton("Edit PoI")
+        self.addPoi = QPushButton("Add PoI")
+        self.deletePoi = QPushButton("Delete PoI")
+        self.savePoi = QPushButton("Save PoI")
         layout.addWidget(self.deletePlugin, 6, 8)
         layout.addWidget(self.savePlugin, 6, 9)
-        layout.addWidget(self.editPoi, 6, 1)
+        layout.addWidget(self.addPoi, 6, 1)
+        layout.addWidget(self.deletePoi, 6, 2)
+        layout.addWidget(self.savePoi, 6, 3)
 
         return layout
 

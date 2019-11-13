@@ -10,7 +10,6 @@ class PluginManagementTabController:
     def __init__(self):
         self.tab = PluginManagementTab()
         self.model = PluginManagementModel()
-        self.editPoiDialog = EditPoiDialog()
         self.__addEventHandlers()
         self.__populatePluginList()
 
@@ -21,8 +20,6 @@ class PluginManagementTabController:
         self.tab.searchButton.clicked.connect(lambda: self.__searchForPlugin())
         self.tab.deletePlugin.clicked.connect(lambda: self.__deletePlugin())
         self.tab.savePlugin.clicked.connect(lambda: self.__savePlugin())
-        self.tab.editPoi.clicked.connect(lambda: self.__editPoiDialog())
-        self.editPoiDialog.addPoiButton.clicked.connect(lambda: self.__addPoiToPlugin())
 
     def __populatePluginList(self):
         for key in self.model.getPluginList().keys():
@@ -88,9 +85,6 @@ class PluginManagementTabController:
         except KeyError:
             # TODO: raise exception for file not being xml
             pass
-
-    def __editPoiDialog(self):
-        self.editPoiDialog.show()
 
     def __addPoiToPlugin(self):
         text, okPressed = QInputDialog.getText(self.tab, "New PoI", "New Point of Interest", QLineEdit.Normal)

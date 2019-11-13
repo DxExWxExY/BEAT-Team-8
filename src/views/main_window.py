@@ -18,7 +18,6 @@ class MainWindow(QMainWindow):
         self.projectController = ProjectTabController()
         self.analysisController = AnalysisTabController()
         self.pluginManagementController = PluginManagementTabController()
-        self.poiController = POITabController()
         self.__openSelector()
 
     def __openSelector(self, beatOpen=False):
@@ -41,7 +40,6 @@ class MainWindow(QMainWindow):
         self.tabs = QTabWidget()
         self.tabs.addTab(self.analysisController.tab, "Analysis")
         self.tabs.addTab(self.pluginManagementController.tab, "Plugin Management")
-        self.tabs.addTab(self.poiController.tab, "PoI Definitions")
         self.tabs.addTab(DocumentationTab(), "Documentation")
         self.tabs.setStyleSheet("QTabBar::tab { height: 40%; width: 200%; }")
         self.tabs.setFont(QFont("arial", 11))
@@ -83,4 +81,3 @@ class MainWindow(QMainWindow):
         self.analysisController.setProject(project)
         self.analysisController.update()
         self.pluginManagementController.update()
-        self.poiController.update()
