@@ -55,15 +55,10 @@ class AnalysisModel:
             lint = []
             for e in self.__poiList[key]:
                 if key == 'Variable':
-                    lint.append(e['name'])
+                    lint.append(e)
                     continue
-                name = ''
-                if key == 'Function' or key == 'DLL' or key == 'Variable':
-                    name = 'name'
-                elif key == 'String':
-                    name = 'value'
-                if process.extractOne(e[name], list(plugin.pois.keys()))[1] > 80:
-                    lint.append(e[name])
+                if process.extractOne(e, list(plugin.pois.keys()))[1] > 80:
+                    lint.append(e)
             self.__poiList[key] = lint
 
     def update(self):

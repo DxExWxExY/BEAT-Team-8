@@ -65,7 +65,7 @@ class StaticAnalyzer:
         return addresses
 
     def findPois(self, filterType):
-        poiList = []
+        poiList = {}
         if filterType == "function":
             mainAddr = hex(self.__executej("iMj")['vaddr'])
             addresses = [mainAddr] + self.__funcAddr(mainAddr)
@@ -81,7 +81,7 @@ class StaticAnalyzer:
                     poi['args'] = [(a['name'], a['type']) for a in args]
                 else:
                     poi['args'] = []
-                poiList.append(poi)
+                poiList[info['name']] = poi
             return poiList
 
         strs = self.__executej("iij")
@@ -90,7 +90,7 @@ class StaticAnalyzer:
                 item = {}
                 item['type'] = 'DLL'
                 item['name'] = (strs[i]['name'])
-                poiList.append(item)
+                poiList[item['name']] = item
             return poiList
 
         if (filterType == "strings"):
@@ -98,9 +98,9 @@ class StaticAnalyzer:
             for i in range(len(strs)):
                 item = {}
                 item['type'] = 'String'
-                item['value'] = base64.b64decode(str(strs[i]['string'])).decode()
+                item['name'] = base64.b64decode(str(strs[i]['string'])).decode()
                 item['addr'] = hex(strs[i]['vaddr'])
-                poiList.append(item)
+                poiList[item['name']] = item
             return poiList
 
         if filterType == "variable":
@@ -115,7 +115,7 @@ class StaticAnalyzer:
                     poi['type'] = 'Variable'
                     poi['name'] = f"{name}.var{abs(int(i['ref']['offset']))}"
                     poi['dtype'] = i['type']
-                    poiList.append(poi)
+                    poiList[poi['name']] = name
             return poiList
         # TODO add variables, structs, packet protocol
 
