@@ -2,7 +2,7 @@
   <name>Test Plugin 3</name>
   <description>description</description>
   <types>
-    <name>Functions</name>
+    <name>Function</name>
     <name>String</name>
     <name>Variable</name>
     <name>DLL</name>
@@ -19,7 +19,7 @@
   </pois><pois>
     <name>multiply</name>
     <type>Function</type>
-    <mapping>main({{ param }})</mapping>
+    <mapping>main({{ pzaram }})</mapping>
   </pois>
   <pois>
     <name>numbers</name>

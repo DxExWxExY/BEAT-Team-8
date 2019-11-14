@@ -25,7 +25,23 @@ class PluginManagementModel:
     def update(self):
         self.__pluginList = self.__parser.getEntries("plugin")
 
-    def getPlugin(self, path):
+    def createPlugin(self, path):
         if self.__parser.validatePluginSchema(path):
             self.__parser.getPluginFromXml(path)
             self.update()
+
+    def getPoi(self, plugin, poiName):
+        return self.__pluginList[plugin].pois[poiName]
+
+    def addPoiDefinition(self, key, poi, data):
+        self.__pluginList[key].pois[poi] = data
+        self.__parser.updateEntry("plugin", self.__pluginList[key])
+        self.update()
+
+    def deletePoi(self, plugin, poiName):
+        del self.__pluginList[plugin].pois[poiName]
+        self.__parser.updateEntry("plugin", self.__pluginList[plugin])
+        self.update()
+
+    def updatePoiDefinition(self, plugin):
+        self.__parser.updateEntry("plugin", self.__pluginList[plugin])
