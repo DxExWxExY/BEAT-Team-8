@@ -1,6 +1,7 @@
-from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QMessageBox
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QMessageBox, QListWidgetItem
 
+from src.items.project_widget import ProjectWidget
 from src.models.project_model import ProjectModel
 from src.views.dialogs.prjInfoDialog import prjInfoDialog
 from src.views.dialogs.project_selection_dialog import ProjectSelection
@@ -16,14 +17,15 @@ class ProjectTabController:
         self.__populateProjectList()
 
     def __populateProjectList(self):
-        for item in self.model.getProjectList().keys():
-            self.projectSelection.projectsList.addItem(item)
+        projects = self.model.getProjectList()
+        for key in projects.keys():
+            i = QListWidgetItem(key)
+            j = ProjectWidget(projects[key])
+            i.setSizeHint(j.sizeHint())
+            self.projectSelection.projectsList.addItem(i)
+            self.projectSelection.projectsList.setItemWidget(i, j)
 
     def __addEventHandlers(self):
-        # self.tab.browsePath.clicked.connect(lambda: self.__fileBrowser())
-        # self.tab.searchBox.returnPressed.connect(lambda: self.__searchForItem())
-        # self.tab.searchButton.clicked.connect(lambda: self.__searchForItem())
-        #     Dialog Handlers
         self.newProjectDialog.createButton.clicked.connect(lambda: self.__saveProject())
         self.newProjectDialog.createButton.clicked.connect(lambda: self.__saveProject())
         self.projectSelection.deleteProject.clicked.connect(lambda: self.__deleteProject())

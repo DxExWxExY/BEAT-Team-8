@@ -14,9 +14,9 @@ class AnalysisModel:
 
     def run_static(self, project, plugin):
         self.__staticAnalyzer.setPath(project.binaryPath)
-        self.__poiList["Function"] = self.__staticAnalyzer.R2findPOI("function")
-        self.__poiList["DLL"] = self.__staticAnalyzer.R2findPOI("dll")
-        self.__poiList["String"] = self.__staticAnalyzer.R2findPOI("strings")
+        self.__poiList["Function"] = self.__staticAnalyzer.findPois("function")
+        self.__poiList["DLL"] = self.__staticAnalyzer.findPois("dll")
+        self.__poiList["String"] = self.__staticAnalyzer.findPois("strings")
         project.results[plugin] = self.__poiList
         self.__lint(plugin)
         self.__message = "Static analysis complete."

@@ -11,8 +11,8 @@ class DynamicAnalysis:
     def setPath(self, path):
         try:
             self.analyzer = r2pipe.open(path)
-            # self.analyzer.cmd("aaa")
-            self.analyzer.cmd("e dbg.profile=r2.rr2")
+            self.analyzer.cmd("aaa")
+            # self.analyzer.cmd("e dbg.profile=r2.rr2")
             self.analyzer.cmd("doo")
 
 
@@ -31,7 +31,9 @@ class DynamicAnalysis:
 
     def breakpoints(self):
         bpSet = []
-        self.__execute("e dbg.bpinmaps=0")
+        # self.__execute("e dbg.bpinmaps=0")
+        mainLocation = self.__executej("iMj")
+        self.__execute(f"s {hex(mainLocation['vaddr'])}")
         results = self.__executej("isj")
         for i in range(len(results)):
             address = hex(results[i]['vaddr'])
@@ -40,17 +42,17 @@ class DynamicAnalysis:
                 print(f"db {address}")
                 self.__execute(f"db {address}")
         # print(self.__executej("dbj"))
-        self.runDynamic()
+        # self.runDynamic()
         # print(self.__executej("afvrj"))
 
 
     def runDynamic(self):
-        self.__execute("ood > pipe.txt")
+        self.__execute("ood")
         while True:
-            self.__execute("dc > pipe.txt")
-            file = open("pipe.txt", "r+")
-            print(file.read())
-            # file.truncate(0)
+            self.__execute("dc")
+            # file = open("pipe.txt", "r+")
+            # print(file.read())
+            # # file.truncate(0)
             var = self.__executej("sj")
             print(hex(var[0]['offset']), end="\n")
             print(self.__executej(f"axtj {hex(var[0]['offset'])}"))
@@ -101,7 +103,7 @@ class DynamicAnalysis:
 
 if __name__ == "__main__":
     a = DynamicAnalysis()
-    a.setPath('..//..//res%sex.o' % os.sep)
-    a.runDynamic()
-    # a.breakpoints()
+    a.setPath('..\\..\\res%sex2' % os.sep)
+    a.breakpoints()
+    # a.runDynamic()
 

@@ -8,7 +8,7 @@ class StaticAnalyzer:
 
     def setPath(self, path):
         try:
-            self.analyzer = r2pipe.open(path)
+            self.analyzer = r2pipe.open(path, flags=['-d'])
             self.analyzer.cmd("aaa")
         except:
             self.analyzer = None
@@ -17,7 +17,6 @@ class StaticAnalyzer:
         if self.analyzer is not None:
             properties = dict()
             BinInfo = self.__executej("ij")
-            properties['file'] = BinInfo["core"]["file"]
             properties['os'] = BinInfo["bin"]["os"]
             properties['arch'] = BinInfo["bin"]["arch"]
             properties['machine'] = BinInfo["bin"]["machine"]
@@ -51,9 +50,26 @@ class StaticAnalyzer:
                     results.append(e)
             return results
 
-    def R2findPOI(self, filterType):
+    def  __funcAddr(self, addr):
+        self.__execute(f"s {addr}")
+        calls = self.__executej("afij")
+        if not calls:
+            return []
+        if 'callrefs' not in calls[0].keys():
+            return []
+        calls = calls[0]['callrefs']
+        addresses = [hex(e['addr']) for e in calls]
+        for address in addresses:
+            addresses += self.__funcAddr(address)
+        return addresses
+
+
+    def findPois(self, filterType):
         poiList = []
         if filterType == "function":
+            mainAddr = self.__executej("iMj")
+            print(mainAddr)
+            # print(self.__funcAddr(mainAddr))
             list = self.__executej("isj")
             for i in range(len(list)):
                 if (list[i]['type']) == "FUNC" and list[i]['demname']:
