@@ -1,0 +1,4 @@
+#!/usr/bin.rarun2
+program./ex.o
+stdin="5"
+stdout=/dev/pts/3
