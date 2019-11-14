@@ -66,3 +66,7 @@ class AnalysisModel:
 
     def saveProject(self, project):
         self.parser.updateEntry("project", project)
+
+    def findPoi(self, name):
+        # for t in self.__
+        pass
