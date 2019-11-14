@@ -8,7 +8,7 @@ class StaticAnalyzer:
 
     def setPath(self, path):
         try:
-            self.analyzer = r2pipe.open(path)
+            self.analyzer = r2pipe.open(path, flags=['-d'])
             self.analyzer.cmd("aaaa")
         except:
             self.analyzer = None
@@ -17,6 +17,7 @@ class StaticAnalyzer:
         if self.analyzer is not None:
             properties = dict()
             BinInfo = self.__executej("ij")
+            print(BinInfo)
             properties['os'] = BinInfo["bin"]["os"]
             properties['arch'] = BinInfo["bin"]["arch"]
             properties['machine'] = BinInfo["bin"]["machine"]
@@ -74,6 +75,7 @@ class StaticAnalyzer:
                 info = self.__executej("afij")[0]
                 poi['type'] = 'Function'
                 poi['name'] = info['name']
+                poi['addr'] = hex(info['offset'])
                 if info['nargs'] != 0:
                     args = self.__executej("afvj")['reg']
                     poi['args'] = [(a['name'], a['type']) for a in args]
@@ -81,22 +83,6 @@ class StaticAnalyzer:
                     poi['args'] = []
                 poiList.append(poi)
             return poiList
-            # list = self.__executej("isj")
-            # for i in range(len(list)):
-            #     if (list[i]['type']) == "FUNC" and list[i]['demname']:
-            #         item = {}
-            #         item['type'] = 'Function'
-            #         item['name'] = str(list[i]['demname'])
-            #         item['addr'] = hex(list[i]['vaddr'])
-            #         self.__execute(f"s {hex(list[i]['vaddr'])}")
-            #         results = self.__executej("afvj")
-            #         temp = []
-            #         for j in range(len(results['reg'])):
-            #             temp.append(results['reg'][j]['name'])
-            #             temp.append(results['reg'][j]['type'])
-            #         item['args'] = temp
-            #         poiList.append(item)
-            # return poiList
 
         strs = self.__executej("iij")
         if (filterType == "dll"):
@@ -121,12 +107,15 @@ class StaticAnalyzer:
             mainAddr = hex(self.__executej("iMj")['vaddr'])
             addresses = [mainAddr] + self.__funcAddr(mainAddr)
             for address in addresses:
-                poi = {}
                 self.__execute(f"s {address}")
+                name = self.__executej("afij")[0]['name']
                 info = self.__executej("afvj")['bp']
-                poi['type'] = 'Variable'
-                poi['dtype'] = info['type']
-                poiList.append(poi)
+                for i in info:
+                    poi = {}
+                    poi['type'] = 'Variable'
+                    poi['name'] = f"{name}.var{abs(int(i['ref']['offset']))}"
+                    poi['dtype'] = i['type']
+                    poiList.append(poi)
             return poiList
         # TODO add variables, structs, packet protocol
 

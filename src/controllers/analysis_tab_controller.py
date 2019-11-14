@@ -33,7 +33,7 @@ class AnalysisTabController:
         self.tab.poiList.clear()
         list = self.model.setFilterList(filter)
         for item in list:
-            self.tab.poiList.addItem(item[0])
+            self.tab.poiList.addItem(item)
 
     def __selectPlugin(self):
         selected = self.tab.pluginDropdown.currentText()
@@ -66,7 +66,7 @@ class AnalysisTabController:
                             pois = self.project.results[selected][filter]
                         for item in pois:
                             # TODO: refactor to dictionary
-                            self.tab.poiList.addItem(item[0])
+                            self.tab.poiList.addItem(item)
                     except:
                         pass
 

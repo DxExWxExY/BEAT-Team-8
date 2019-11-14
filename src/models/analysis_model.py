@@ -17,6 +17,7 @@ class AnalysisModel:
         self.__poiList["Function"] = self.__staticAnalyzer.findPois("function")
         self.__poiList["DLL"] = self.__staticAnalyzer.findPois("dll")
         self.__poiList["String"] = self.__staticAnalyzer.findPois("strings")
+        self.__poiList["Variable"] = self.__staticAnalyzer.findPois("variable")
         project.results[plugin] = self.__poiList
         self.__lint(plugin)
         self.__message = "Static analysis complete."
@@ -43,7 +44,7 @@ class AnalysisModel:
                 temp += self.__poiList[key]
             return temp
 
-        if filter not in "Variable Struct Packet Protocol":
+        if filter not in "Struct Packet Protocol":
             return self.__poiList[filter]
         else:
             return []
@@ -53,8 +54,16 @@ class AnalysisModel:
         for key in self.__poiList.keys():
             lint = []
             for e in self.__poiList[key]:
-                if process.extractOne(e[0], plugin.pois)[1] > 80:
-                    lint.append(e)
+                if key == 'Variable':
+                    lint.append(e['name'])
+                    continue
+                name = ''
+                if key == 'Function' or key == 'DLL' or key == 'Variable':
+                    name = 'name'
+                elif key == 'String':
+                    name = 'value'
+                if process.extractOne(e[name], list(plugin.pois.keys()))[1] > 80:
+                    lint.append(e[name])
             self.__poiList[key] = lint
 
     def update(self):
