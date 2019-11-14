@@ -9,7 +9,7 @@ class StaticAnalyzer:
     def setPath(self, path):
         try:
             self.analyzer = r2pipe.open(path, flags=['-d'])
-            self.analyzer.cmd("aaa")
+            self.analyzer.cmd("aaaa")
         except:
             self.analyzer = None
 
@@ -67,24 +67,22 @@ class StaticAnalyzer:
     def findPois(self, filterType):
         poiList = []
         if filterType == "function":
-            mainAddr = self.__executej("iMj")
-            print(mainAddr)
-            # print(self.__funcAddr(mainAddr))
+            mainAddr = self.__executej("iMj")['vaddr']
+            print(self.__funcAddr(mainAddr))
             list = self.__executej("isj")
             for i in range(len(list)):
                 if (list[i]['type']) == "FUNC" and list[i]['demname']:
-                    item = []
-                    item.append(str(list[i]['demname']))
-                    item.append(f"Func Name {str(list[i]['demname'])}")
-                    item.append(f"Address {hex(list[i]['vaddr'])}")
+                    item = {}
+                    item['type'] = 'Function'
+                    item['name'] = str(list[i]['demname'])
+                    item['addr'] = hex(list[i]['vaddr'])
                     self.__execute(f"s {hex(list[i]['vaddr'])}")
                     results = self.__executej("afvj")
+                    temp = []
                     for j in range(len(results['reg'])):
-                        temp = []
                         temp.append(results['reg'][j]['name'])
                         temp.append(results['reg'][j]['type'])
-                        s = " ".join(temp)
-                        item.append(f"Parameter {s}")
+                    item['args'] = temp
                     poiList.append(item)
             return poiList
 
