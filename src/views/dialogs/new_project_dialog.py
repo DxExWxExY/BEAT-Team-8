@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QGridLayout, QDesktopWidget, QVBoxLayout, QPushButto
     QTableWidget, QTableWidgetItem, QDialog
 
 
-class prjInfoDialog(QDialog):
+class NewProjectDialog(QDialog):
 
     def __init__(self):
         super().__init__()

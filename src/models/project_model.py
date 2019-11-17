@@ -21,7 +21,7 @@ class ProjectModel:
         return None
 
     def verifyBinary(self, path):
-        item = ProjectItem(path=path)
+        item = ProjectItem(path)
         self.__checkAttributes(item)
         return item
 

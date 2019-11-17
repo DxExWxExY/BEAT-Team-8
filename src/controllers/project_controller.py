@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QMessageBox, QListWid
 
 from src.items.project_widget import ProjectWidget
 from src.models.project_model import ProjectModel
-from src.views.dialogs.prjInfoDialog import prjInfoDialog
+from src.views.dialogs.new_project_dialog import NewProjectDialog
 from src.views.dialogs.project_selection_dialog import ProjectSelection
 
 
@@ -11,7 +11,7 @@ class ProjectTabController:
     def __init__(self):
         self.model = ProjectModel()
         self.projectSelection = ProjectSelection()
-        self.newProjectDialog = prjInfoDialog()
+        self.newProjectDialog = NewProjectDialog()
         self.project = None
         self.__addEventHandlers()
         self.__populateProjectList()
@@ -119,6 +119,9 @@ class ProjectTabController:
         if self.projectSelection.projectsList.selectedItems():
             self.project = self.model.getSelectedProject(self.__getCurrentIndex())
             self.projectSelection.close()
+        else:
+            self.project = None
+
     def __clear(self):
         self.newProjectDialog.projectName.clear()
         self.newProjectDialog.binPath.clear()

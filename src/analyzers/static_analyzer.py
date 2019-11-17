@@ -8,7 +8,7 @@ class StaticAnalyzer:
 
     def setPath(self, path):
         try:
-            self.analyzer = r2pipe.open(path, flags=['-d'])
+            self.analyzer = r2pipe.open(path)
             self.analyzer.cmd("aaaa")
         except:
             self.analyzer = None
