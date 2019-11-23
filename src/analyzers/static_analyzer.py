@@ -51,37 +51,37 @@ class StaticAnalyzer:
                     results.append(e)
             return results
 
-    def __funcAddr(self, addr):
-        self.__execute(f"s {addr}")
-        calls = self.__executej("afij")
-        if not calls:
-            return []
-        if 'callrefs' not in calls[0].keys():
-            return []
-        calls = calls[0]['callrefs']
-        addresses = [hex(e['addr']) for e in calls]
-        for address in addresses:
-            addresses += self.__funcAddr(address)
-        return addresses
+    # def __funcAddr(self, addr):
+    #     self.__execute(f"s {addr}")
+    #     calls = self.__executej("afij")
+    #     if not calls:
+    #         return []
+    #     if 'callrefs' not in calls[0].keys():
+    #         return []
+    #     calls = calls[0]['callrefs']
+    #     addresses = [hex(e['addr']) for e in calls]
+    #     for address in addresses:
+    #         addresses += self.__funcAddr(address)
+    #     return addresses
 
     def findPois(self, filterType):
         poiList = {}
         if filterType == "function":
-            mainAddr = hex(self.__executej("iMj")['vaddr'])
-            addresses = [mainAddr] + self.__funcAddr(mainAddr)
-            for address in addresses:
-                poi = {}
-                self.__execute(f"s {address}")
-                info = self.__executej("afij")[0]
-                poi['type'] = 'Function'
-                poi['name'] = info['name']
-                poi['addr'] = hex(info['offset'])
-                if info['nargs'] != 0:
-                    args = self.__executej("afvj")['reg']
-                    poi['args'] = [(a['name'], a['type']) for a in args]
-                else:
-                    poi['args'] = []
-                poiList[info['name']] = poi
+            data = self.__executej("isj")
+            for i in range(len(data)):
+                if (data[i]['type']) == "FUNC":
+                    poi = {}
+                    poi['name'] = (str(data[i]['name']))
+                    poi['addr'] = (hex(data[i]['vaddr']))
+                    self.__execute(f"s {poi['addr']}")
+                    info = self.__executej("afij")
+                    if info:
+                        if info[0]['nargs'] != 0:
+                            args = self.__executej("afvj")['reg']
+                            poi['args'] = [(a['name'], a['type']) for a in args]
+                    else:
+                        poi['args'] = []
+                    poiList[poi['name']] = poi
             return poiList
 
         strs = self.__executej("iij")
@@ -104,18 +104,18 @@ class StaticAnalyzer:
             return poiList
 
         if filterType == "variable":
-            mainAddr = hex(self.__executej("iMj")['vaddr'])
-            addresses = [mainAddr] + self.__funcAddr(mainAddr)
-            for address in addresses:
-                self.__execute(f"s {address}")
-                name = self.__executej("afij")[0]['name']
-                info = self.__executej("afvj")['bp']
-                for i in info:
-                    poi = {}
-                    poi['type'] = 'Variable'
-                    poi['name'] = f"{name}.var{abs(int(i['ref']['offset']))}"
-                    poi['dtype'] = i['type']
-                    poiList[poi['name']] = name
+        #     mainAddr = hex(self.__executej("iMj")['vaddr'])
+        #     addresses = [mainAddr] + self.__funcAddr(mainAddr)
+        #     for address in addresses:
+        #         self.__execute(f"s {address}")
+        #         name = self.__executej("afij")[0]['name']
+        #         info = self.__executej("afvj")['bp']
+        #         for i in info:
+        #             poi = {}
+        #             poi['type'] = 'Variable'
+        #             poi['name'] = f"{name}.var{abs(int(i['ref']['offset']))}"
+        #             poi['dtype'] = i['type']
+        #             poiList[poi['name']] = name
             return poiList
         # TODO add variables, structs, packet protocol
 

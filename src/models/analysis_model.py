@@ -17,7 +17,7 @@ class AnalysisModel:
         self.__poiList["Function"] = self.__staticAnalyzer.findPois("function")
         self.__poiList["DLL"] = self.__staticAnalyzer.findPois("dll")
         self.__poiList["String"] = self.__staticAnalyzer.findPois("strings")
-        self.__poiList["Variable"] = self.__staticAnalyzer.findPois("variable")
+        # self.__poiList["Variable"] = self.__staticAnalyzer.findPois("variable")
         project.results[plugin] = self.__poiList
         self.__lint(plugin)
         self.__message = "Static analysis complete."
