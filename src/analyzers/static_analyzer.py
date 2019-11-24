@@ -17,7 +17,6 @@ class StaticAnalyzer:
         if self.analyzer is not None:
             properties = dict()
             BinInfo = self.__executej("ij")
-            print(BinInfo)
             properties['os'] = BinInfo["bin"]["os"]
             properties['arch'] = BinInfo["bin"]["arch"]
             properties['machine'] = BinInfo["bin"]["machine"]
@@ -71,6 +70,7 @@ class StaticAnalyzer:
             for i in range(len(data)):
                 if (data[i]['type']) == "FUNC":
                     poi = {}
+                    poi['type'] = 'Function'
                     poi['name'] = (str(data[i]['name']))
                     poi['addr'] = (hex(data[i]['vaddr']))
                     self.__execute(f"s {poi['addr']}")
@@ -79,6 +79,8 @@ class StaticAnalyzer:
                         if info[0]['nargs'] != 0:
                             args = self.__executej("afvj")['reg']
                             poi['args'] = [(a['name'], a['type']) for a in args]
+                        else:
+                            poi['args'] = []
                     else:
                         poi['args'] = []
                     poiList[poi['name']] = poi

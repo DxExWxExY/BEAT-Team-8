@@ -105,9 +105,8 @@ class AnalysisTabController:
         temp = []
         items = [e.text() for e in self.tab.poiList.selectedItems()]
         for e in self.model.setFilterList(selected):
-            for item in items:
-                if item == e:
-                    temp.append(e)
+            if e in items:
+                temp.append(self.model.findPoi(e))
         self.__updatePOI(temp)
 
     def __runStatic(self):
@@ -128,7 +127,10 @@ class AnalysisTabController:
     def __updatePOI(self, x):
         screen = ""
         for e in x:
-            screen += e + "\n"
+            info = ""
+            for key in e.keys():
+                info += f"{key}: {e[key]}\n"
+            screen += info + "============\n"
         self.tab.poiContentArea.setPlainText(screen)
 
     def __updateTerminal(self):

@@ -17,7 +17,7 @@ class AnalysisModel:
         self.__poiList["Function"] = self.__staticAnalyzer.findPois("function")
         self.__poiList["DLL"] = self.__staticAnalyzer.findPois("dll")
         self.__poiList["String"] = self.__staticAnalyzer.findPois("strings")
-        # self.__poiList["Variable"] = self.__staticAnalyzer.findPois("variable")
+        self.__poiList["Variable"] = self.__staticAnalyzer.findPois("variable")
         project.results[plugin] = self.__poiList
         self.__lint(plugin)
         self.__message = "Static analysis complete."
@@ -36,29 +36,30 @@ class AnalysisModel:
 
     def setFilterList(self, filter):
         if len(self.__poiList) is 0:
-            return []
+            return {}
 
         if filter == "All":
-            temp = []
+            temp = {}
             for key in self.__poiList.keys():
-                temp += self.__poiList[key]
+                temp.update(self.__poiList[key])
             return temp
 
         if filter not in "Struct Packet Protocol":
             return self.__poiList[filter]
         else:
-            return []
+            return {}
 
     def __lint(self, pluginName):
         plugin = self.__pluginList[pluginName]
         for key in self.__poiList.keys():
-            lint = []
-            for e in self.__poiList[key]:
+            lint = {}
+            for ek in self.__poiList[key].keys():
+                name = self.__poiList[key][ek]['name']
                 if key == 'Variable':
-                    lint.append(e)
+                    lint[name] = self.__poiList[key][ek]
                     continue
-                if process.extractOne(e, list(plugin.pois.keys()))[1] > 80:
-                    lint.append(e)
+                if process.extractOne(ek, list(plugin.pois.keys()))[1] > 80:
+                    lint[name] = self.__poiList[key][ek]
             self.__poiList[key] = lint
 
     def update(self):
@@ -68,5 +69,6 @@ class AnalysisModel:
         self.parser.updateEntry("project", project)
 
     def findPoi(self, name):
-        # for t in self.__
-        pass
+        for key in self.__poiList.keys():
+            if name in self.__poiList[key]:
+                return self.__poiList[key][name]
