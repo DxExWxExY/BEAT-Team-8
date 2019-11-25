@@ -1,5 +1,9 @@
-from PyQt5 import QtWidgets
+import traceback
 
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QListWidget, QListWidgetItem
+
+from src.items.poi_widget import PoIWidget
 from src.models.analysis_model import AnalysisModel
 from src.views.dialogs.analysis_result_dialog import AnalysisResultDialog
 from src.views.dialogs.comment_dialog import CommentDialog
@@ -32,8 +36,12 @@ class AnalysisTabController:
         filter = str(self.tab.poiTypeDropdown.currentText())
         self.tab.poiList.clear()
         list = self.model.setFilterList(filter)
-        for item in list:
-            self.tab.poiList.addItem(item)
+        for key in list.keys():
+            i = QListWidgetItem()
+            j = PoIWidget(self.model.findPoi(key))
+            i.setSizeHint(j.sizeHint())
+            self.tab.poiList.addItem(i)
+            self.tab.poiList.setItemWidget(i, j)
 
     def __selectPlugin(self):
         selected = self.tab.pluginDropdown.currentText()
@@ -57,18 +65,21 @@ class AnalysisTabController:
                 if len(self.project.results) > 0:
                     filter = self.tab.poiTypeDropdown.currentText()
                     self.tab.poiList.clear()
-                    pois = []
+                    pois = {}
                     try:
                         if filter == "All":
                             for key in self.project.results[selected].keys():
-                                pois += self.project.results[selected][key]
+                                pois.update(self.project.results[selected][key])
                         else:
                             pois = self.project.results[selected][filter]
-                        for item in pois:
-                            # TODO: refactor to dictionary
-                            self.tab.poiList.addItem(item)
-                    except:
-                        pass
+                        for key in pois.keys():
+                            i = QListWidgetItem()
+                            j = PoIWidget(pois[key])
+                            i.setSizeHint(j.sizeHint())
+                            self.tab.poiList.addItem(i)
+                            self.tab.poiList.setItemWidget(i, j)
+                    except Exception as err:
+                        traceback.print_exc(err.__traceback__)
 
     def __populateDropdowns(self):
         self.tab.pluginDropdown.addItems(self.model.getPluginsList())
@@ -100,13 +111,14 @@ class AnalysisTabController:
         self.tab.analysisResultWindow = AnalysisResultDialog()
         self.tab.analysisResultWindow.show()
 
+    def __getWidget(self, i):
+        return self.tab.poiList.itemWidget(i)
+
     def __displayPOI(self):
-        selected = self.tab.poiTypeDropdown.currentText()
         temp = []
-        items = [e.text() for e in self.tab.poiList.selectedItems()]
-        for e in self.model.setFilterList(selected):
-            if e in items:
-                temp.append(self.model.findPoi(e))
+        items = [self.__getWidget(e) for e in self.tab.poiList.selectedItems()]
+        for widget in items:
+            temp.append(widget.poi)
         self.__updatePOI(temp)
 
     def __runStatic(self):
