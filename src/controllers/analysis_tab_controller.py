@@ -153,14 +153,20 @@ class AnalysisTabController:
             errorDialog.exec_()
 
     def __runDynamic(self):
-        if self.project is not None:
+        selectedBps = self.__getSelectedBp()
+        if selectedBps:
             self.__updateUIEnableState(False)
             self.model.stopFlag = True
-            # TODO: Check if there are any checked
-            selectedPois = self.__getSelectedBp()
-            # self.model.setBreakpoints(self.project.binaryPath, selectedPois)
-            self.model.runDynamic(selectedPois)
+            # self.model.setBreakpoints(self.project.binaryPath, selectedBps)
+            self.model.runDynamic(selectedBps)
             Thread(target=self.__dynamicHandler).start()
+        else:
+            errorDialog = QtWidgets.QMessageBox()
+            errorDialog.setText('Breakpoints Not Selected')
+            errorDialog.setWindowTitle("Error")
+            errorDialog.setInformativeText("Select breakpoints from the PoI Result list before running dynamic analysis.")
+            errorDialog.setIcon(3)
+            errorDialog.exec_()
 
     def __dynamicHandler(self):
         while not self.model.stopFlag:

@@ -11,7 +11,7 @@ class DynamicAnalysis:
     def setPath(self, path):
         self.registers = {}
         try:
-            self.analyzer = r2pipe.open(path)
+            self.analyzer = r2pipe.open(path, flags=['-df'])
             self.analyzer.cmd("aaaa")
             self.analyzer.cmd("doo")
             self.analyzer.cmd("e dbg.profile=r2.rr2")

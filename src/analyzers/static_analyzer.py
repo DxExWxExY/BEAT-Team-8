@@ -10,6 +10,7 @@ class StaticAnalyzer:
         try:
             self.analyzer = r2pipe.open(path)
             self.analyzer.cmd("aaaa")
+            self.analyzer.cmd("doo")
         except:
             self.analyzer = None
 
