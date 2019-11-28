@@ -44,17 +44,3 @@ class TabLayout(QWidget):
 
     def build(self):
         self.setLayout(self.__mainGrid)
-
-    def wheelEvent(self, event: QWheelEvent):
-        if event.modifiers() == Qt.ControlModifier:
-            font = QFont()
-            if event.angleDelta().y() > 0:
-                self.fontSize += 2
-                font.setPointSize(self.fontSize)
-                self.setFont(font)
-            else:
-                if self.fontSize > 2:
-                    self.fontSize -= 2
-                    font.setPointSize(self.fontSize)
-                    self.setFont(font)
-            self.update()

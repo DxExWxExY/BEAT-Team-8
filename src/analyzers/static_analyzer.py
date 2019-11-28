@@ -79,7 +79,7 @@ class StaticAnalyzer:
                     if info:
                         if info[0]['nargs'] != 0:
                             args = self.__executej("afvj")['reg']
-                            poi['args'] = [(a['name'], a['type']) for a in args]
+                            poi['args'] = [(a['name'], a['type'], a['ref']) for a in args]
                         else:
                             poi['args'] = []
                     else:
