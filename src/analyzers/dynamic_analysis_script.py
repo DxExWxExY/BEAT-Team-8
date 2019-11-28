@@ -9,14 +9,16 @@ class DynamicAnalysis:
     pass
 
     def setPath(self, path):
+        self.registers = {}
         try:
             self.analyzer = r2pipe.open(path)
-            self.analyzer.cmd("aaa")
-            # self.analyzer.cmd("e dbg.profile=r2.rr2")
+            self.analyzer.cmd("aaaa")
             self.analyzer.cmd("doo")
-
-
+            self.analyzer.cmd("e dbg.profile=r2.rr2")
             print("The Binary is ready for dynamic analysis")
+
+
+
         except:
             self.analyzer = None
             print("Error could not perform dynamic analysis on the binary file.")
@@ -45,58 +47,61 @@ class DynamicAnalysis:
         # self.runDynamic()
         # print(self.__executej("afvrj"))
 
-
     def runDynamic(self):
-        self.__execute("ood")
+
+        # self.getPID()
+        # current_instruction = []
         while True:
             self.__execute("dc")
-            # file = open("pipe.txt", "r+")
-            # print(file.read())
-            # # file.truncate(0)
+            # self.PrintTerminal()
+            # self.getRegisters()
+            # self.__execute("ds")
+            current_instruction = self.__executej("pdj 1")
+            print(current_instruction)
+            # for i in range(len(current_instruction)):
+            #     temp = current_instruction[i]['opcode']
+            #     print(temp)
+            # if current_instruction['type'] == 'ret':
+            #     print("ddr~{}")
+            #     break
+            # break
+            print("______________")
 
-        pass
-        # self.__execute("doo")
-        # while True:
-        #     self.__execute("dc")
-        #     print("running dynamic...")
-        #
-        #     # self.__execute("q")
-        #     # self.__execute("ood")
-        #
-        #     self.__execute("s")
-        #     var = self.__executej("sj")
-        #     print(hex(var[0]['offset']), end="\n")
-        #     print(self.__executej(f"axtj {hex(var[0]['offset'])}"))
-        #     time.sleep(1)
-        #
-        # pass
 
-        # # Print Binary Information into the BEAT Prompt
-        # binaryInfo = self.__executej("i1j")
-        # # Find references on binary
-        # findReferences = self.__executej("axtj")
-        #
-        # for i in range(len(findReferences)):
-        #     # Add breakpoint
-        #     breakPoint = self.__executej("db") + hex(findReferences[i]["from"])
-        #     # Add breakpoint at desired location
-        #     run = self.__executej(breakpoint)
-        #
-        # while True:
-        #     # Run until breakpoint is checked
-        #     run = self.__executej("dc")
-        #     # Execute on breakpoint reference call
-        #     execute = self.__executej("dso")
-        #
-        # if self.analyzer is not None:
-        #     self.__executej("dc")
 
+
+
+    def getRegisters(self):
+        temp = self.__executej("drrj")
+        for i in range(len(temp)):
+            # print(temp[i]['reg'])
+            # print(temp[i]['value'])
+            reg = str(temp[i]['reg'])
+            self.registers[reg] = temp[i]['value']
+        print(self.registers)
+
+    def getPID(self):
+        # print("getting PID")
+        self.__execute("doo > temp.txt")
+        file = open("temp.txt", "r+")
+        pid=file.read().replace('\n', '')
+        file.truncate(0)
+        print("Proccess with PID ",pid,"started...")
 
     def __exitAnalysis(self):
         # Exit Binary Dynamic Analysis
         # self.analyzer.cmd("exit")
         self.analyzer.quit()
         print("Exited Dynamic Analysis.")
+
+    # def PrintTerminal(self):
+        # print(self.getTerminalText())
+
+    # def getTerminalText(self):
+    #     file = open("temp.txt", "r+")
+    #     text = file.read()
+    #     file.truncate(0)
+    #     return str(text)
 
 if __name__ == "__main__":
     a = DynamicAnalysis()

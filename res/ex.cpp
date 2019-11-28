@@ -12,9 +12,9 @@ int multiply(int x, int y){
   return result;
 }
 
-void printNum(int x){
+void printing(char charArray[]){
 
-  printf("Your number is: %d",x);
+  printf("Your number is: %s\n",charArray);
 
 }
 
@@ -22,17 +22,17 @@ void printNum(int x){
 int main(void)
 {
    // printf() displays the string inside quotation
-   int x=0;
-   int y=0;
-   char s[100]="Hello world!\n";
-   printf("%s", s);
+   int x=3;
+   int y=4  ;
+   char s[100]="Hello adrian!\n";
+//   printf("%s", s);
 
 //   printf("insert number to multiply\n");
    printf("insert number to print\n");
    std::cin >> x;
-//   int value = multiply(x,y);
-   printNum(x);
-//   printf("Result is: %d\n",value);
+   int value = multiply(x,x);
+   printing(s);
+   printf("Result is: %d\n",value);
 
    return 0;
 }
