@@ -101,7 +101,7 @@ class StaticAnalyzer:
             for i in range(len(strs)):
                 item = {}
                 item['type'] = 'String'
-                item['name'] = base64.b64decode(str(strs[i]['string'])).decode()
+                item['name'] = strs[i]['string']
                 item['addr'] = hex(strs[i]['vaddr'])
                 poiList[item['name']] = item
             return poiList
