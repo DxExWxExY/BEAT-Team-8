@@ -41,7 +41,10 @@ class CommentDialog(QDialog):
 
     def __saveComment(self):
         if not self.commentBox.text():
-            del self.widget.poi['comment']
+            try:
+                del self.widget.poi['comment']
+            except KeyError:
+                pass
         else:
             self.widget.poi['comment'] = self.commentBox.text()
         self.widget.updateCommentState()

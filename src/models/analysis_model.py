@@ -1,5 +1,9 @@
+import time
+from threading import Lock, Thread
+
 from fuzzywuzzy import process
 
+from src.analyzers.dynamic_analyzer import DynamicAnalyzer
 from src.analyzers.static_analyzer import StaticAnalyzer
 from src.storage.entries_parser import EntriesParser
 
@@ -8,9 +12,12 @@ class AnalysisModel:
     def __init__(self):
         self.parser = EntriesParser()
         self.__staticAnalyzer = StaticAnalyzer()
+        self.__dynamicAnalyzer = DynamicAnalyzer()
         self.__pluginList = self.parser.getEntries("plugin")
         self.__poiList = dict()
         self.__message = ''
+        self.stopFlag = False
+        self.uiLock = Lock()
 
     def run_static(self, project, plugin):
         self.__staticAnalyzer.setPath(project.binaryPath)
@@ -72,3 +79,28 @@ class AnalysisModel:
         for key in self.__poiList.keys():
             if name in self.__poiList[key]:
                 return self.__poiList[key][name]
+
+    def setBreakpoints(self, path, pois):
+        try:
+            self.__dynamicAnalyzer.setPath(path)
+            for poi in pois:
+                self.__dynamicAnalyzer.setBreakpoint(poi['addr'])
+        except Exception as err:
+            print(err)
+
+    def runDynamic(self, selectedPois):
+        Thread(target=self.__runDynamic, args=[selectedPois]).start()
+
+    def __runDynamic(self, selectedPois):
+        self.uiLock.acquire()
+        self.__message = "Dynamic Analysis Started."
+        self.__dynamicAnalyzer.start(selectedPois)
+        self.uiLock.release()
+        # i = 0
+        # while not self.stopFlag:
+        #     if self.uiLock.acquire():
+        #         if
+        #             self.__message = f"Loop: {i}"
+        #         i+=1
+        #         self.uiLock.release()
+        #     time.sleep(1)

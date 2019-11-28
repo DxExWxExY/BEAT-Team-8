@@ -1,4 +1,6 @@
+import time
 import traceback
+from threading import Thread
 
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QListWidgetItem
@@ -31,6 +33,7 @@ class AnalysisTabController:
         self.tab.poiTypeDropdown.currentIndexChanged.connect(lambda: self.__populatePoiList())
         self.tab.pluginDropdown.currentIndexChanged.connect(lambda: self.__selectPlugin())
         self.tab.dynamicRunbtn.clicked.connect(lambda: self.__runDynamic())
+        self.tab.dynamicStopbtn.clicked.connect(lambda: self.__stopDynamic())
 
     def __populatePoiList(self):
         self.tab.commentBtn.setEnabled(False)
@@ -105,7 +108,7 @@ class AnalysisTabController:
                 self.tab.poiList.addItem(item)
 
     def __addCommentToPoi(self):
-        self.tab.commentView = CommentDialog(self.__selectedPois()[0])
+        self.tab.commentView = CommentDialog(self.__getWidgets()[0])
         self.tab.commentView.exec_()
         self.model.saveProject(self.project)
 
@@ -118,11 +121,14 @@ class AnalysisTabController:
         self.tab.analysisResultWindow.show()
 
     def __getWidgets(self):
+        return [self.tab.poiList.itemWidget(self.tab.poiList.item(i)) for i in range(self.tab.poiList.count())]
+
+    def __getSelectedPois(self):
         return [self.tab.poiList.itemWidget(i) for i in self.tab.poiList.selectedItems()]
 
     def __displayPoiDetails(self):
         temp = []
-        items = self.__getWidgets()
+        items = self.__getSelectedPois()
         if len(items) != 1:
             self.tab.commentBtn.setEnabled(False)
         else:
@@ -146,6 +152,23 @@ class AnalysisTabController:
             errorDialog.setIcon(3)
             errorDialog.exec_()
 
+    def __runDynamic(self):
+        if self.project is not None:
+            self.__updateUIEnableState(False)
+            self.model.stopFlag = True
+            # TODO: Check if there are any checked
+            selectedPois = self.__getSelectedBp()
+            # self.model.setBreakpoints(self.project.binaryPath, selectedPois)
+            self.model.runDynamic(selectedPois)
+            Thread(target=self.__dynamicHandler).start()
+
+    def __dynamicHandler(self):
+        while not self.model.stopFlag:
+            if self.model.uiLock.acquire():
+                # self.__updateTerminal()
+                self.model.uiLock.release()
+            time.sleep(.1)
+
     def __updatePoiDisplay(self, x):
         screen = ""
         for e in x:
@@ -161,17 +184,17 @@ class AnalysisTabController:
     def setProject(self, project):
         self.project = project
 
-    def __runDynamic(self):
-        if self.project is not None:
-            # TODO: Replace with dynamic stuff
-            pass
-        else:
-            errorDialog = QtWidgets.QMessageBox()
-            errorDialog.setText('Project Not Selected')
-            errorDialog.setWindowTitle("Error")
-            errorDialog.setInformativeText("Select a project from the Project Tab.")
-            errorDialog.setIcon(3)
-            errorDialog.exec_()
+    def __updateUIEnableState(self, state):
+        self.tab.pluginDropdown.setEnabled(state)
+        self.tab.poiTypeDropdown.setEnabled(state)
+        self.tab.staticRunBtn.setEnabled(state)
+        self.tab.dynamicRunbtn.setEnabled(state)
+        self.tab.searchBox.setEnabled(state)
+        self.tab.searchButton.setEnabled(state)
+        self.tab.poiList.setEnabled(state)
+        self.tab.poiContentArea.setEnabled(state)
+        self.tab.analysisResultBtn.setEnabled(state)
+        self.tab.outputFieldViewBtn.setEnabled(state)
 
     def update(self):
         self.model.update()
@@ -179,9 +202,13 @@ class AnalysisTabController:
         self.__populateDropdowns()
         self.tab.pluginDropdown.setCurrentIndex(0)
 
-    def __selectedPois(self):
+    def __getSelectedBp(self):
         selected = []
         for widget in self.__getWidgets():
-            # if widget.check.isChecked():
-            selected.append(widget)
+            if widget.check.isChecked():
+                selected.append(widget.poi)
         return selected
+
+    def __stopDynamic(self):
+        self.model.stopFlag = True
+        self.__updateUIEnableState(True)

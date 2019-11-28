@@ -1,11 +1,11 @@
-import base64
-import os, sys
+import os
 import time
+from threading import Thread
 
 import r2pipe
 
 
-class DynamicAnalysis:
+class DynamicAnalyzer:
     pass
 
     def setPath(self, path):
@@ -14,12 +14,12 @@ class DynamicAnalysis:
             self.analyzer.cmd("aaa")
             # self.analyzer.cmd("e dbg.profile=r2.rr2")
             self.analyzer.cmd("doo")
-
-
-            print("The Binary is ready for dynamic analysis")
+            # TODO: Get base address
+            self.base = hex(0)
+            self.message = "Test"
+            self.stopFlag = False
         except:
             self.analyzer = None
-            print("Error could not perform dynamic analysis on the binary file.")
 
     def __executej(self, command):
         if self.analyzer is not None:
@@ -44,7 +44,6 @@ class DynamicAnalysis:
         # print(self.__executej("dbj"))
         # self.runDynamic()
         # print(self.__executej("afvrj"))
-
 
     def runDynamic(self):
         self.__execute("ood")
@@ -94,16 +93,24 @@ class DynamicAnalysis:
         # if self.analyzer is not None:
         #     self.__executej("dc")
 
-
     def __exitAnalysis(self):
-        # Exit Binary Dynamic Analysis
-        # self.analyzer.cmd("exit")
         self.analyzer.quit()
         print("Exited Dynamic Analysis.")
 
+    def setBreakpoint(self, address):
+        address &= self.base
+        self.__execute(f"db {address}")
+
+    def start(self, pois):
+        Thread(target=self.__start, args=[pois]).start()
+
+    def __start(self, pois):
+        for poi in pois:
+            print(poi)
+
+
 if __name__ == "__main__":
-    a = DynamicAnalysis()
+    a = DynamicAnalyzer()
     a.setPath('..\\..\\res%sex2' % os.sep)
     a.breakpoints()
     # a.runDynamic()
-
