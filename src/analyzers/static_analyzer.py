@@ -71,7 +71,7 @@ class StaticAnalyzer:
                 if (data[i]['type']) == "FUNC":
                     poi = {}
                     poi['type'] = 'Function'
-                    poi['name'] = (str(data[i]['name']))
+                    poi['name'] = (str(data[i]['demname']))
                     poi['addr'] = (hex(data[i]['vaddr']))
                     self.__execute(f"s {poi['addr']}")
                     info = self.__executej("afij")

@@ -1,7 +1,7 @@
 import traceback
 
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QListWidget, QListWidgetItem
+from PyQt5.QtWidgets import QListWidgetItem
 
 from src.items.poi_widget import PoIWidget
 from src.models.analysis_model import AnalysisModel
@@ -17,22 +17,23 @@ class AnalysisTabController:
         self.project = None
         self.model = AnalysisModel()
         self.__addEventHandlers()
-        self.__populateList()
+        self.__populatePoiList()
         self.__populateDropdowns()
 
     def __addEventHandlers(self):
-        self.tab.poiList.itemClicked.connect(lambda: self.__displayPOI())
+        self.tab.poiList.itemClicked.connect(lambda: self.__displayPoiDetails())
         self.tab.searchBox.returnPressed.connect(lambda: self.__searchForPoi())
         self.tab.searchButton.clicked.connect(lambda: self.__searchForPoi())
-        self.tab.commentBtn.clicked.connect(lambda: self.__commentWindow())
+        self.tab.commentBtn.clicked.connect(lambda: self.__addCommentToPoi())
         self.tab.analysisResultBtn.clicked.connect(lambda: self.__analysisResultWindow())
         self.tab.outputFieldViewBtn.clicked.connect(lambda: self.__outputFieldWindow())
-        self.tab.staticRunBtn.clicked.connect(lambda : self.__runStatic())
-        self.tab.poiTypeDropdown.currentIndexChanged.connect(lambda : self.__populateList())
+        self.tab.staticRunBtn.clicked.connect(lambda: self.__runStatic())
+        self.tab.poiTypeDropdown.currentIndexChanged.connect(lambda: self.__populatePoiList())
         self.tab.pluginDropdown.currentIndexChanged.connect(lambda: self.__selectPlugin())
         self.tab.dynamicRunbtn.clicked.connect(lambda: self.__runDynamic())
 
-    def __populateList(self):
+    def __populatePoiList(self):
+        self.tab.commentBtn.setEnabled(False)
         filter = str(self.tab.poiTypeDropdown.currentText())
         self.tab.poiList.clear()
         list = self.model.setFilterList(filter)
@@ -44,6 +45,7 @@ class AnalysisTabController:
             self.tab.poiList.setItemWidget(i, j)
 
     def __selectPlugin(self):
+        self.tab.commentBtn.setEnabled(False)
         selected = self.tab.pluginDropdown.currentText()
         if selected in "Select Plugin":
             self.tab.poiTypeDropdown.setEnabled(False)
@@ -79,7 +81,10 @@ class AnalysisTabController:
                             self.tab.poiList.addItem(i)
                             self.tab.poiList.setItemWidget(i, j)
                     except Exception as err:
-                        traceback.print_exc(err.__traceback__)
+                        try:
+                            traceback.print_exc(err.__traceback__)
+                        except:
+                            pass
 
     def __populateDropdowns(self):
         self.tab.pluginDropdown.addItems(self.model.getPluginsList())
@@ -88,7 +93,7 @@ class AnalysisTabController:
         searchText = self.tab.searchBox.text().lower()
         if searchText is "":
             self.tab.poiList.clear()
-            self.__populateList()
+            self.__populatePoiList()
         else:
             searchList = []
             for poiType in self.model.getPoiList().keys():
@@ -99,9 +104,10 @@ class AnalysisTabController:
             for item in searchList:
                 self.tab.poiList.addItem(item)
 
-    def __commentWindow(self):
-        self.tab.commentView = CommentDialog()
-        self.tab.commentView.show()
+    def __addCommentToPoi(self):
+        self.tab.commentView = CommentDialog(self.__selectedPois()[0])
+        self.tab.commentView.exec_()
+        self.model.saveProject(self.project)
 
     def __outputFieldWindow(self):
         self.tab.outputFieldWindow = OutputField()
@@ -111,22 +117,26 @@ class AnalysisTabController:
         self.tab.analysisResultWindow = AnalysisResultDialog()
         self.tab.analysisResultWindow.show()
 
-    def __getWidget(self, i):
-        return self.tab.poiList.itemWidget(i)
+    def __getWidgets(self):
+        return [self.tab.poiList.itemWidget(i) for i in self.tab.poiList.selectedItems()]
 
-    def __displayPOI(self):
+    def __displayPoiDetails(self):
         temp = []
-        items = [self.__getWidget(e) for e in self.tab.poiList.selectedItems()]
+        items = self.__getWidgets()
+        if len(items) != 1:
+            self.tab.commentBtn.setEnabled(False)
+        else:
+            self.tab.commentBtn.setEnabled(True)
         for widget in items:
             temp.append(widget.poi)
-        self.__updatePOI(temp)
+        self.__updatePoiDisplay(temp)
 
     def __runStatic(self):
         if self.project is not None:
             plugin = self.tab.pluginDropdown.currentText()
             self.model.run_static(self.project, plugin)
             self.__updateTerminal()
-            self.__populateList()
+            self.__populatePoiList()
             self.model.saveProject(self.project)
         else:
             errorDialog = QtWidgets.QMessageBox()
@@ -136,7 +146,7 @@ class AnalysisTabController:
             errorDialog.setIcon(3)
             errorDialog.exec_()
 
-    def __updatePOI(self, x):
+    def __updatePoiDisplay(self, x):
         screen = ""
         for e in x:
             info = ""
@@ -168,3 +178,10 @@ class AnalysisTabController:
         self.tab.pluginDropdown.clear()
         self.__populateDropdowns()
         self.tab.pluginDropdown.setCurrentIndex(0)
+
+    def __selectedPois(self):
+        selected = []
+        for widget in self.__getWidgets():
+            # if widget.check.isChecked():
+            selected.append(widget)
+        return selected

@@ -31,7 +31,6 @@ class AnalysisTab(TabLayout):
         rightLayout = QtWidgets.QHBoxLayout()
         gridLayout = QtWidgets.QGridLayout()
         btnGrid = QtWidgets.QVBoxLayout()
-        CommentVertLayout = QtWidgets.QVBoxLayout()
         btnSpacer = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
 
         self.terminalContent = QPlainTextEdit()
@@ -49,16 +48,15 @@ class AnalysisTab(TabLayout):
         self.analysisResultBtn = QPushButton("Analysis Results")
         self.outputFieldViewBtn = QPushButton("Output")
 
-        CommentVertLayout.addWidget(self.commentBtn)
-        CommentVertLayout.addItem(btnSpacer)
+        self.commentBtn.setEnabled(False)
 
         btnGrid.addWidget(self.analysisResultBtn)
         btnGrid.addWidget(self.outputFieldViewBtn)
+        btnGrid.addWidget(self.commentBtn)
         btnGrid.addItem(btnSpacer)
 
         gridLayout.addWidget(self.poiContentArea, 0, 0, 1, 1)
         gridLayout.addWidget(self.terminalContent, 1, 0, 1, 1)
-        gridLayout.addItem(CommentVertLayout, 0, 1, 1, 1)
         gridLayout.addItem(btnGrid, 0, 2, 1, 1)
         gridLayout.addWidget(self.cliInput, 2, 0, 1, 1)
 
@@ -81,18 +79,18 @@ class AnalysisTab(TabLayout):
         self.dynamicStopbtn = QtWidgets.QPushButton("Stop")
         spacerItem = QtWidgets.QSpacerItem(1, 1, QSizePolicy.Expanding)
 
-        layout.addWidget(pluginLabel, 0, 0, 1,1)
+        layout.addWidget(pluginLabel, 0, 0, 1, 1)
         layout.addWidget(self.pluginDropdown, 0, 1, 1, 2)
         layout.addWidget(poiTypeLabel, 0, 3, 1, 2)
         layout.addWidget(self.poiTypeDropdown, 0, 5, 1, 2)
-        layout.addItem(spacerItem, 0, 6 , 1, 10)
+        layout.addItem(spacerItem, 0, 6, 1, 10)
 
         layout.addWidget(staticLabel, 1, 0, 1, 1)
         layout.addWidget(self.staticRunBtn, 1, 1, 1, 1)
-        layout.addWidget(DynamicAn, 1, 2, 1 ,1)
-        layout.addWidget(self.dynamicRunbtn, 1, 3, 1 ,1)
-        layout.addWidget(self.dynamicStopbtn, 1, 4, 1 ,1)
-        layout.addItem(spacerItem, 1, 5, 1 ,13)
+        layout.addWidget(DynamicAn, 1, 2, 1, 1)
+        layout.addWidget(self.dynamicRunbtn, 1, 3, 1, 1)
+        layout.addWidget(self.dynamicStopbtn, 1, 4, 1, 1)
+        layout.addItem(spacerItem, 1, 5, 1, 13)
 
         return layout
 
@@ -108,4 +106,3 @@ class AnalysisTab(TabLayout):
         layout.addWidget(self.searchButton, 0, 4, 1, 2)
 
         return layout
-
