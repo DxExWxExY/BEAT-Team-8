@@ -21,7 +21,9 @@ class PoIWidget(QWidget):
 
         self.updateCommentState()
 
-        layout.addWidget(self.check, 0, 0)
+        if self.poi['type'] == 'Function':
+            layout.addWidget(self.check, 0, 0)
+
         layout.addWidget(name, 0, 1)
         layout.addWidget(self.comment, 0, 2)
         layout.setAlignment(name, Qt.AlignLeft)

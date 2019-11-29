@@ -14,8 +14,7 @@ class DynamicAnalyzer:
             self.analyzer.cmd("aaa")
             # self.analyzer.cmd("e dbg.profile=r2.rr2")
             self.analyzer.cmd("doo")
-            # TODO: Get base address
-            self.base = hex(0)
+            self.base = int(self.__executej("ej")['bin.baddr'])
             self.message = "Test"
             self.stopFlag = False
         except:
@@ -98,15 +97,41 @@ class DynamicAnalyzer:
         print("Exited Dynamic Analysis.")
 
     def setBreakpoint(self, address):
-        address &= self.base
-        self.__execute(f"db {address}")
+        actualAddr = hex(address + self.base)
+        print(actualAddr, "=====================")
+        self.__execute(f"db {actualAddr}")
 
     def start(self, pois):
         Thread(target=self.__start, args=[pois]).start()
 
     def __start(self, pois):
-        for poi in pois:
-            print(poi)
+        bpCount = 0
+        while bpCount < len(pois):
+            self.__execute("dc")
+            temp = self.__executej("drj")
+            currentAddr = hex(int(temp['rip']))
+            for poi in pois:
+                actualAddr = hex(poi['addr'] + self.base)
+                if  actualAddr == currentAddr:
+                    regs = self.__getRegisters()
+                    poi['pval'] = []
+                    for arg in poi['args']:
+                        r = arg[2]
+                        poi['pval'].append(regs[r])
+                    self.__execute("dcr")
+                    regs = self.__getRegisters()
+                    poi['rval'] = regs['rax']
+                    bpCount += 1
+
+    def __getRegisters(self):
+        registers = {}
+        temp = self.__executej("drrj")
+        for i in range(len(temp)):
+            # print(temp[i]['reg'])
+            # print(temp[i]['value'])
+            reg = str(temp[i]['reg'])
+            registers[reg] = temp[i]['value']
+        return registers
 
 
 if __name__ == "__main__":

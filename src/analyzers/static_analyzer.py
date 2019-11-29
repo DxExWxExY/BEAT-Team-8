@@ -8,7 +8,8 @@ class StaticAnalyzer:
 
     def setPath(self, path):
         try:
-            self.analyzer = r2pipe.open(path)
+            self.analyzer = r2pipe.open(path,flags=['-d'])
+            self.analyzer.cmd("e ")
             self.analyzer.cmd("aaaa")
             self.analyzer.cmd("doo")
         except:
@@ -51,19 +52,6 @@ class StaticAnalyzer:
                     results.append(e)
             return results
 
-    # def __funcAddr(self, addr):
-    #     self.__execute(f"s {addr}")
-    #     calls = self.__executej("afij")
-    #     if not calls:
-    #         return []
-    #     if 'callrefs' not in calls[0].keys():
-    #         return []
-    #     calls = calls[0]['callrefs']
-    #     addresses = [hex(e['addr']) for e in calls]
-    #     for address in addresses:
-    #         addresses += self.__funcAddr(address)
-    #     return addresses
-
     def findPois(self, filterType):
         poiList = {}
         if filterType == "function":
@@ -73,8 +61,8 @@ class StaticAnalyzer:
                     poi = {}
                     poi['type'] = 'Function'
                     poi['name'] = (str(data[i]['demname']))
-                    poi['addr'] = (hex(data[i]['vaddr']))
-                    self.__execute(f"s {poi['addr']}")
+                    poi['addr'] = (int(data[i]['paddr']))
+                    self.__execute(f"s {hex(data[i]['vaddr'])}")
                     info = self.__executej("afij")
                     if info:
                         if info[0]['nargs'] != 0:
