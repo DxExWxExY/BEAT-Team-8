@@ -98,7 +98,7 @@ class DynamicAnalyzer:
 
     def setBreakpoint(self, address):
         actualAddr = hex(address + self.base)
-        print(actualAddr, "=====================")
+        print(actualAddr)
         self.__execute(f"db {actualAddr}")
 
     def start(self, pois):

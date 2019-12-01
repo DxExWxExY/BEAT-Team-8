@@ -27,7 +27,6 @@ class ProjectTabController:
 
     def __addEventHandlers(self):
         self.newProjectDialog.createButton.clicked.connect(lambda: self.__saveProject())
-        self.newProjectDialog.createButton.clicked.connect(lambda: self.__saveProject())
         self.projectSelection.deleteProject.clicked.connect(lambda: self.__deleteProject())
         self.projectSelection.addProject.clicked.connect(lambda: self.__addProject())
         self.projectSelection.openProject.clicked.connect(lambda: self.__openProject())

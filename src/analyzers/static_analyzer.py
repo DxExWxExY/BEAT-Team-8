@@ -9,9 +9,10 @@ class StaticAnalyzer:
     def setPath(self, path):
         try:
             self.analyzer = r2pipe.open(path,flags=['-d'])
-            self.analyzer.cmd("e ")
+            # self.analyzer.cmd("")
             self.analyzer.cmd("aaaa")
-            self.analyzer.cmd("doo")
+            self.analyzer.cmd("doo google.com")
+            self.base = int(self.__executej("ej")['bin.baddr'])
         except:
             self.analyzer = None
 
@@ -55,24 +56,24 @@ class StaticAnalyzer:
     def findPois(self, filterType):
         poiList = {}
         if filterType == "function":
-            data = self.__executej("isj")
+            data = self.__executej("aflj")
             for i in range(len(data)):
-                if (data[i]['type']) == "FUNC":
-                    poi = {}
-                    poi['type'] = 'Function'
-                    poi['name'] = (str(data[i]['demname']))
-                    poi['addr'] = (int(data[i]['paddr']))
-                    self.__execute(f"s {hex(data[i]['vaddr'])}")
-                    info = self.__executej("afij")
-                    if info:
-                        if info[0]['nargs'] != 0:
-                            args = self.__executej("afvj")['reg']
-                            poi['args'] = [(a['name'], a['type'], a['ref']) for a in args]
-                        else:
-                            poi['args'] = []
+                # if (data[i]['type']) == "FUNC":
+                poi = {}
+                poi['type'] = 'Function'
+                poi['name'] = (str(data[i]['name']))
+                poi['addr'] = (int(data[i]['offset']) - self.base)
+                self.__execute(f"s {hex(data[i]['offset'])}")
+                info = self.__executej("afij")
+                if info:
+                    if info[0]['nargs'] != 0:
+                        args = self.__executej("afvj")['reg']
+                        poi['args'] = [(a['name'], a['type'], a['ref']) for a in args]
                     else:
                         poi['args'] = []
-                    poiList[poi['name']] = poi
+                else:
+                    poi['args'] = []
+                poiList[poi['name']] = poi
             return poiList
 
         strs = self.__executej("iij")
