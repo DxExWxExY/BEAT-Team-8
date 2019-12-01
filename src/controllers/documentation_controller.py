@@ -11,29 +11,14 @@ class DocumentationTabController:
 
     def __populateDocumentationList(self):
 
-        self.tab.documentationList.addItem("BEAT Documentation")
-        self.tab.documentationList.addItem("BEAT Documentation2")
+        DocumentList=[]
+        for path, subdirs, files in os.walk("src/Documentation"):
+            for doc in files:
 
-    #     get all folder names
-        os.chdir("src/Documentation")
-        documents = glob('*/')
-        for i in range(len(documents)):
-            documents[i] = documents[i].replace('/', '')
-        print(documents)
+                doc = doc.replace(".html",'')
 
-    #     get all html names
-        for file in documents:
-            path = "src/Documentation/"
-            path += file
-            path += "/"
-
-            print(path,"____________")
-            os.chdir(path)
-
-        # htmlFiles = glob.glob("*.html")
-        # print(htmlFiles)
-
-
+                self.tab.documentationList.addItem(doc)
+                print("files:", doc,"\n")
 
 
     def __addEventHandlers(self):
