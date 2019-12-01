@@ -66,6 +66,7 @@ class AnalysisTabController:
             self.tab.staticRunBtn.setEnabled(True)
             self.tab.dynamicRunbtn.setEnabled(True)
             self.tab.dynamicStopbtn.setEnabled(True)
+            self.tab.argsCheck.setEnabled(True)
             self.tab.poiTypeDropdown.clear()
             self.tab.poiTypeDropdown.addItems(self.model.getPluginFilters(selected))
             if self.project is not None:
@@ -157,16 +158,18 @@ class AnalysisTabController:
     def __runDynamic(self):
         selectedBps = self.__getSelectedBp()
         if selectedBps:
+            args = self.tab.argsBox.text() if self.tab.argsCheck.isChecked() else ""
             self.__updateUIEnableState(False)
             self.model.stopFlag = True
-            self.model.setBreakpoints(self.project.binaryPath, selectedBps)
+            self.model.setBreakpoints(self.project.binaryPath, selectedBps, args)
             self.model.runDynamic(selectedBps)
             Thread(target=self.__dynamicHandler).start()
         else:
             errorDialog = QtWidgets.QMessageBox()
             errorDialog.setText('Breakpoints Not Selected')
             errorDialog.setWindowTitle("Error")
-            errorDialog.setInformativeText("Select breakpoints from the PoI Result list before running dynamic analysis.")
+            errorDialog.setInformativeText(
+                "Select breakpoints from the PoI Result list before running dynamic analysis.")
             errorDialog.setIcon(3)
             errorDialog.exec_()
 
@@ -189,9 +192,6 @@ class AnalysisTabController:
     def __updateTerminal(self):
         self.tab.terminalContent.appendPlainText(self.model.getTerminalOutput())
 
-    def setProject(self, project):
-        self.project = project
-
     def __updateUIEnableState(self, state):
         self.tab.pluginDropdown.setEnabled(state)
         self.tab.poiTypeDropdown.setEnabled(state)
@@ -203,12 +203,8 @@ class AnalysisTabController:
         self.tab.poiContentArea.setEnabled(state)
         self.tab.analysisResultBtn.setEnabled(state)
         self.tab.outputFieldViewBtn.setEnabled(state)
-
-    def update(self):
-        self.model.update()
-        self.tab.pluginDropdown.clear()
-        self.__populateDropdowns()
-        self.tab.pluginDropdown.setCurrentIndex(0)
+        self.tab.argsCheck.setEnabled(state)
+        self.tab.argsBox.setEnabled(state)
 
     def __getSelectedBp(self):
         selected = []
@@ -226,3 +222,12 @@ class AnalysisTabController:
             self.tab.argsBox.setEnabled(True)
         else:
             self.tab.argsBox.setEnabled(False)
+
+    def update(self):
+        self.model.update()
+        self.tab.pluginDropdown.clear()
+        self.__populateDropdowns()
+        self.tab.pluginDropdown.setCurrentIndex(0)
+
+    def setProject(self, project):
+        self.project = project

@@ -80,9 +80,9 @@ class AnalysisModel:
             if name in self.__poiList[key]:
                 return self.__poiList[key][name]
 
-    def setBreakpoints(self, path, pois):
+    def setBreakpoints(self, path, pois, args):
         try:
-            self.__dynamicAnalyzer.setPath(path)
+            self.__dynamicAnalyzer.setPath(path, args)
             for poi in pois:
                 self.__dynamicAnalyzer.setBreakpoint(poi['addr'])
         except Exception as err:
