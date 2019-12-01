@@ -17,10 +17,6 @@ class DocumentationTab(TabLayout):
         layout.addLayout(self.searchBuilder())
         layout.addWidget(self.documentationList)
 
-        # documentationList.addItem("BEAT Documentation")
-        # documentationList.addItem("Plugin Structure")
-
-
         return layout
 
     def rightPanelBuilder(self):
@@ -38,12 +34,12 @@ class DocumentationTab(TabLayout):
     def searchBuilder(self):
         layout = QGridLayout()
 
-        searchBox = QLineEdit()
-        searchBox.setPlaceholderText("Search Documentation")
+        self.searchBox = QLineEdit()
+        self.searchBox.setPlaceholderText("Search Documentation")
 
-        searchButton = QPushButton('Search')
+        self.searchButton = QPushButton('Search')
 
-        layout.addWidget(searchBox, 0, 0, 1, 4)
-        layout.addWidget(searchButton, 0, 4, 1, 2)
+        layout.addWidget(self.searchBox, 0, 0, 1, 4)
+        layout.addWidget(self.searchButton, 0, 4, 1, 2)
 
         return layout
