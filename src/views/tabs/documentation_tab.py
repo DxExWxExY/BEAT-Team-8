@@ -6,7 +6,7 @@ from src.common.tab_layout import TabLayout
 
 class DocumentationTab(TabLayout):
     def __init__(self):
-        super().__init__("Documentation", "Detaileds ")
+        super().__init__("Documentation","")
         super().addContentToLeftPanel(self.leftPanelBuilder())
         super().addContentToRightPanel(self.rightPanelBuilder())
         super().build()

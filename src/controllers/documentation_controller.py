@@ -6,18 +6,13 @@ class DocumentationTabController:
     def __init__(self):
         self.model = DocumentationModel()
         self.tab = DocumentationTab()
-        self.documents = []
         self.__addEventHandlers()
         self.__populateDocumentationList()
 
     def __populateDocumentationList(self):
-
-        for path, subdirs, files in os.walk("src/Documentation"):
-            for doc in files:
-                doc = doc.replace(".html", '')
-                self.tab.documentationList.addItem(doc)
-                self.documents.append(doc)
-                # print("files:", doc, "\n")
+        documentsList = self.model.getDocumentationList()
+        for i in range(len(documentsList)):
+            self.tab.documentationList.addItem(documentsList[i])
 
 
     def __addEventHandlers(self):
@@ -25,7 +20,7 @@ class DocumentationTabController:
         self.tab.searchButton.clicked.connect(lambda: self.__searchForDocument())
         pass
 
-    def __updateUI(self):
+    def __updateDoc(self):
         pass
 
     def __searchForDocument(self):
@@ -34,8 +29,9 @@ class DocumentationTabController:
             self.tab.documentationList.clear()
             self.__populateDocumentationList()
         else:
-            for i in range(len(self.documents)):
-                if searchText in self.documents[i]:
+            documents = self.model.getDocumentationList()
+            for i in range(len(documents)):
+                if searchText in documents[i]:
                     self.tab.documentationList.clear()
-                    self.tab.documentationList.addItem(self.documents[i])
-                    print(self.documents[i])
+                    self.tab.documentationList.addItem(documents[i])
+                    # print(documents[i])
