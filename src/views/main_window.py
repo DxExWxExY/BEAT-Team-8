@@ -8,7 +8,6 @@ from src.controllers.analysis_tab_controller import AnalysisTabController
 from src.controllers.documentation_controller import DocumentationTabController
 from src.controllers.plugin_management_controller import PluginManagementTabController
 from src.controllers.project_controller import ProjectTabController
-from src.views.tabs.documentation_tab import DocumentationTab
 
 
 class MainWindow(QMainWindow):
@@ -19,9 +18,9 @@ class MainWindow(QMainWindow):
         self.analysisController = AnalysisTabController()
         self.pluginManagementController = PluginManagementTabController()
         self.DocumentationTabController = DocumentationTabController()
-        self.__openSelector()
+        self.__openProjectSelector()
 
-    def __openSelector(self, beatOpen=False):
+    def __openProjectSelector(self, beatOpen=False):
         self.projectController.projectSelection.exec_()
         if self.projectController.getCurrentProject() is not None:
             self.__openBeat(beatOpen)
@@ -54,7 +53,7 @@ class MainWindow(QMainWindow):
 
         openSelector = QAction('&Open Project', self)
         openSelector.setShortcut('Ctrl+O')
-        openSelector.triggered.connect(lambda: self.__openSelector(True))
+        openSelector.triggered.connect(lambda: self.__openProjectSelector(True))
 
         help = QAction('&Documentation', self)
         help.setShortcut('F1')

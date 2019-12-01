@@ -1,4 +1,3 @@
-import time
 from threading import Lock, Thread
 
 from fuzzywuzzy import process
@@ -26,6 +25,7 @@ class AnalysisModel:
         self.__poiList["String"] = self.__staticAnalyzer.findPois("strings")
         self.__poiList["Variable"] = self.__staticAnalyzer.findPois("variable")
         project.results[plugin] = self.__poiList
+        self.__staticAnalyzer.close()
         self.__lint(plugin)
         self.__message = "Static analysis complete."
 

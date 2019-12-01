@@ -1,5 +1,3 @@
-import base64
-
 import r2pipe
 
 
@@ -9,9 +7,8 @@ class StaticAnalyzer:
     def setPath(self, path):
         try:
             self.analyzer = r2pipe.open(path,flags=['-d'])
-            # self.analyzer.cmd("")
             self.analyzer.cmd("aaaa")
-            self.analyzer.cmd("doo google.com")
+            self.analyzer.cmd("doo")
             self.base = int(self.__executej("ej")['bin.baddr'])
         except:
             self.analyzer = None
@@ -58,7 +55,6 @@ class StaticAnalyzer:
         if filterType == "function":
             data = self.__executej("aflj")
             for i in range(len(data)):
-                # if (data[i]['type']) == "FUNC":
                 poi = {}
                 poi['type'] = 'Function'
                 poi['name'] = (str(data[i]['name']))
