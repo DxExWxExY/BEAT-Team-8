@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QGridLayout, QPlainTextEdit, QVBoxLayout, QListWidget, QAbstractItemView, QLineEdit, \
-    QPushButton, QSizePolicy
+    QPushButton, QSizePolicy, QCheckBox
 
 from src.common.tab_layout import TabLayout
 
@@ -76,6 +76,10 @@ class AnalysisTab(TabLayout):
         DynamicAn = QtWidgets.QLabel("Dynamic Analysis")
         self.dynamicRunbtn = QtWidgets.QPushButton("Run")
         self.dynamicStopbtn = QtWidgets.QPushButton("Stop")
+        self.argsCheck = QCheckBox("Use Arguments")
+        self.argsBox = QLineEdit()
+        self.argsBox.setPlaceholderText("Arguments for Binary")
+        self.argsBox.setEnabled(False)
         spacerItem = QtWidgets.QSpacerItem(1, 1, QSizePolicy.Expanding)
 
         layout.addWidget(pluginLabel, 0, 0, 1, 1)
@@ -89,6 +93,8 @@ class AnalysisTab(TabLayout):
         layout.addWidget(DynamicAn, 1, 2, 1, 1)
         layout.addWidget(self.dynamicRunbtn, 1, 3, 1, 1)
         layout.addWidget(self.dynamicStopbtn, 1, 4, 1, 1)
+        layout.addWidget(self.argsCheck, 1, 5, 1, 1)
+        layout.addWidget(self.argsBox, 1, 6, 1, 2)
         layout.addItem(spacerItem, 1, 5, 1, 13)
 
         return layout

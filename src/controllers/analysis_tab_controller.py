@@ -34,6 +34,7 @@ class AnalysisTabController:
         self.tab.pluginDropdown.currentIndexChanged.connect(lambda: self.__selectPlugin())
         self.tab.dynamicRunbtn.clicked.connect(lambda: self.__runDynamic())
         self.tab.dynamicStopbtn.clicked.connect(lambda: self.__stopDynamic())
+        self.tab.argsCheck.stateChanged.connect(lambda: self.__argumentsState())
 
     def __populatePoiList(self):
         self.tab.commentBtn.setEnabled(False)
@@ -55,6 +56,7 @@ class AnalysisTabController:
             self.tab.staticRunBtn.setEnabled(False)
             self.tab.dynamicRunbtn.setEnabled(False)
             self.tab.dynamicStopbtn.setEnabled(False)
+            self.tab.argsCheck.setEnabled(False)
             self.tab.poiTypeDropdown.clear()
             self.tab.poiContentArea.clear()
             self.tab.poiList.clear()
@@ -218,3 +220,9 @@ class AnalysisTabController:
     def __stopDynamic(self):
         self.model.stopFlag = True
         self.__updateUIEnableState(True)
+
+    def __argumentsState(self):
+        if self.tab.argsCheck.isChecked():
+            self.tab.argsBox.setEnabled(True)
+        else:
+            self.tab.argsBox.setEnabled(False)

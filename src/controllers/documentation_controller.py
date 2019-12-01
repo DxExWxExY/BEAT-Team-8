@@ -28,7 +28,7 @@ class DocumentationTabController:
             path += "/"
 
             print(path,"____________")
-            os.chdir(path)
+            # os.chdir(path)
 
         # htmlFiles = glob.glob("*.html")
         # print(htmlFiles)
