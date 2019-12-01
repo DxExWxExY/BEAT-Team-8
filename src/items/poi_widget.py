@@ -13,20 +13,21 @@ class PoIWidget(QWidget):
         layout = QGridLayout()
 
         self.check = QCheckBox('BP')
-        name = QLabel(self.poi['name'])
         self.comment = QLabel()
+        self.name = QLabel(self.poi['name'])
 
-        name.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        name.setAlignment(Qt.AlignLeft)
+        self.name.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.name.setAlignment(Qt.AlignLeft)
 
         self.updateCommentState()
 
-        if self.poi['type'] == 'Function':
-            layout.addWidget(self.check, 0, 0)
+        if self.poi['type'] != 'Function':
+            self.check.setEnabled(False)
 
-        layout.addWidget(name, 0, 1)
+        layout.addWidget(self.check, 0, 0)
+        layout.addWidget(self.name, 0, 1)
         layout.addWidget(self.comment, 0, 2)
-        layout.setAlignment(name, Qt.AlignLeft)
+        layout.setAlignment(self.name, Qt.AlignLeft)
 
         self.setLayout(layout)
 

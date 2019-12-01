@@ -17,6 +17,7 @@ class ProjectTabController:
         self.__populateProjectList()
 
     def __populateProjectList(self):
+        self.projectSelection.projectsList.clear()
         projects = self.model.getProjectList()
         for key in projects.keys():
             i = QListWidgetItem(key)
@@ -103,7 +104,7 @@ class ProjectTabController:
                 self.__projectProperties()
                 self.newProjectDialog.exec_()
                 self.__openProject()
-        except KeyError:
+        except TypeError:
             errorDialog = QtWidgets.QMessageBox()
             errorDialog.setText('Unsupported File')
             errorDialog.setWindowTitle("Error")
