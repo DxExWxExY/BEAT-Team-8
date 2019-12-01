@@ -6,9 +6,8 @@ class StaticAnalyzer:
 
     def setPath(self, path):
         try:
-            self.analyzer = r2pipe.open(path,flags=['-d'])
+            self.analyzer = r2pipe.open(path)
             self.analyzer.cmd("aaaa")
-            self.analyzer.cmd("doo")
             self.base = int(self.__executej("ej")['bin.baddr'])
         except:
             self.analyzer = None
