@@ -1,3 +1,6 @@
+import sys
+import traceback
+
 import r2pipe
 
 
@@ -62,11 +65,15 @@ class StaticAnalyzer:
                 self.__execute(f"s {hex(data[i]['offset'])}")
                 info = self.__executej("afij")
                 if info:
-                    if info[0]['nargs'] != 0:
-                        args = self.__executej("afvj")['reg']
-                        poi['args'] = [(a['name'], a['type'], a['ref']) for a in args]
-                    else:
-                        poi['args'] = []
+                    try:
+                        if info[0]['nargs'] != 0:
+                            args = self.__executej("afvj")['reg']
+                            poi['args'] = [(a['name'], a['type'], a['ref']) for a in args]
+                        else:
+                            poi['args'] = []
+                    except:
+                        traceback.print_exc(file=sys.stdout)
+                        traceback.print_exc(limit=1, file=sys.stdout)
                 else:
                     poi['args'] = []
                 poiList[poi['name']] = poi
