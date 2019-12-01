@@ -22,7 +22,6 @@ class AnalysisTab(TabLayout):
         self.poiList = QListWidget()
         layout.addLayout(self.searchBuilder())
         self.poiList.setSelectionMode(QAbstractItemView.MultiSelection)
-
         layout.addWidget(self.poiList)
 
         return layout

@@ -6,27 +6,27 @@ from src.common.tab_layout import TabLayout
 
 class DocumentationTab(TabLayout):
     def __init__(self):
-        super().__init__("Points of Interest View", "Detailed Points of Interest View")
+        super().__init__("Documentation", "Detaileds ")
         super().addContentToLeftPanel(self.leftPanelBuilder())
         super().addContentToRightPanel(self.rightPanelBuilder())
         super().build()
 
     def leftPanelBuilder(self):
         layout = QVBoxLayout()
-        documentationList = QListWidget()
-
-        documentationList.addItem("BEAT Documentation")
-        documentationList.addItem("Plugin Structure")
-
+        self.documentationList = QListWidget()
         layout.addLayout(self.searchBuilder())
-        layout.addWidget(documentationList)
+        layout.addWidget(self.documentationList)
+
+        # documentationList.addItem("BEAT Documentation")
+        # documentationList.addItem("Plugin Structure")
+
 
         return layout
 
     def rightPanelBuilder(self):
         layout = QGridLayout()
 
-        content = QLabel("# BEAT\n## To clone \n * TODO: determine IDE & Language")
+        content = QLabel()
 
         content.setFrameShape(QFrame.Panel)
         content.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)

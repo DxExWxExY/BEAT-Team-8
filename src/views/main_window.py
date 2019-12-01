@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QDesktopWidget, QTabWidget, QMainWindow, QAction
 
 from src.common import constants
 from src.controllers.analysis_tab_controller import AnalysisTabController
+from src.controllers.documentation_controller import DocumentationTabController
 from src.controllers.plugin_management_controller import PluginManagementTabController
 from src.controllers.project_controller import ProjectTabController
 from src.views.tabs.documentation_tab import DocumentationTab
@@ -17,6 +18,7 @@ class MainWindow(QMainWindow):
         self.projectController = ProjectTabController()
         self.analysisController = AnalysisTabController()
         self.pluginManagementController = PluginManagementTabController()
+        self.DocumentationTabController = DocumentationTabController()
         self.__openSelector()
 
     def __openSelector(self, beatOpen=False):
@@ -39,7 +41,7 @@ class MainWindow(QMainWindow):
         self.tabs = QTabWidget()
         self.tabs.addTab(self.analysisController.tab, "Analysis")
         self.tabs.addTab(self.pluginManagementController.tab, "Plugin Management")
-        self.tabs.addTab(DocumentationTab(), "Documentation")
+        self.tabs.addTab(self.DocumentationTabController.tab, "Documentation")
         self.tabs.setStyleSheet("QTabBar::tab { height: 40%; width: 200%; }")
         self.tabs.setFont(QFont("arial", 11))
         self.tabs.currentChanged.connect(lambda: self.updateData())

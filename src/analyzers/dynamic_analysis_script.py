@@ -11,9 +11,10 @@ class DynamicAnalysis:
     def setPath(self, path):
         self.registers = {}
         try:
-            self.analyzer = r2pipe.open(path, flags=['-df'])
+            self.analyzer = r2pipe.open(path)
             self.analyzer.cmd("aaaa")
-            self.analyzer.cmd("doo")
+            self.getPID()
+            # self.analyzer.cmd("doo")
             self.analyzer.cmd("e dbg.profile=r2.rr2")
             print("The Binary is ready for dynamic analysis")
 
@@ -48,28 +49,24 @@ class DynamicAnalysis:
         # print(self.__executej("afvrj"))
 
     def runDynamic(self):
+        self.__execute("dc")
+        var = self.__execute("s")
+        # if(pois[var]  )
 
-        # self.getPID()
-        # current_instruction = []
-        while True:
-            self.__execute("dc")
+
+
+        # if (db['type']=="FUNC"):
+        #     vadd=db['vadd']
+        #     self.getRegisters()
+        #     for i in db[]:
+        #         db[vadd][param]= self.registers[db[vadd][reg]]
+        #
+        #     # get return value
+        #     self.__execute("dcr")
+        #     self.getRegisters()
+        #     db[vadd][retVal]=self.registers['rax']
+
             # self.PrintTerminal()
-            # self.getRegisters()
-            # self.__execute("ds")
-            current_instruction = self.__executej("pdj 1")
-            print(current_instruction)
-            # for i in range(len(current_instruction)):
-            #     temp = current_instruction[i]['opcode']
-            #     print(temp)
-            # if current_instruction['type'] == 'ret':
-            #     print("ddr~{}")
-            #     break
-            # break
-            print("______________")
-
-
-
-
 
     def getRegisters(self):
         temp = self.__executej("drrj")
@@ -93,10 +90,9 @@ class DynamicAnalysis:
         # self.analyzer.cmd("exit")
         self.analyzer.quit()
         print("Exited Dynamic Analysis.")
-
     # def PrintTerminal(self):
         # print(self.getTerminalText())
-
+    #
     # def getTerminalText(self):
     #     file = open("temp.txt", "r+")
     #     text = file.read()
@@ -108,4 +104,3 @@ if __name__ == "__main__":
     a.setPath('..//..//res%sex.o' % os.sep)
     a.breakpoints()
     a.runDynamic()
-
