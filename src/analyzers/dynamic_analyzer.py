@@ -1,6 +1,5 @@
 import os
 import struct
-import time
 from threading import Thread
 
 import r2pipe
