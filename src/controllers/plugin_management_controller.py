@@ -100,9 +100,6 @@ class PluginManagementController:
         except KeyError:
             pass
 
-    def update(self):
-        self.model.update()
-
     def __viewPoi(self):
         if not self.dialog.poiList.selectedItems():
             return
@@ -160,3 +157,6 @@ class PluginManagementController:
         plugin = self.dialog.pluginList.currentItem().text()
         for poi in self.model.getSelectedPlugin(plugin).pois.keys():
             self.dialog.poiList.addItem(poi)
+
+    def update(self):
+        self.model.update()

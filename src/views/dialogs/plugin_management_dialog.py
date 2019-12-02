@@ -13,23 +13,23 @@ class PluginManagementDialog(QDialog):
 
     def __initUI(self):
         layout =  QGridLayout()
-        layout.addLayout(self.leftPanelBuilder(), 0, 0, 1, 5)
-        layout.addLayout(self.rightPanelBuilder(), 0, 5, 1, 10)
+        layout.addLayout(self.__leftPanelBuilder(), 0, 0, 1, 5)
+        layout.addLayout(self.__rightPanelBuilder(), 0, 5, 1, 10)
         self.setLayout(layout)
 
-    def leftPanelBuilder(self):
+    def __leftPanelBuilder(self):
         layout = QVBoxLayout()
         self.pluginList = QListWidget()
         self.addPlugin = QPushButton("Add New Plugin")
 
-        layout.addLayout(self.searchBuilder())
+        layout.addLayout(self.__searchBuilder())
 
         layout.addWidget(self.pluginList)
         layout.addWidget(self.addPlugin)
 
         return layout
 
-    def poiViewer(self):
+    def __poiViewer(self):
         layout = QGridLayout()
         box = QGroupBox("PoI Details")
 
@@ -54,7 +54,7 @@ class PluginManagementDialog(QDialog):
 
         return box
 
-    def rightPanelBuilder(self):
+    def __rightPanelBuilder(self):
         layout = QGridLayout()
 
         pluginNameLabel = QLabel("Plugin Name")
@@ -77,7 +77,7 @@ class PluginManagementDialog(QDialog):
 
         layout.addWidget(poiLabel, 5, 0)
         layout.addWidget(self.poiList, 5, 1, 1, 3)
-        layout.addWidget(self.poiViewer(), 5, 4, 1, 6)
+        layout.addWidget(self.__poiViewer(), 5, 4, 1, 6)
 
         self.deletePlugin = QPushButton("Delete")
         self.savePlugin = QPushButton("Save")
@@ -86,7 +86,7 @@ class PluginManagementDialog(QDialog):
 
         return layout
 
-    def searchBuilder(self):
+    def __searchBuilder(self):
         layout = QGridLayout()
 
         self.searchBox = QLineEdit()

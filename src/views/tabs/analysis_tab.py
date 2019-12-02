@@ -9,24 +9,24 @@ from src.common.tab_layout import TabLayout
 class AnalysisTab(TabLayout):
 
     def __init__(self):
-        super().__init__("PoI Results", "PoI Details", True)
+        super().__init__("PoI Results", "PoI Details", "Analysis")
         self.list = []
         self.poiContentArea = QPlainTextEdit()
-        super().addContentToTopPanel(self.TopPanelBuilder())
-        super().addContentToRightPanel(self.rightPanelBuilder())
-        super().addContentToLeftPanel(self.leftPanelBuilder())
+        super().addContentToTopPanel(self.__topPanelBuilder())
+        super().addContentToRightPanel(self.__rightPanelBuilder())
+        super().addContentToLeftPanel(self.__leftPanelBuilder())
         super().build()
 
-    def leftPanelBuilder(self):
+    def __leftPanelBuilder(self):
         layout = QVBoxLayout()
         self.poiList = QListWidget()
-        layout.addLayout(self.searchBuilder())
+        layout.addLayout(self.__searchBuilder())
         self.poiList.setSelectionMode(QAbstractItemView.MultiSelection)
         layout.addWidget(self.poiList)
 
         return layout
 
-    def rightPanelBuilder(self):
+    def __rightPanelBuilder(self):
         rightLayout = QtWidgets.QHBoxLayout()
         gridLayout = QtWidgets.QGridLayout()
         btnGrid = QtWidgets.QVBoxLayout()
@@ -63,7 +63,7 @@ class AnalysisTab(TabLayout):
 
         return rightLayout
 
-    def TopPanelBuilder(self):
+    def __topPanelBuilder(self):
         layout = QGridLayout()
 
         self.pluginDropdown = QtWidgets.QComboBox()
@@ -99,7 +99,7 @@ class AnalysisTab(TabLayout):
 
         return layout
 
-    def searchBuilder(self):
+    def __searchBuilder(self):
         layout = QtWidgets.QGridLayout()
 
         self.searchBox = QLineEdit()
