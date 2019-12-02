@@ -31,7 +31,7 @@ class DocumentationTabController:
             contents = open(name).read()
         except Exception as err:
             contents = "<html><h1 align=center >No Html Found</h1></html>"
-        print(name)
+        # print(name)
         self.tab.content.setHtml(contents)
 
     def __searchForDocument(self):
