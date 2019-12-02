@@ -32,7 +32,7 @@ class CommentDialog(QDialog):
         qtRectangle = self.frameGeometry()
         centerPoint = QDesktopWidget().availableGeometry().center()
         qtRectangle.setWidth(480)
-        qtRectangle.setHeight(250)
+        qtRectangle.setHeight(150)
         qtRectangle.moveCenter(centerPoint)
         self.setGeometry(qtRectangle)
 

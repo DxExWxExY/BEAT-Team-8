@@ -53,48 +53,62 @@ class StaticAnalyzer:
                     results.append(e)
             return results
 
+    def __getFunctions(self):
+        poiList = {}
+        data = self.__executej("aflj")
+        for i in range(len(data)):
+            poi = {}
+            poi['type'] = 'Function'
+            poi['name'] = (str(data[i]['name']))
+            if 'sym.imp.' in poi['name']:
+                self.__execute(f"s {int(data[i]['offset'])}")
+                try:
+                    calls = self.__executej("afij")[0]["codexrefs"]
+                    for call in calls:
+                        if call['type'] == 'CALL':
+                            poi['addr'] = int(call['addr'] - self.base)
+                except KeyError:
+                    poi['addr'] = 0
+            else:
+                poi['addr'] = int(data[i]['offset'] - self.base)
+            self.__execute(f"s {self.base + poi['addr']}")
+            info = self.__executej("afij")
+            if info:
+                try:
+                    if info[0]['nargs'] != 0:
+                        args = self.__executej("afvj")['reg']
+                        poi['args'] = [(a['name'], a['type'], a['ref']) for a in args]
+                    else:
+                        poi['args'] = []
+                except:
+                    traceback.print_exc(file=sys.stdout)
+                    traceback.print_exc(limit=1, file=sys.stdout)
+            else:
+                poi['args'] = []
+            poiList[poi['name']] = poi
+        return poiList
+
     def findPois(self, filterType):
         poiList = {}
         if filterType == "function":
-            data = self.__executej("aflj")
-            for i in range(len(data)):
-                poi = {}
-                poi['type'] = 'Function'
-                poi['name'] = (str(data[i]['name']))
-                poi['addr'] = (int(data[i]['offset']) - self.base)
-                self.__execute(f"s {hex(data[i]['offset'])}")
-                info = self.__executej("afij")
-                if info:
-                    try:
-                        if info[0]['nargs'] != 0:
-                            args = self.__executej("afvj")['reg']
-                            poi['args'] = [(a['name'], a['type'], a['ref']) for a in args]
-                        else:
-                            poi['args'] = []
-                    except:
-                        traceback.print_exc(file=sys.stdout)
-                        traceback.print_exc(limit=1, file=sys.stdout)
-                else:
-                    poi['args'] = []
-                poiList[poi['name']] = poi
-            return poiList
+            return self.__getFunctions()
 
-        strs = self.__executej("iij")
         if (filterType == "dll"):
-            for i in range(len(strs)):
+            imports = self.__executej("iij")
+            for i in range(len(imports)):
                 item = {}
                 item['type'] = 'DLL'
-                item['name'] = (strs[i]['name'])
+                item['name'] = (imports[i]['name'])
                 poiList[item['name']] = item
             return poiList
 
         if (filterType == "strings"):
-            strs = self.__executej("izj")
-            for i in range(len(strs)):
+            strings = self.__executej("izj")
+            for i in range(len(strings)):
                 item = {}
                 item['type'] = 'String'
-                item['name'] = strs[i]['string']
-                item['addr'] = hex(strs[i]['vaddr'])
+                item['name'] = strings[i]['string']
+                item['addr'] = hex(strings[i]['vaddr'])
                 poiList[item['name']] = item
             return poiList
 

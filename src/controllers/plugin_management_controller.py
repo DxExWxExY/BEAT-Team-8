@@ -143,7 +143,7 @@ class PluginManagementController:
             selectedPlugin = self.__currentPlugin()
             types = self.model.getSelectedPlugin(selectedPlugin).types
             self.newPoiDialog.newPoiType.addItems(types[1:])
-            self.newPoiDialog.show()
+            self.newPoiDialog.exec_()
 
     def __deletePoiFromPlugin(self):
         if self.dialog.pluginList.selectedItems() and self.dialog.poiList.selectedItems():

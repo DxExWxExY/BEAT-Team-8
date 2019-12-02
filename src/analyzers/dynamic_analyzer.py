@@ -1,4 +1,5 @@
 import os
+import struct
 import time
 from threading import Thread
 
@@ -16,9 +17,8 @@ class DynamicAnalyzer:
                 self.__execute('doo ' + args)
             else:
                 self.analyzer.cmd("doo")
+            self.pid = self.__executej("dpaj")
             self.base = int(self.__executej("ej")['bin.baddr'])
-            self.message = "Test"
-            self.stopFlag = False
         except:
             self.analyzer = None
 
@@ -30,40 +30,20 @@ class DynamicAnalyzer:
         if self.analyzer is not None:
             self.analyzer.cmd(command)
 
-    def breakpoints(self):
-        bpSet = []
-        mainLocation = self.__executej("iMj")
-        self.__execute(f"s {hex(mainLocation['vaddr'])}")
-        results = self.__executej("isj")
-        for i in range(len(results)):
-            address = hex(results[i]['vaddr'])
-            if address != hex(0) and address not in bpSet:
-                bpSet.append(address)
-                print(f"db {address}")
-                self.__execute(f"db {address}")
-
-    def runDynamic(self):
-        self.__execute("ood")
-        while True:
-            self.__execute("dc")
-            var = self.__executej("sj")
-            print(hex(var[0]['offset']), end="\n")
-            print(self.__executej(f"axtj {hex(var[0]['offset'])}"))
-            time.sleep(1)
-
-    def __exitAnalysis(self):
-        self.analyzer.quit()
-        print("Exited Dynamic Analysis.")
+    def close(self, force=False):
+        if force:
+            os.kill(self.pid)
+        self.__execute("exit")
+        self.analyzer = None
 
     def setBreakpoint(self, address):
         actualAddr = hex(address + self.base)
-        print(actualAddr)
         self.__execute(f"db {actualAddr}")
 
-    def start(self, pois):
-        Thread(target=self.__start, args=[pois]).start()
+    def start(self, pois, stopFlag):
+        Thread(target=self.__start, args=[pois, stopFlag]).start()
 
-    def __start(self, pois):
+    def __start(self, pois, stopFlag):
         bpCount = 0
         while bpCount < len(pois):
             self.__execute("dc")
@@ -75,12 +55,35 @@ class DynamicAnalyzer:
                     regs = self.__getRegisters()
                     poi['pval'] = []
                     for arg in poi['args']:
-                        r = arg[2]
-                        poi['pval'].append(regs[r])
-                    self.__execute("dcr")
+                        if '*' not in arg[1]:
+                            r = arg[2]
+                            poi['pval'].append(self.__typeCaster(arg[1], regs[r]))
+                    self.__execute("dso")
                     regs = self.__getRegisters()
+                    for arg in poi['args']:
+                        if '*' in arg[1]:
+                            r = arg[2]
+                            poi['pval'].append(self.__typeCaster(arg[1], regs[r]))
                     poi['rval'] = regs['rax']
                     bpCount += 1
+        stopFlag += [1]
+
+
+    def __typeCaster(self, type, value):
+        if 'char *' in type:
+            data = self.__executej(f"pxj @ {value}")
+            string = ""
+            for i in data:
+                string += chr(i)
+                if i == 0:
+                    break
+            return string
+        if type in 'int':
+            return int(value, 0)
+        if type == 'char':
+            return chr(int(value, 0))
+        if type == 'boolean':
+            return struct.unpack('d', value.decode("hex"))
 
     def __getRegisters(self):
         registers = {}
@@ -89,11 +92,3 @@ class DynamicAnalyzer:
             reg = str(temp[i]['reg'])
             registers[reg] = temp[i]['value']
         return registers
-
-
-
-if __name__ == "__main__":
-    a = DynamicAnalyzer()
-    a.setPath('..\\..\\res%sex2' % os.sep)
-    a.breakpoints()
-    # a.runDynamic()

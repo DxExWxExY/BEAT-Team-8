@@ -7,7 +7,6 @@ from PyQt5.QtWidgets import QListWidgetItem
 
 from src.items.poi_widget import PoIWidget
 from src.models.analysis_model import AnalysisModel
-from src.views.dialogs.analysis_result_dialog import AnalysisResultDialog
 from src.views.dialogs.comment_dialog import CommentDialog
 from src.views.dialogs.output_field_dialog import OutputField
 from src.views.tabs.analysis_tab import AnalysisTab
@@ -27,7 +26,6 @@ class AnalysisTabController:
         self.tab.searchBox.returnPressed.connect(lambda: self.__searchForPoi())
         self.tab.searchButton.clicked.connect(lambda: self.__searchForPoi())
         self.tab.commentBtn.clicked.connect(lambda: self.__addCommentToPoi())
-        self.tab.analysisResultBtn.clicked.connect(lambda: self.__analysisResultWindow())
         self.tab.outputFieldViewBtn.clicked.connect(lambda: self.__outputFieldWindow())
         self.tab.staticRunBtn.clicked.connect(lambda: self.__runStatic())
         self.tab.poiTypeDropdown.currentIndexChanged.connect(lambda: self.__populatePoiList())
@@ -119,10 +117,6 @@ class AnalysisTabController:
         self.tab.outputFieldWindow = OutputField()
         self.tab.outputFieldWindow.show()
 
-    def __analysisResultWindow(self):
-        self.tab.analysisResultWindow = AnalysisResultDialog()
-        self.tab.analysisResultWindow.show()
-
     def __getWidgets(self):
         return [self.tab.poiList.itemWidget(self.tab.poiList.item(i)) for i in range(self.tab.poiList.count())]
 
@@ -160,7 +154,7 @@ class AnalysisTabController:
         if selectedBps:
             args = self.tab.argsBox.text() if self.tab.argsCheck.isChecked() else ""
             self.__updateUIEnableState(False)
-            self.model.stopFlag = True
+            self.model.killDynamic()
             self.model.setBreakpoints(self.project.binaryPath, selectedBps, args)
             self.model.runDynamic(selectedBps)
             Thread(target=self.__dynamicHandler).start()
@@ -178,7 +172,9 @@ class AnalysisTabController:
             if self.model.uiLock.acquire():
                 self.__updateTerminal()
                 self.model.uiLock.release()
-            time.sleep(.1)
+                time.sleep(1)
+        self.__updateUIEnableState(True)
+        self.__updateTerminal()
 
     def __updatePoiDisplay(self, x):
         screen = ""
@@ -201,7 +197,6 @@ class AnalysisTabController:
         self.tab.searchButton.setEnabled(state)
         self.tab.poiList.setEnabled(state)
         self.tab.poiContentArea.setEnabled(state)
-        self.tab.analysisResultBtn.setEnabled(state)
         self.tab.outputFieldViewBtn.setEnabled(state)
         self.tab.argsCheck.setEnabled(state)
         self.tab.argsBox.setEnabled(state)
@@ -214,7 +209,7 @@ class AnalysisTabController:
         return selected
 
     def __stopDynamic(self):
-        self.model.stopFlag = True
+        self.model.killDynamic()
         self.__updateUIEnableState(True)
 
     def __argumentsState(self):

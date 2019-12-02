@@ -44,12 +44,10 @@ class AnalysisTab(TabLayout):
         self.terminalContent.setReadOnly(True)
 
         self.commentBtn = QPushButton("Comment")
-        self.analysisResultBtn = QPushButton("Analysis Results")
         self.outputFieldViewBtn = QPushButton("Output")
 
         self.commentBtn.setEnabled(False)
 
-        btnGrid.addWidget(self.analysisResultBtn)
         btnGrid.addWidget(self.outputFieldViewBtn)
         btnGrid.addWidget(self.commentBtn)
         btnGrid.addItem(btnSpacer)

@@ -1,3 +1,4 @@
+import time
 from threading import Lock, Thread
 
 from fuzzywuzzy import process
@@ -89,18 +90,28 @@ class AnalysisModel:
             print(err)
 
     def runDynamic(self, selectedPois):
+        self.__message = "Dynamic Analysis Started."
+        self.stopFlag = []
         Thread(target=self.__runDynamic, args=[selectedPois]).start()
 
     def __runDynamic(self, selectedPois):
-        self.uiLock.acquire()
-        self.__message = "Dynamic Analysis Started."
-        self.__dynamicAnalyzer.start(selectedPois)
-        self.uiLock.release()
-        # i = 0
-        # while not self.stopFlag:
-        #     if self.uiLock.acquire():
-        #         if
-        #             self.__message = f"Loop: {i}"
-        #         i+=1
-        #         self.uiLock.release()
-        #     time.sleep(1)
+        if self.uiLock.acquire():
+            self.__dynamicAnalyzer.start(selectedPois, self.stopFlag)
+            self.uiLock.release()
+            time.sleep(.1)
+
+        while not self.stopFlag:
+            if self.uiLock.acquire():
+                self.__message = "Running"
+                self.uiLock.release()
+                time.sleep(1)
+        self.__dynamicAnalyzer.close()
+
+    def killDynamic(self):
+        self.stopFlag = [1]
+        try:
+            self.__dynamicAnalyzer.close(force=True)
+        except:
+            pass
+
+
