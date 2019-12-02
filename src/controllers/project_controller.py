@@ -7,7 +7,7 @@ from src.views.dialogs.new_project_dialog import NewProjectDialog
 from src.views.dialogs.project_selection_dialog import ProjectSelection
 
 
-class ProjectTabController:
+class ProjectController:
     def __init__(self):
         self.model = ProjectModel()
         self.projectSelection = ProjectSelection()

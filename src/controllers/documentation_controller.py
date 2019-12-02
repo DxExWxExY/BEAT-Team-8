@@ -1,11 +1,11 @@
-from src.views.tabs.documentation_tab import DocumentationTab
+from src.views.tabs.documentation_tab import DocumentationDialog
 from src.models.documentation_model import DocumentationModel
 from glob import glob , os
 class DocumentationTabController:
 
     def __init__(self):
         self.model = DocumentationModel()
-        self.tab = DocumentationTab()
+        self.tab = DocumentationDialog()
         self.__populateDocumentationList()
 
 

@@ -1,8 +1,6 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont, QWheelEvent
-from PyQt5.QtWidgets import QWidget, QGridLayout, QFrame, QLabel, QVBoxLayout, QFileDialog, QGroupBox
-
-from src.common import constants
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QWidget, QGridLayout, QVBoxLayout, QGroupBox
 
 
 class TabLayout(QWidget):

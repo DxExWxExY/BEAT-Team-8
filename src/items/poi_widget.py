@@ -21,7 +21,7 @@ class PoIWidget(QWidget):
 
         self.updateCommentState()
 
-        if self.poi['type'] != 'Function':
+        if self.poi['type'] not in 'Function DLL':
             self.check.setEnabled(False)
 
         layout.addWidget(self.check, 0, 0)

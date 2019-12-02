@@ -18,8 +18,8 @@ class ProjectDetails(QDialog):
     def __setWindowPosition(self):
         qtRectangle = self.frameGeometry()
         centerPoint = QDesktopWidget().availableGeometry().center()
-        qtRectangle.setWidth(500)
-        qtRectangle.setHeight(600)
+        qtRectangle.setWidth(300)
+        qtRectangle.setHeight(500)
         qtRectangle.moveCenter(centerPoint)
         self.setGeometry(qtRectangle)
 

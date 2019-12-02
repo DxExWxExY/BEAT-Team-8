@@ -1,25 +1,27 @@
+from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QGridLayout, QLineEdit, QPushButton, QVBoxLayout, QListWidget, QLabel, QFrame, \
-    QSizePolicy
-
-from src.common.tab_layout import TabLayout
+    QSizePolicy, QDialog, QDesktopWidget
 
 
-class DocumentationTab(TabLayout):
+class DocumentationDialog(QDialog):
     def __init__(self):
-        super().__init__("Documentation", "Detaileds ")
-        super().addContentToLeftPanel(self.leftPanelBuilder())
-        super().addContentToRightPanel(self.rightPanelBuilder())
-        super().build()
+        super().__init__()
+        self.setFont(QFont("arial", 11))
+        self.setWindowTitle("Help")
+        self.__initUI()
+        self.__setWindowPosition()
+
+    def __initUI(self):
+        layout = QGridLayout()
+        layout.addLayout(self.leftPanelBuilder(), 0, 0, 1, 5)
+        layout.addLayout(self.rightPanelBuilder(), 0, 5, 1, 10)
+        self.setLayout(layout)
 
     def leftPanelBuilder(self):
         layout = QVBoxLayout()
         self.documentationList = QListWidget()
         layout.addLayout(self.searchBuilder())
         layout.addWidget(self.documentationList)
-
-        # documentationList.addItem("BEAT Documentation")
-        # documentationList.addItem("Plugin Structure")
-
 
         return layout
 
@@ -47,3 +49,11 @@ class DocumentationTab(TabLayout):
         layout.addWidget(searchButton, 0, 4, 1, 2)
 
         return layout
+
+    def __setWindowPosition(self):
+        qtRectangle = self.frameGeometry()
+        centerPoint = QDesktopWidget().availableGeometry().center()
+        qtRectangle.setWidth(900)
+        qtRectangle.setHeight(700)
+        qtRectangle.moveCenter(centerPoint)
+        self.setGeometry(qtRectangle)
