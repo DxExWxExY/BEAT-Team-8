@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QDesktopWidget, QMainWindow, QAction
 
 from src.common import constants
 from src.controllers.analysis_tab_controller import AnalysisTabController
-from src.controllers.documentation_controller import DocumentationTabController
+from src.controllers.documentation_controller import DocumentationController
 from src.controllers.plugin_management_controller import PluginManagementController
 from src.controllers.project_controller import ProjectController
 
@@ -16,7 +16,7 @@ class MainWindow(QMainWindow):
         self.projectController = ProjectController()
         self.analysisController = AnalysisTabController()
         self.pluginManagementController = PluginManagementController()
-        self.DocumentationTabController = DocumentationTabController()
+        self.DocumentationTabController = DocumentationController()
         self.__openProjectSelector()
 
     def __openProjectSelector(self, beatOpen=False):
@@ -32,7 +32,7 @@ class MainWindow(QMainWindow):
         self.__updateData()
 
     def __openHelp(self):
-        self.DocumentationTabController.tab.show()
+        self.DocumentationTabController.dialog.show()
 
     def __openBeat(self, wasOpen=False):
         self.__updateData()

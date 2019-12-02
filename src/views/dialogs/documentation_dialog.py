@@ -1,6 +1,7 @@
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
-from PyQt5.QtWidgets import QGridLayout, QLineEdit, QPushButton, QVBoxLayout, QListWidget, QLabel, QFrame, \
-    QSizePolicy, QTextEdit
+from PyQt5.QtWidgets import QGridLayout, QLineEdit, QPushButton, QVBoxLayout, QListWidget, QFrame, \
+    QSizePolicy, QTextEdit, QDialog, QDesktopWidget
 
 
 class DocumentationDialog(QDialog):
@@ -13,8 +14,8 @@ class DocumentationDialog(QDialog):
 
     def __initUI(self):
         layout = QGridLayout()
-        layout.addLayout(self.leftPanelBuilder(), 0, 0, 1, 5)
-        layout.addLayout(self.rightPanelBuilder(), 0, 5, 1, 10)
+        layout.addLayout(self.leftPanelBuilder(), 0, 0, 1, 2)
+        layout.addLayout(self.rightPanelBuilder(), 0, 2, 1, 13)
         self.setLayout(layout)
 
     def leftPanelBuilder(self):
@@ -54,6 +55,10 @@ class DocumentationDialog(QDialog):
         qtRectangle = self.frameGeometry()
         centerPoint = QDesktopWidget().availableGeometry().center()
         qtRectangle.setWidth(900)
-        qtRectangle.setHeight(700)
+        qtRectangle.setHeight(800)
         qtRectangle.moveCenter(centerPoint)
         self.setGeometry(qtRectangle)
+
+    def keyPressEvent(self, event):
+        if not event.key() == Qt.Key_Escape:
+            super(DocumentationDialog, self).keyPressEvent(event)
