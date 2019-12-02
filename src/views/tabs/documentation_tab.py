@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QGridLayout, QLineEdit, QPushButton, QVBoxLayout, QListWidget, QLabel, QFrame, \
-    QSizePolicy
+    QSizePolicy, QTextEdit
 
 from src.common.tab_layout import TabLayout
 
@@ -22,12 +22,12 @@ class DocumentationTab(TabLayout):
     def rightPanelBuilder(self):
         layout = QGridLayout()
 
-        content = QLabel()
+        self.content = QTextEdit()
 
-        content.setFrameShape(QFrame.Panel)
-        content.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.content.setFrameShape(QFrame.Panel)
+        self.content.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
-        layout.addWidget(content, 0, 0)
+        layout.addWidget(self.content, 0, 0)
 
         return layout
 

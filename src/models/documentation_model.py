@@ -9,9 +9,10 @@ class DocumentationModel:
     def __loadDocuments(self):
         for path, subdirs, files in os.walk("src/Documentation"):
             for doc in files:
-                doc = doc.replace(".html", '')
-                self.documents.append(doc)
-                # print("files:", doc, "\n")
+                if "html" in doc:
+                    doc = doc.replace(".html", '')
+                    self.documents.append(doc)
+                    # print("files:", doc, "\n")
 
     def getDocumentationList(self):
         return self.documents
