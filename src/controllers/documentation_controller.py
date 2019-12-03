@@ -41,7 +41,7 @@ class DocumentationController:
         else:
             documents = self.model.getDocumentationList()
             for i in range(len(documents)):
-                if searchText in documents[i]:
+                if searchText in documents[i].lower():
                     self.dialog.documentationList.clear()
                     self.dialog.documentationList.addItem(documents[i])
-                    # print(documents[i])
+                    print(documents[i])
