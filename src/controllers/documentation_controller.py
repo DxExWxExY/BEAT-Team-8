@@ -22,15 +22,16 @@ class DocumentationController:
         pass
 
     def __readDoc(self):
-        name = "./src/Documentation/"
+        name = "./res/Documentation/"
         name += self.dialog.documentationList.currentItem().text() + "/" + self.dialog.documentationList.currentItem().text()
         name += ".html"
         try:
             contents = open(name).read()
         except Exception as err:
-            contents = "<html><h1 align=center >No Html Found</h1></html>"
+            contents = "<html><h1 align=center >Problem Reading Html. Html May Not Exist</h1></html>"
         # print(name)
         self.dialog.content.setHtml(contents)
+        self.dialog.content.setReadOnly(True)
 
     def __searchForDocument(self):
         searchText = self.dialog.searchBox.text().lower()
@@ -40,7 +41,7 @@ class DocumentationController:
         else:
             documents = self.model.getDocumentationList()
             for i in range(len(documents)):
-                if searchText in documents[i]:
+                if searchText in documents[i].lower():
                     self.dialog.documentationList.clear()
                     self.dialog.documentationList.addItem(documents[i])
-                    # print(documents[i])
+                    print(documents[i])

@@ -68,7 +68,7 @@ class AnalysisTab(TabLayout):
         self.poiTypeDropdown = QtWidgets.QComboBox()
 
         pluginLabel = QtWidgets.QLabel("Plugin")
-        staticLabel = QtWidgets.QLabel("Static Analysis")
+        staticLabel = QtWidgets.QLabel("static")
         poiTypeLabel = QtWidgets.QLabel("Point of Interest Type")
         self.staticRunBtn = QtWidgets.QPushButton("Run")
         DynamicAn = QtWidgets.QLabel("Dynamic Analysis")
