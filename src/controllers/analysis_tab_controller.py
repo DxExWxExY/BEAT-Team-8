@@ -154,7 +154,7 @@ class AnalysisTabController:
         if selectedBps:
             args = self.tab.argsBox.text() if self.tab.argsCheck.isChecked() else ""
             self.__updateUIEnableState(False)
-            self.model.killDynamic()
+            # self.model.killDynamic()
             self.model.setBreakpoints(self.project.binaryPath, selectedBps, args)
             self.model.runDynamic(selectedBps)
             Thread(target=self.__dynamicHandler).start()
@@ -169,12 +169,15 @@ class AnalysisTabController:
 
     def __dynamicHandler(self):
         while not self.model.stopFlag:
-            if self.model.uiLock.acquire():
-                self.__updateTerminal()
-                self.model.uiLock.release()
-                time.sleep(1)
-        self.__updateUIEnableState(True)
-        self.__updateTerminal()
+            pass
+
+        if self.model.stopFlag[0] == 2:
+            self.__updateUIEnableState(True)
+            # self.__updateTerminal()
+        else:
+            self.__updateUIEnableState(True)
+            # self.__updateTerminal()
+            self.model.saveProject(self.project)
 
     def __updatePoiDisplay(self, x):
         screen = ""

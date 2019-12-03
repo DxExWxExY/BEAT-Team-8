@@ -2,6 +2,7 @@ import os
 import struct
 from threading import Thread
 
+import psutil as psutil
 import r2pipe
 
 
@@ -16,6 +17,7 @@ class DynamicAnalyzer:
                 self.__execute('doo ' + args)
             else:
                 self.analyzer.cmd("doo")
+            self.__execute("e dbg.profile=r2.rr2")
             self.pid = self.__executej("dpaj")
             self.base = int(self.__executej("ej")['bin.baddr'])
         except:
@@ -31,42 +33,49 @@ class DynamicAnalyzer:
 
     def close(self, force=False):
         if force:
-            os.kill(self.pid)
-        self.__execute("exit")
-        self.analyzer = None
+            try:
+                os.kill(self.pid)
+            except:
+                pass
+        else:
+            self.analyzer.quit()
+            self.analyzer = None
 
     def setBreakpoint(self, address):
         actualAddr = hex(address + self.base)
         self.__execute(f"db {actualAddr}")
 
     def start(self, pois, stopFlag):
-        Thread(target=self.__start, args=[pois, stopFlag]).start()
+        Thread(target=self.__start, args=[pois, stopFlag], name='Analyzer').start()
 
     def __start(self, pois, stopFlag):
         bpCount = 0
         while bpCount < len(pois):
             self.__execute("dc")
-            temp = self.__executej("drj")
-            currentAddr = hex(int(temp['rip']))
-            for poi in pois:
-                actualAddr = hex(poi['addr'] + self.base)
-                if  actualAddr == currentAddr:
-                    regs = self.__getRegisters()
-                    poi['pval'] = []
-                    for arg in poi['args']:
-                        if '*' not in arg[1]:
-                            r = arg[2]
-                            poi['pval'].append(self.__typeCaster(arg[1], regs[r]))
-                    self.__execute("dso")
-                    regs = self.__getRegisters()
-                    for arg in poi['args']:
-                        if '*' in arg[1]:
-                            r = arg[2]
-                            poi['pval'].append(self.__typeCaster(arg[1], regs[r]))
-                    poi['rval'] = regs['rax']
-                    bpCount += 1
+            if psutil.pid_exists(self.pid):
+                temp = self.__executej("drj")
+                currentAddr = hex(int(temp['rip']))
+                for poi in pois:
+                    actualAddr = hex(poi['addr'] + self.base)
+                    if  actualAddr == currentAddr:
+                        regs = self.__getRegisters()
+                        poi['pval'] = []
+                        for arg in poi['args']:
+                            if '*' not in arg[1]:
+                                r = arg[2]
+                                poi['pval'].append(self.__typeCaster(arg[1], regs[r]))
+                        self.__execute("dso")
+                        regs = self.__getRegisters()
+                        for arg in poi['args']:
+                            if '*' in arg[1]:
+                                r = arg[2]
+                                poi['pval'].append(self.__typeCaster(arg[1], regs[r]))
+                        poi['rval'] = regs['rax']
+                        bpCount += 1
+            else:
+                stopFlag += [2]
+                return
         stopFlag += [1]
-
 
     def __typeCaster(self, type, value):
         if 'char *' in type:
@@ -77,7 +86,7 @@ class DynamicAnalyzer:
                 if i == 0:
                     break
             return string
-        if type in 'int':
+        if  'int' in type:
             return int(value, 0)
         if type == 'char':
             return chr(int(value, 0))

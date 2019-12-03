@@ -95,23 +95,21 @@ class AnalysisModel:
         Thread(target=self.__runDynamic, args=[selectedPois]).start()
 
     def __runDynamic(self, selectedPois):
-        if self.uiLock.acquire():
-            self.__dynamicAnalyzer.start(selectedPois, self.stopFlag)
-            self.uiLock.release()
-            time.sleep(.1)
+        self.__dynamicAnalyzer.start(selectedPois, self.stopFlag)
 
         while not self.stopFlag:
-            if self.uiLock.acquire():
-                self.__message = "Running"
-                self.uiLock.release()
-                time.sleep(1)
-        self.__dynamicAnalyzer.close()
+            pass
+
+        if self.stopFlag[0] == 2:
+            self.__message = "Radare failed to initailize the binary emulation. This is sometimes caused by the arguments the program uses."
+            self.__dynamicAnalyzer.close(force=True)
+        else:
+            self.__message = "Dynamic analysis complete."
+            self.__dynamicAnalyzer.close()
 
     def killDynamic(self):
         self.stopFlag = [1]
-        try:
-            self.__dynamicAnalyzer.close(force=True)
-        except:
-            pass
+        self.__dynamicAnalyzer.close(force=True)
+
 
 

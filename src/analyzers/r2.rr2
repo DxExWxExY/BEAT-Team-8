@@ -1,4 +1,3 @@
 #!/usr/bin.rarun2
-program./ex.o
-stdin="5"
-stdout=/dev/pts/3
+program=./res/server.o
+stdout=./src/analyzers/output.txt

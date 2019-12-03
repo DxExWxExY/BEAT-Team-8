@@ -129,5 +129,5 @@ class StaticAnalyzer:
         # TODO add variables, structs, packet protocol
 
     def close(self):
-        self.__execute("exit")
+        self.analyzer.quit()
         self.analyzer = None
