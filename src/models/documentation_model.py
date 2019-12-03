@@ -7,7 +7,7 @@ class DocumentationModel:
         self.__loadDocuments()
 
     def __loadDocuments(self):
-        for path, subdirs, files in os.walk("src/Documentation"):
+        for path, subdirs, files in os.walk("res/Documentation"):
             for doc in files:
                 if "html" in doc:
                     doc = doc.replace(".html", '')
