@@ -1,11 +1,11 @@
 from src.items.project_item import ProjectItem
 from src.analyzers.static_analyzer import StaticAnalyzer
-from src.storage.xml_parser import XMLParser
+from src.storage.entries_parser import EntriesParser
 
 
 class ProjectModel:
     def __init__(self):
-        self.__parser = XMLParser()
+        self.__parser = EntriesParser()
         self.__staticAnalyzer = StaticAnalyzer()
         self.__projectList = self.__parser.getEntries("project")
 
@@ -17,24 +17,29 @@ class ProjectModel:
             try:
                 return self.__projectList[key]
             except KeyError:
-                # return self.__projectList[]
                 pass
         return None
 
-    def addProject(self, path):
-        item = ProjectItem(path=path)
+    def verifyBinary(self, path):
+        item = ProjectItem(path)
         self.__checkAttributes(item)
-        self.__projectList[item.name] = item
+        return item
+
 
     def deleteProject(self, i):
-        self.__parser.deleteEntry("project" ,self.__projectList.pop(i))
+        self.__parser.deleteEntry("project" ,self.__projectList[i])
+        del self.__projectList[i]
 
-    def saveProject(self, item, oldName):
-        del self.__projectList[oldName]
-        self.__projectList[item.name] = item
+    def saveProject(self, item):
         self.__parser.updateEntry("project", item)
+        self.__projectList = self.__parser.getEntries("project")
+        return self.__projectList[item.name]
+
 
     def __checkAttributes(self, item):
         self.__staticAnalyzer.setPath(item.binaryPath)
         item.binaryProperties = self.__staticAnalyzer.getBinaryProperties()
         self.__staticAnalyzer.close()
+
+    def addProject(self, param):
+        pass

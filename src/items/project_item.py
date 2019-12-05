@@ -1,7 +1,7 @@
 class ProjectItem():
-    def __init__(self, path="", name="New Project"):
+    def __init__(self, path=""):
         self.id = None
-        self.name = name
+        self.name = ""
         self.description = ""
         self.binaryPath = path
         self.binaryProperties = dict()

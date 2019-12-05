@@ -1,9 +1,21 @@
+import os
+
+
 class DocumentationModel:
     def __init__(self):
-        pass
+        self.documents = []
+        self.__loadDocuments()
+
+    def __loadDocuments(self):
+        for path, subdirs, files in os.walk("res/Documentation"):
+            for doc in files:
+                if "html" in doc:
+                    doc = doc.replace(".html", '')
+                    self.documents.append(doc)
+                    # print("files:", doc, "\n")
 
     def getDocumentationList(self):
-        pass
+        return self.documents
 
     def getSelectedDocument(self, i):
         pass

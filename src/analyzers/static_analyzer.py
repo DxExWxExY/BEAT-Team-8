@@ -1,4 +1,5 @@
-import base64
+import sys
+import traceback
 
 import r2pipe
 
@@ -8,8 +9,10 @@ class StaticAnalyzer:
 
     def setPath(self, path):
         try:
-            self.analyzer = r2pipe.open(path)
-            self.analyzer.cmd("aaa")
+            self.analyzer = r2pipe.open(path,flags=['-d'])
+            self.analyzer.cmd("aaaa")
+            self.analyzer.cmd("doo")
+            self.base = int(self.__executej("ej")['bin.baddr'])
         except:
             self.analyzer = None
 
@@ -17,7 +20,6 @@ class StaticAnalyzer:
         if self.analyzer is not None:
             properties = dict()
             BinInfo = self.__executej("ij")
-            properties['file'] = BinInfo["core"]["file"]
             properties['os'] = BinInfo["bin"]["os"]
             properties['arch'] = BinInfo["bin"]["arch"]
             properties['machine'] = BinInfo["bin"]["machine"]
@@ -51,47 +53,81 @@ class StaticAnalyzer:
                     results.append(e)
             return results
 
-    def R2findPOI(self, filterType):
-        poiList = []
-        if filterType == "function":
-            list = self.__executej("isj")
-            for i in range(len(list)):
-                if (list[i]['type']) == "FUNC" and list[i]['demname']:
-                    item = []
-                    item.append(str(list[i]['demname']))
-                    item.append(f"Func Name {str(list[i]['demname'])}")
-                    item.append(f"Address {hex(list[i]['vaddr'])}")
-                    self.__execute(f"s {hex(list[i]['vaddr'])}")
-                    results = self.__executej("afvj")
-                    for j in range(len(results['reg'])):
-                        temp = []
-                        temp.append(results['reg'][j]['name'])
-                        temp.append(results['reg'][j]['type'])
-                        s = " ".join(temp)
-                        item.append(f"Parameter {s}")
-                    poiList.append(item)
-            return poiList
+    def __getFunctions(self):
+        poiList = {}
+        data = self.__executej("aflj")
+        for i in range(len(data)):
+            poi = {}
+            poi['type'] = 'Function'
+            poi['name'] = (str(data[i]['name']))
+            if 'sym.imp.' in poi['name']:
+                self.__execute(f"s {int(data[i]['offset'])}")
+                try:
+                    calls = self.__executej("afij")[0]["codexrefs"]
+                    for call in calls:
+                        if call['type'] == 'CALL':
+                            poi['addr'] = int(call['addr'] - self.base)
+                except KeyError:
+                    poi['addr'] = 0
+            else:
+                poi['addr'] = int(data[i]['offset'] - self.base)
+            self.__execute(f"s {self.base + poi['addr']}")
+            info = self.__executej("afij")
+            if info:
+                try:
+                    if info[0]['nargs'] != 0:
+                        args = self.__executej("afvj")['reg']
+                        poi['args'] = [(a['name'], a['type'], a['ref']) for a in args]
+                    else:
+                        poi['args'] = []
+                except:
+                    traceback.print_exc(file=sys.stdout)
+                    traceback.print_exc(limit=1, file=sys.stdout)
+            else:
+                poi['args'] = []
+            poiList[poi['name']] = poi
+        return poiList
 
-        strs = self.__executej("iij")
+    def findPois(self, filterType):
+        poiList = {}
+        if filterType == "function":
+            return self.__getFunctions()
+
         if (filterType == "dll"):
-            for i in range(len(strs)):
-                item = []
-                item.append(strs[i]['name'])
-                item.append(f"DLL Name {strs[i]['name']}")
-                poiList.append(item)
+            imports = self.__executej("iij")
+            for i in range(len(imports)):
+                item = {}
+                item['type'] = 'DLL'
+                item['name'] = (imports[i]['name'])
+                poiList[item['name']] = item
             return poiList
 
         if (filterType == "strings"):
-            strs = self.__executej("izj")
-            for i in range(len(strs)):
-                item = []
-                item.append(base64.b64decode(str(strs[i]['string'])).decode())
-                item.append(f"String {base64.b64decode(str(strs[i]['string'])).decode()}")
-                item.append(f"Address {hex(strs[i]['vaddr'])}")
-                poiList.append(item)
+            strings = self.__executej("izj")
+            for i in range(len(strings)):
+                item = {}
+                item['type'] = 'String'
+                item['name'] = strings[i]['string']
+                item['addr'] = hex(strings[i]['vaddr'])
+                poiList[item['name']] = item
+            return poiList
+
+        if filterType == "variable":
+        #     mainAddr = hex(self.__executej("iMj")['vaddr'])
+        #     addresses = [mainAddr] + self.__funcAddr(mainAddr)
+        #     for address in addresses:
+        #         self.__execute(f"s {address}")
+        #         name = self.__executej("afij")[0]['name']
+        #         info = self.__executej("afvj")['bp']
+        #         for i in info:
+        #             poi = {}
+        #             poi['type'] = 'Variable'
+        #             poi['name'] = f"{name}.var{abs(int(i['ref']['offset']))}"
+        #             poi['dtype'] = i['type']
+        #             poiList[poi['name']] = name
             return poiList
         # TODO add variables, structs, packet protocol
 
     def close(self):
-        self.__execute("exit")
+        self.analyzer.quit()
         self.analyzer = None

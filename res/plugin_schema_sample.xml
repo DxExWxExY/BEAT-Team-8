@@ -1,0 +1,29 @@
+<plugin>
+  <name>Test Plugin 3</name>
+  <description>description</description>
+  <types>
+    <name>Function</name>
+    <name>String</name>
+    <name>Variable</name>
+    <name>DLL</name>
+    <name>Struct</name>
+    <name>Packet Protocol</name>
+  </types>
+  <outputs>
+    <name>Jinja Python Script</name>
+  </outputs>
+  <pois>
+    <name>main</name>
+    <type>Function</type>
+    <mapping>main({{ param }})</mapping>
+  </pois><pois>
+    <name>multiply</name>
+    <type>Function</type>
+    <mapping>main({{ pzaram }})</mapping>
+  </pois>
+  <pois>
+    <name>numbers</name>
+    <type>String</type>
+    <mapping>numStr = {{ value }}</mapping>
+  </pois>
+</plugin>
