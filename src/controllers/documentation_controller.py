@@ -88,7 +88,6 @@ class DocumentationController:
                 if searchText in documents[i].lower():
                     self.dialog.documentationList.clear()
                     self.dialog.documentationList.addItem(documents[i])
-                    print(documents[i])
 
     def __saveDocument(self):
         name = "./res/Documentation/"

@@ -25,9 +25,8 @@ class ProjectModel:
         self.__checkAttributes(item)
         return item
 
-
     def deleteProject(self, i):
-        self.__parser.deleteEntry("project" ,self.__projectList[i])
+        self.__parser.deleteEntry("project", self.__projectList[i])
         del self.__projectList[i]
 
     def saveProject(self, item):
@@ -35,11 +34,8 @@ class ProjectModel:
         self.__projectList = self.__parser.getEntries("project")
         return self.__projectList[item.name]
 
-
     def __checkAttributes(self, item):
         self.__staticAnalyzer.setPath(item.binaryPath)
         item.binaryProperties = self.__staticAnalyzer.getBinaryProperties()
         self.__staticAnalyzer.close()
 
-    def addProject(self, param):
-        pass

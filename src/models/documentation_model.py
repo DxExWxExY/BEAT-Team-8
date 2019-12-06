@@ -19,6 +19,3 @@ class DocumentationModel:
 
     def getDocumentationList(self):
         return self.documents
-
-    def getSelectedDocument(self, i):
-        pass
