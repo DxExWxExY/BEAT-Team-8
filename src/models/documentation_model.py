@@ -13,9 +13,9 @@ class DocumentationModel:
                     doc = doc.replace(".html", '')
                     self.documents.append(doc)
                     # print("files:", doc, "\n")
+                elif "txt" in doc:
+                    doc = doc.replace(".txt", '')
+                    self.documents.append(doc)
 
     def getDocumentationList(self):
         return self.documents
-
-    def getSelectedDocument(self, i):
-        pass

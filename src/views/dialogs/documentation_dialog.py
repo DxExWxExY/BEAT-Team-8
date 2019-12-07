@@ -1,7 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QGridLayout, QLineEdit, QPushButton, QVBoxLayout, QListWidget, QFrame, \
-    QSizePolicy, QTextEdit, QDialog, QDesktopWidget
+    QSizePolicy, QTextEdit, QDialog, QDesktopWidget, QErrorMessage
 
 
 class DocumentationDialog(QDialog):
@@ -30,12 +30,15 @@ class DocumentationDialog(QDialog):
         layout = QGridLayout()
 
         self.content = QTextEdit()
-
+        self.error_message = QErrorMessage()
         self.content.setFrameShape(QFrame.Panel)
         self.content.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-
-        layout.addWidget(self.content, 0, 0)
-
+        self.editButton = QPushButton('Edit')
+        self.saveButton = QPushButton('Save')
+        layout.addWidget(self.content, 0, 0, 1, 13)
+        layout.addWidget(self.editButton, 1, 12)
+        layout.addWidget(self.saveButton, 1, 11)
+        self.saveButton.setEnabled(False)
         return layout
 
     def searchBuilder(self):
